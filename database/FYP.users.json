@@ -1,0 +1,28 @@
+[{
+  "_id": {
+    "$oid": "657c610b027f1762e6b4d5e0"
+  },
+  "name": "Admin",
+  "email": "admin@admin.com",
+  "phone_no": "9864336393",
+  "role": {
+    "$oid": "657c5a15a986dafb5efc47fe"
+  },
+  "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+  "password": "$2b$10$ltwWh9/cieOKyEURwo5foeg7uzgwYeCNjqq7ZaM6BdHGAecCf/jEe",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "657d1721f41d261df2daccc3"
+  },
+  "name": "Pritam Dhaugoda",
+  "email": "pritamdhaugoda@gmail.com",
+  "phone_no": "Pritam Dhaugoda",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
+  "password": "$2b$10$pYiVk/lhf7KUNC15PSnitOb9I4X1NYA1zza76yzYYbhdG8qk3C5Fm",
+  "__v": 0
+}]
