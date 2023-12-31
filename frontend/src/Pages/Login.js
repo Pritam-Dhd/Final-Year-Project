@@ -26,37 +26,44 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const isValidPassword = passwordRegex.test(e.target.password.value);
-    if (isValidPassword) {
-      axios
-        .post("http://localhost:5000/login", {
-          email: e.target.email.value,
-          password: e.target.password.value,
-        })
-        .then(
-          (response) => {
-            if (response.data.message === "User logged in successfully") {
-              localStorage.setItem(
-                "userData",
-                JSON.stringify(response.data.userData)
-              );
-              localStorage.setItem("userRole", response.data.userRole);
-              navigate("/dashboard");
-            } else if (response.data.message === "Incorrect password") {
-              setErrorMessage("Incorrect password");
-            } else {
-              console.log(response.data.message);
-              setErrorMessage("User not Found/ Incorrect email");
+    if (e.target.email.value != null) {
+      const isValidPassword = passwordRegex.test(e.target.password.value);
+      if (isValidPassword) {
+        axios
+          .post(
+            "http://localhost:5000/login",
+            {
+              email: e.target.email.value,
+              password: e.target.password.value,
+            },
+            { withCredentials: true }
+          )
+          .then(
+            (response) => {
+              if (response.data.message === "User logged in successfully") {
+                localStorage.setItem(
+                  "userRole",
+                  JSON.stringify(response.data.userRole)
+                );
+                navigate("/dashboard");
+              } else if (response.data.message === "Incorrect password") {
+                setErrorMessage("Incorrect password");
+              } else {
+                console.log(response.data.message);
+                setErrorMessage("User not Found/ Incorrect email");
+              }
+            },
+            (error) => {
+              setErrorMessage(error.response);
             }
-          },
-          (error) => {
-            setErrorMessage(error.response.data.message);
-          }
+          );
+      } else {
+        setPasswordErrorMessage(
+          "Password must contain at least one digit, one lowercase and one uppercase letter, and one special character."
         );
+      }
     } else {
-      setPasswordErrorMessage(
-        "Password must contain at least one digit, one lowercase and one uppercase letter, and one special character."
-      );
+      setErrorMessage("All field must be filled");
     }
   };
 
@@ -125,11 +132,17 @@ const Login = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            Login
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="forget-password" variant="body2" color="#002575" sx={{fontWeight:'bold'}}>
+              <Link
+                href="forget-password"
+                variant="body2"
+                color="#002575"
+                sx={{ fontWeight: "bold" }}
+                underline="hover"
+              >
                 Forgot password?
               </Link>
             </Grid>
@@ -137,7 +150,13 @@ const Login = () => {
               <Typography variant="span" color="initial">
                 Dont have an account?{" "}
               </Typography>
-              <Link href="/signup" variant="body2" color="#002575" sx={{fontWeight:'bold'}}>
+              <Link
+                href="/signup"
+                variant="body2"
+                color="#002575"
+                sx={{ fontWeight: "bold" }}
+                underline="hover"
+              >
                 Signup
               </Link>
             </Grid>

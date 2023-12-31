@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 export const isAuthenticated = () => {
   // Check if the user is authenticated
-  const userData = localStorage.getItem("userData");
+  const userData = localStorage.getItem("userRole");
   return userData !== null;
 };
 

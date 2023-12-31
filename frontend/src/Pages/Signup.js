@@ -33,42 +33,46 @@ const Signup = () => {
     setPasswordErrorMessage("");
     setErrorMessage("");
     const isValidPassword = passwordRegex.test(e.target.password.value);
-    if (isValidPassword) {
-      if (e.target.password.value === e.target.confirmPassword.value) {
-        axios
-          .post("http://localhost:5000/signup", {
-            name: e.target.name.value,
-            phone_no: e.target.name.value,
-            email: e.target.email.value,
-            password: e.target.password.value,
-          })
-          .then(
-            (response) => {
-              if (response.data.message === "User registered successfully") {
-                localStorage.setItem(
-                  "userData",
-                  JSON.stringify(response.data.userData)
-                );
-                localStorage.setItem("userRole", response.data.userRole);
-                navigate("/dashboard");
-              } else if (response.data.message === "User already exists") {
-                setErrorMessage("User already exits");
-              } else {
-                console.log(response.data.message);
-                setErrorMessage("User not Found/ Incorrect email");
+    if (
+      e.target.name.value !== null &&
+      e.target.phoneNo.value != null &&
+      e.target.email.value != null
+    ) {
+      if (isValidPassword) {
+        if (e.target.password.value === e.target.confirmPassword.value) {
+          axios
+            .post("http://localhost:5000/signup", {
+              name: e.target.name.value,
+              phone_no: e.target.phoneNo.value,
+              email: e.target.email.value,
+              password: e.target.password.value,
+            })
+            .then(
+              (response) => {
+                if (response.data.message === "User registered successfully") {
+                  localStorage.setItem("userRole", response.data.userRole);
+                  navigate("/dashboard");
+                } else if (response.data.message === "User already exists") {
+                  setErrorMessage("User already exits");
+                } else {
+                  console.log(response.data.message);
+                  setErrorMessage("Error during signup");
+                }
+              },
+              (error) => {
+                setErrorMessage(error.response.data.message);
               }
-            },
-            (error) => {
-              setErrorMessage(error.response.data.message);
-            }
-          );
+            );
+        } else {
+          setConfirmPasswordErrorMessage("Passwords do not match");
+        }
       } else {
-        setConfirmPasswordErrorMessage("Passwords do not match");
+        setPasswordErrorMessage(
+          "Password must contain at least one digit, one lowercase and one uppercase letter, and one special character."
+        );
       }
     } else {
-      setPasswordErrorMessage(
-        "Password must contain at least one digit, one lowercase and one uppercase letter, and one special character."
-      );
+      setErrorMessage("All the fields must be filled");
     }
   };
 
@@ -184,14 +188,20 @@ const Signup = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            Sign Up
           </Button>
           <Grid container>
             <Grid item>
               <Typography variant="span" color="initial">
                 Already have an account?{" "}
               </Typography>
-              <Link href="/login" variant="body2" color="#002575" sx={{fontWeight:'bold'}}>
+              <Link
+                href="/login"
+                variant="body2"
+                color="#002575"
+                sx={{ fontWeight: "bold" }}
+                underline="hover"
+              >
                 Login
               </Link>
             </Grid>
