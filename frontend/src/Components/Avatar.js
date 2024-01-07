@@ -15,8 +15,7 @@ const Avatar1 = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    
+    localStorage.removeItem("userRole");
     navigate("/login");
   };
   return (

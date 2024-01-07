@@ -1,32 +1,22 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import {
   Drawer as MuiDrawer,
   AppBar as MuiAppBar,
   Toolbar,
-  List,
   CssBaseline,
   Typography,
   Divider,
   IconButton,
-  ListItemIcon,
-  ListItemText,
-  ListItem,
-  ListItemButton,
 } from "@mui/material";
 import {
   Menu as MenuIcon,
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
-  Home as HomeIcon,
-  Book as BookOcon,
 } from "@mui/icons-material";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import Avatar1 from "./Avatar";
-
-const drawerWidth = 240;
+import SidebarList from "./SidebarList";
+const drawerWidth = 200;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -47,7 +37,7 @@ const closedMixin = (theme) => ({
   overflowX: "hidden",
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
+    width: `calc(${theme.spacing(8)} + 20px)`,
   },
   backgroundColor: "#090C43",
   color: "white",
@@ -96,7 +86,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-const Sidebar = () => {
+const Sidebar = ({userRole}) => {
   const [sideBarContent, setSideBarContent] = React.useState("");
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -145,36 +135,14 @@ const Sidebar = () => {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          {["Home", "Book", "Genre", "Issue", "Fines"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
-              <Link
-                to={`/dashboard/${text.toLowerCase().replace(/\s+/g, "-")}`}
-                style={{ textDecoration: "none", color: "white" }}
-              >
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                      color: "white",
-                    }}
-                  >
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-              </Link>
-            </ListItem>
-          ))}
-        </List>
+        <SidebarList open={open} text="Home" />
+        {userRole === "Librarian" ? (
+          <SidebarList open={open} text="User" dropdown={["All Users", "Add User"]} />
+        ) : null}
+        <SidebarList open={open} text="Book" dropdown={userRole === "Librarian" ? ["All Books", "Add Book"] : ["Show All"]} />
+        <SidebarList open={open} text="Genre" />
+        <SidebarList open={open} text="Issue" />
+        <SidebarList open={open} text="Fine" />
         <Divider />
       </Drawer>
     </>

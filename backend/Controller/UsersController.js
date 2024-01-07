@@ -106,14 +106,9 @@ export const Login = async ({ data }) => {
 
 export const getProfile = async ({ data }) => {};
 
-export const addUser = async ({ data ,token}) => {
+export const addUser = async ({ data, userRole }) => {
   try {
-    const decodedToken = jwt.verify(token, SecretKey);
-    const userId = decodedToken.userId;
-    const user = await User.findOne({ _id: userId });
-    const role = await Role.findOne({ name: "Librarian" });
-    console.log("Decoded Token= "+userId+'User= '+user+'Role= '+role);
-    if (user.role.equals(role._id)) {
+    if (userRole == "Librarian") {
       if (
         data.name != null &&
         data.email != null &&
@@ -129,6 +124,13 @@ export const addUser = async ({ data ,token}) => {
           strict: true,
         });
         let role = await Role.findOne({ name: data.userRole });
+
+        if (!role) {
+          return {
+            message: "Role not found",
+          };
+        
+        }
         const existingUser = await User.findOne({ email: data.email });
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -173,3 +175,86 @@ export const addUser = async ({ data ,token}) => {
     };
   }
 };
+
+export const getAllUsers = async ({ userRole }) => {
+  try {
+    if (userRole != "Librarian") {
+      return {
+        message: "Only admin can add user",
+      };
+    }
+    const users = await User.find()
+      .populate("role", "name") // Populate roleId with the name field from the Role model
+      .select("-password"); // Exclude the password field
+    return {
+      users,
+    };
+  } catch (error) {
+    console.log(error.message);
+    return {
+      message: "Error getting users ",
+    };
+  }
+};
+
+export const editUser = async ({ data, userRole }) => {
+  try {
+    if (userRole != "Librarian") {
+      return {
+        message: "Only admin can add user",
+      };
+    }
+    let role = await Role.findOne({ name: data.userRole });
+
+    if (!role) {
+      return {
+        message: "Role not found",
+      };
+    }
+    const result = await User.findByIdAndUpdate(
+      data._id,
+      {
+        $set: {
+          name: data.name,
+          email: data.email,
+          phone_no: data.phone_no,
+          role: role._id,
+        },
+      },
+      // Return true if successful
+      { new: true }
+    );
+    if (result) {
+      return { message: "Data is updated" };
+    } else {
+      return { message: "No data to update" };
+    }
+  } catch (error) {
+    console.log(error.message);
+    return {
+      message: "Error getting users ",
+    };
+  }
+};
+
+export const deleteUser = async ({userId, userRole}) => {
+  try {
+    if (userRole != "Librarian") {
+      return {
+        message: "Only admin can add user",
+      };
+    }
+    const result = await User.findByIdAndDelete(userId);
+
+    if (result) {
+      return { message: "User deleted successfully" };
+    } else {
+      return { message: "No user found with the provided ID" };
+    }
+  } catch (error) {
+    console.log(error.message);
+    return {
+      message: "Error deleting user",
+    };
+  }
+}
