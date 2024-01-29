@@ -5,15 +5,21 @@ import adminJs from "./Admin.js";
 import { UserSeeder } from "./Seeder/UserSeeder.js";
 import { RoleSeeder } from "./Seeder/RoleSeeder.js";
 import cors from "cors";
-import Auth from "./Routes/Auth.js";
+import UserRoute from "./Routes/User.js";
+import AuthorRoute from "./Routes/Author.js";
+import GenreRoute from "./Routes/Genre.js";
+import PublicationRoute from "./Routes/Publisher.js";
 import cookieParser from "cookie-parser";
+import { dirname } from "path";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "http://localhost:3002"],
     credentials: true,
   })
 );
@@ -27,7 +33,11 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.use("/", Auth);
+app.use("/", UserRoute, AuthorRoute, GenreRoute, PublicationRoute);
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+app.use("/api/images", express.static(path.join(__dirname, "Pictures")));
 
 // Run the server.
 const run = async () => {

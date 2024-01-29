@@ -16,7 +16,10 @@ import {
   ExpandLess as ExpandLessIcon,
   Person as PersonIcon,
   AddBox as AddBoxIcon,
-  ListAlt as ListAltIcon
+  ListAlt as ListAltIcon,
+  Sell as GenreIcon,
+  People as AuthorIcon,
+  Business as PublisherIcon
 } from "@mui/icons-material";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
@@ -92,6 +95,12 @@ const SidebarList = ({ text, open, dropdown }) => {
                 <BookIcon />
               ) : text === "User" ? (
                 <PersonIcon />
+              ) : text === "Genre" ? (
+                <GenreIcon />
+              ) :text === "Author" ? (
+                <AuthorIcon />
+              ) :text === "Publisher" ? (
+                <PublisherIcon />
               ) : (
                 <MailIcon />
               )}
@@ -127,6 +136,12 @@ const SidebarList = ({ text, open, dropdown }) => {
                   <BookIcon />
                 ) : text === "User" ? (
                   <PersonIcon />
+                ) : text === "Genre" ? (
+                  <GenreIcon />
+                ) :text === "Author" ? (
+                  <AuthorIcon />
+                ) :text === "Publisher" ? (
+                  <PublisherIcon />
                 ) : (
                   <MailIcon />
                 )}

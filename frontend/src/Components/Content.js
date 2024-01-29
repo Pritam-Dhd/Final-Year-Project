@@ -2,13 +2,15 @@
 import React from "react";
 import { Typography } from "@mui/material";
 import Book from "./Book";
-import Genre from "./Genre";
-import AddUser from "../Pages/User/AddUser";
-import SeeAll from "../Pages/User/SeeAll";
+import SeeAllUser from "../Pages/User/SeeAll";
+import SeeAllGenre from "../Pages/Genre/SeeAll";
+import SeeAllAuthor from "../Pages/Author/SeeAll";
+import SeeAllPublisher from "../Pages/Publisher/SeeAll";
+import Profile from "../Pages/User/Profile";
 import PageNotFound from "../Pages/PageNotFound";
 import { useParams } from "react-router-dom";
 
-const Content = ({userRole}) => {
+const Content = ({ userRole, userData, updateUserData }) => {
   const { "*": section } = useParams("/dashboard/");
   console.log(section);
 
@@ -19,21 +21,21 @@ const Content = ({userRole}) => {
       case "home":
         return <Typography paragraph>Dashboard</Typography>;
       case "book":
-        return <Book />;
+        return <Book userRole={userRole} />;
       case "genre":
-        return <Genre />;
-      case "add-user":
+        return <SeeAllGenre userRole={userRole} />;
+      case "author":
+        return <SeeAllAuthor userRole={userRole} />;
+        case "publisher":
+        return <SeeAllPublisher userRole={userRole} />;
+      case "user":
         return userRole === "Librarian" ? (
-          <AddUser />
+          <SeeAllUser userData={userData} />
         ) : (
           "Only Librarian has access"
         );
-      case "all-users":
-        return userRole === "Librarian" ? (
-          <SeeAll />
-        ) : (
-          "Only Librarian has access"
-        );
+      case "profile":
+        return <Profile userData={userData} updateUserData={updateUserData} />;
       default:
         return <PageNotFound />;
     }

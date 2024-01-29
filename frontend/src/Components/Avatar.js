@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Avatar, IconButton, Menu, MenuItem} from "@mui/material";
+import { Avatar, IconButton, Menu, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const Avatar1 = () => {
+const Avatar1 = ({ userData }) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleAvatarClick = (event) => {
@@ -14,6 +14,10 @@ const Avatar1 = () => {
     setAnchorEl(null);
   };
 
+  const handleProfileClick = () => {
+    handleMenuClose();
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("userRole");
     navigate("/login");
@@ -21,10 +25,10 @@ const Avatar1 = () => {
   return (
     <>
       <Avatar
-        alt="Remy Sharp"
-        src="/static/images/avatar/1.jpg"
+        alt={userData.name}
+        src={`http://localhost:5000/api/images/${userData.image}`}
         onClick={handleAvatarClick}
-        sx={{ cursor: "pointer" }}
+        sx={{ cursor: "pointer",border: "1px solid black,", backgroundColor:"#BDBDC0"}}
         endIcon={
           <IconButton
             onClick={handleAvatarClick}
@@ -38,12 +42,15 @@ const Avatar1 = () => {
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
       >
-        <MenuItem>
-          <Link to="/dashboard/profile">Profile</Link>
+        <MenuItem onClick={handleProfileClick}>
+          <Link
+            to="/dashboard/profile"
+            style={{ color: "black", textDecoration: "none" }}
+          >
+            Profile
+          </Link>
         </MenuItem>
-        <MenuItem onClick={handleLogout}>
-          Logout
-        </MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </>
   );

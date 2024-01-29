@@ -11,14 +11,16 @@ import {
   Typography,
   TextField,
   Button,
+  CircularProgress,
 } from "@mui/material";
 import SnackBar from "../../Components/SnackBar";
 import axios from "axios";
 
-const AddUser = () => {
+const AddUser = ({ onSuccess }) => {
   const [role, setRole] = useState("Student");
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setRole(e.target.value);
@@ -33,23 +35,41 @@ const AddUser = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post(
-      "http://localhost:5000/add-user",
-      {
-        name: e.target.name.value,
-        email: e.target.email.value,
-        phone_no: e.target.phoneNo.value,
-        userRole: role,
-      },
-      { withCredentials: true }
-    );
-    if (response.data.message === "User added successfully") {
-      setSnackbarMessage("User added successfully!");
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/add-user",
+        {
+          name: e.target.name.value,
+          email: e.target.email.value,
+          phone_no: e.target.phoneNo.value,
+          userRole: role,
+        },
+        { withCredentials: true }
+      );
+
+      if (response.data.message === "User added successfully") {
+        setSnackbarMessage("User added successfully!");
+        setOpenSnackbar(true);
+        const changeRole = { name: role };
+        onSuccess({
+          _id: response.data.id,
+          name: e.target.name.value,
+          email: e.target.email.value,
+          phone_no: e.target.phoneNo.value,
+          role: changeRole,
+        });
+        e.target.reset();
+      } else {
+        setSnackbarMessage(response.data.message);
+        setOpenSnackbar(true);
+      }
+    } catch (error) {
+      console.error("Error adding user:", error);
+      setSnackbarMessage("Error adding user. Please try again.");
       setOpenSnackbar(true);
-      e.target.reset();
-    } else {
-      setSnackbarMessage(response.data.message);
-      setOpenSnackbar(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -59,6 +79,7 @@ const AddUser = () => {
         <Typography variant="h5">Add User</Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <Grid container spacing={2}>
+            
             <Grid item xs={12}>
               <TextField
                 margin="normal"
@@ -93,7 +114,7 @@ const AddUser = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <FormControl sx={{ m: 1, minWidth: 80 }}>
+              <FormControl sx={{ width: "100%" }}>
                 <InputLabel id="demo-simple-select-autowidth-label">
                   Role
                 </InputLabel>
@@ -102,7 +123,7 @@ const AddUser = () => {
                   id="demo-simple-select-autowidth"
                   value={role}
                   onChange={handleChange}
-                  autoWidth
+                  fullWidth
                   label="Age"
                 >
                   <MenuItem value={"Student"}>Student</MenuItem>
@@ -116,8 +137,9 @@ const AddUser = () => {
                 color="primary"
                 fullWidth
                 type="submit"
+                disabled={loading} // Disable the button when loading
               >
-                Add User
+                {loading ? <CircularProgress size={24} /> : "Add User"}
               </Button>
             </Grid>
           </Grid>

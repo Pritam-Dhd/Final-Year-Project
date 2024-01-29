@@ -3,14 +3,38 @@ import {
   Signup,
   Login,
   getProfile,
+  editProfile,
+  changePassword,
   addUser,
   getAllUsers,
   editUser,
   deleteUser,
+  getTotalUser,
 } from "../Controller/UsersController.js";
 import { checkAuth } from "../Middleware/CheckAuth.js";
+import multer from "multer";
+import path from 'path'
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 const router = express.Router();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Multer storage configuration
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const destinationPath = path.resolve(__dirname, '..', 'Pictures'); 
+    console.log(destinationPath);
+    cb(null, destinationPath);
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+const upload = multer({ storage: storage });
+
 
 router.post("/signup", async (req, res) => {
   const data = req.body;
@@ -42,9 +66,37 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/get-profile", async (req, res) => {
+router.get("/get-profile", checkAuth, async (req, res) => {
   const token = req.cookies.jwt;
-  const message = await getProfile({ token });
+  try {
+    const message = await getProfile({ token });
+    res.send(message);
+  } catch (error) {
+    res.send(error.message);
+  }
+});
+
+router.post("/edit-profile", upload.single("image"), checkAuth, async (req, res) => {
+  const token = req.cookies.jwt;
+  const data = req.body;
+  const file = req.file; // Retrieve the uploaded file
+  try {
+    const message = await editProfile({ token, data, file });
+    res.send(message);
+  } catch (error) {
+    res.send(error.message);
+  }
+});
+
+router.post("/change-password", checkAuth, async (req, res) => {
+  const token = req.cookies.jwt;
+  const data = req.body;
+  try {
+    const message = await changePassword({ token, data});
+    res.send(message);
+  } catch (error) {
+    res.send(error.message);
+  }
 });
 
 router.post("/add-user", checkAuth, async (req, res) => {
@@ -81,9 +133,19 @@ router.post("/edit-user", checkAuth, async (req, res) => {
 
 router.post("/delete-user", checkAuth, async (req, res) => {
   const data = req.body;
-  const userId=data._id
+  const userId = data._id;
   try {
     const message = await deleteUser({ userId, userRole: req.userRole });
+    res.send(message);
+  } catch (error) {
+    res.send("Error deleting user" + error.message);
+    console.log(error);
+  }
+});
+
+router.get("/get-total-users", checkAuth, async (req, res) => {
+  try {
+    const message = await getTotalUser({ userRole: req.userRole });
     res.send(message);
   } catch (error) {
     res.send("Error deleting user" + error.message);

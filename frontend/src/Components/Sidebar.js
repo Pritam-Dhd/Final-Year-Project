@@ -27,6 +27,12 @@ const openedMixin = (theme) => ({
   overflowX: "hidden",
   backgroundColor: "#090C43",
   color: "white",
+  "&::-webkit-scrollbar": {
+    width: "6px",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    backgroundColor: "#000000",
+  },
 });
 
 const closedMixin = (theme) => ({
@@ -41,6 +47,12 @@ const closedMixin = (theme) => ({
   },
   backgroundColor: "#090C43",
   color: "white",
+  "&::-webkit-scrollbar": {
+    width: "6px",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    backgroundColor: "#000000",
+  },
 });
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -86,7 +98,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-const Sidebar = ({userRole}) => {
+const Sidebar = ({userRole, userData}) => {
   const [sideBarContent, setSideBarContent] = React.useState("");
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -120,7 +132,7 @@ const Sidebar = ({userRole}) => {
             Library Management System
           </Typography>
           <div style={{ marginLeft: "auto" }}>
-            <Avatar1 />
+            <Avatar1 userData={userData}/>
           </div>
         </Toolbar>
       </AppBar>
@@ -137,10 +149,12 @@ const Sidebar = ({userRole}) => {
         <Divider />
         <SidebarList open={open} text="Home" />
         {userRole === "Librarian" ? (
-          <SidebarList open={open} text="User" dropdown={["All Users", "Add User"]} />
+          <SidebarList open={open} text="User"  />
         ) : null}
-        <SidebarList open={open} text="Book" dropdown={userRole === "Librarian" ? ["All Books", "Add Book"] : ["Show All"]} />
+        <SidebarList open={open} text="Book" />
         <SidebarList open={open} text="Genre" />
+        <SidebarList open={open} text="Author" />
+        <SidebarList open={open} text="Publisher" />
         <SidebarList open={open} text="Issue" />
         <SidebarList open={open} text="Fine" />
         <Divider />

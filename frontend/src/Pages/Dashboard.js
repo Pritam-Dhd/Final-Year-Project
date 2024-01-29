@@ -4,26 +4,58 @@ import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Sidebar from "../Components/Sidebar.js";
 import Content from "../Components/Content.js";
+import axios from "axios";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [userRole, setUserRole] = useState("");
+  const [userData, setUserData] = useState([])
+  const [totalUsers, setTotalUsers] = useState(null)
   useEffect(() => {
     const role = localStorage.getItem("userRole");
     console.log(role);
     setUserRole(role);
   }, []);
-  const handleLogout = () => {
-    localStorage.removeItem("userRole");
-    navigate("/login");
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/get-profile", { withCredentials: true })
+      .then(function (response) {
+        const data = response.data;
+        setUserData(data);
+        console.log(data);
+      })
+      .catch(function (error) {
+        alert(error);
+      });
+  }, []);
+  
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/get-total-users", { withCredentials: true })
+      .then(function (response) {
+        const data = response.data.totalUsers;
+        setTotalUsers(data);
+        console.log(data);
+      })
+      .catch(function (error) {
+        alert(error);
+      });
+  }, []);
+
+  const updateUserData = (newUserData) => {
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      ...newUserData,
+    }));
   };
 
   return (
     <Box sx={{ display: "flex" }}>
-      <Sidebar userRole={userRole} />
+      <Sidebar userRole={userRole} userData={userData} />
       <Box component="main" sx={{ flexGrow: 1, p: 3, marginTop: 9 }}>
         <Box sx={{ display: "flex" }}>
-          <Content userRole={userRole}/>
+          <Content userRole={userRole} userData={userData} updateUserData={updateUserData}/>
         </Box>
       </Box>
     </Box>

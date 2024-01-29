@@ -21,7 +21,7 @@ import {
 import SnackBar from "../../Components/SnackBar";
 import DeleteConfirmationDialog  from "../../Components/DeleteDialog";
 
-const SeeAll = () => {
+const SeeAll = ({userData}) => {
   const [users, setUsers] = useState([]);
   const [editingUserId, setEditingUserId] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -30,6 +30,10 @@ const SeeAll = () => {
   const [editingUserDetails, setEditingUserDetails] = useState({});
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingUserId, setDeletingUserId] = useState(null);
+
+  const handleAddUser = (newUser) => {
+    setUsers((prevUsers) => [...prevUsers, newUser]);
+  };
 
   const columns = [
     { id: "image", label: "Image", minWidth: 40 },
@@ -43,7 +47,7 @@ const SeeAll = () => {
   const rows = users.map((user) => ({
     id: user._id,
     email: user.email,
-    image: <Avatar alt={user.name} src={user.image} />,
+    image: <Avatar alt={user.name} src={`http://localhost:5000/api/images/${user.image}`} />,
     name: user.name,
     phone_no: user.phone_no || "No Number",
     role: user.role.name,
@@ -52,12 +56,14 @@ const SeeAll = () => {
         <IconButton color="primary" onClick={() => handleEditClick(user._id)}>
           <EditIcon />
         </IconButton>
-        <IconButton
-          sx={{ color: "red" }}
-          onClick={() => handleDelete(user._id)}
-        >
-          <DeleteIcon />
-        </IconButton>
+        {user.email !== "admin@admin.com" && user.email!==userData.email && (
+          <IconButton
+            sx={{ color: "red" }}
+            onClick={() => handleDelete(user._id)}
+          >
+            <DeleteIcon />
+          </IconButton>
+        )}
       </div>
     ),
   }));
@@ -142,7 +148,7 @@ const SeeAll = () => {
             : user
         )
       );
-      e.target.reset();
+      setEditingUserId(null);
     } else {
       setSnackbarMessage(response.data.message);
       setOpenSnackbar(true);
@@ -168,7 +174,7 @@ const SeeAll = () => {
 
   return (
     <>
-      <MuiTable rows={rows} columns={columns} />
+      <MuiTable rows={rows} columns={columns} onAddUser={handleAddUser}/>
 
       {/* Show Messages */}
       <SnackBar
@@ -239,7 +245,7 @@ const SeeAll = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <FormControl sx={{ m: 1, minWidth: 80 }}>
+                  <FormControl sx={{ width: "100%"}}>
                     <InputLabel id="demo-simple-select-autowidth-label">
                       Role
                     </InputLabel>
@@ -248,7 +254,7 @@ const SeeAll = () => {
                       id="demo-simple-select-autowidth"
                       value={role}
                       onChange={handleChange}
-                      autoWidth
+                      fullWidth
                       label="Age"
                     >
                       <MenuItem value={"Student"}>Student</MenuItem>
