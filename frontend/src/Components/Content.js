@@ -1,8 +1,8 @@
 // Content.js
 import React from "react";
 import { Typography } from "@mui/material";
-import Book from "./Book";
 import SeeAllUser from "../Pages/User/SeeAll";
+import SeeAllBook from "../Pages/Book/SeeAll";
 import SeeAllGenre from "../Pages/Genre/SeeAll";
 import SeeAllAuthor from "../Pages/Author/SeeAll";
 import SeeAllPublisher from "../Pages/Publisher/SeeAll";
@@ -21,7 +21,7 @@ const Content = ({ userRole, userData, updateUserData }) => {
       case "home":
         return <Typography paragraph>Dashboard</Typography>;
       case "book":
-        return <Book userRole={userRole} />;
+        return <SeeAllBook userRole={userRole} />;
       case "genre":
         return <SeeAllGenre userRole={userRole} />;
       case "author":

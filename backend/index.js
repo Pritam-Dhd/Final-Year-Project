@@ -9,6 +9,7 @@ import UserRoute from "./Routes/User.js";
 import AuthorRoute from "./Routes/Author.js";
 import GenreRoute from "./Routes/Genre.js";
 import PublicationRoute from "./Routes/Publisher.js";
+import BookRoute from "./Routes/Book.js";
 import cookieParser from "cookie-parser";
 import { dirname } from "path";
 import path from "path";
@@ -33,7 +34,7 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.use("/", UserRoute, AuthorRoute, GenreRoute, PublicationRoute);
+app.use("/", UserRoute, AuthorRoute, GenreRoute, PublicationRoute,BookRoute);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
