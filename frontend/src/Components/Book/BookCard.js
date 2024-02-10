@@ -23,6 +23,8 @@ const BookCard = ({ bookDetail, userRole, onDelete }) => {
   const [currentBookDetail, setCurrentBookDetail] = useState(bookDetail);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deletingBookId, setDeletingBookId] = useState(null);
 
   useEffect(() => {
     setCurrentBookDetail(bookDetail);
@@ -52,7 +54,17 @@ const BookCard = ({ bookDetail, userRole, onDelete }) => {
     setSnackbarMessage(message);
     setOpenSnackbar(true);
   };
-  const handleDelete = async (id) => {
+
+  const handleDelete = (id) => {
+    setDeletingBookId(id);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleCancelDelete = () => {
+    setDeletingBookId(null);
+    setDeleteDialogOpen(false);
+  };
+  const handleConfirmDelete = async (id) => {
     try{
       const response= await axios.post(
         "http://localhost:5000/delete-book",
@@ -167,6 +179,12 @@ const BookCard = ({ bookDetail, userRole, onDelete }) => {
       </Dialog>
       )}
     </Card>
+    <DeleteConfirmationDialog
+        open={deleteDialogOpen}
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+        userId={deletingBookId}
+      />
     <SnackBar
         open={openSnackbar}
         message={snackbarMessage}

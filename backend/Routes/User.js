@@ -66,6 +66,17 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post("/logout", async (req, res) => {
+  try {
+    // Clear the JWT cookie to sign the user out
+    res.clearCookie('jwt');
+    res.send({ message: "User logged out successfully" });
+  } catch (error) {
+    res.send("Error logging out " + error.message);
+    console.log(error);
+  }
+});
+
 router.get("/get-profile", checkAuth, async (req, res) => {
   const token = req.cookies.jwt;
   try {

@@ -24,8 +24,8 @@ const SeeAll = ({ userRole }) => {
   const [deletingAuthorId, setDeletingAuthorId] = useState(null);
   const [editingAuthorId, setEditingAuthorId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [editModalOpen, setEditModalOpen] = useState(false); // State for edit modal
-  const [editAuthorName, setEditAuthorName] = useState(""); // State to store edited author name
+  const [editModalOpen, setEditModalOpen] = useState(false); 
+  const [editAuthorName, setEditAuthorName] = useState(""); 
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
