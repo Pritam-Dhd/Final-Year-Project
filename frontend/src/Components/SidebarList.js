@@ -19,7 +19,8 @@ import {
   ListAlt as ListAltIcon,
   Sell as GenreIcon,
   People as AuthorIcon,
-  Business as PublisherIcon
+  Business as PublisherIcon,
+  LibraryAdd as IssueIcon,
 } from "@mui/icons-material";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
@@ -101,6 +102,8 @@ const SidebarList = ({ text, open, dropdown }) => {
                 <AuthorIcon />
               ) :text === "Publisher" ? (
                 <PublisherIcon />
+              ) : text === "Issue" ? (
+                <IssueIcon />
               ) : (
                 <MailIcon />
               )}
@@ -142,6 +145,8 @@ const SidebarList = ({ text, open, dropdown }) => {
                   <AuthorIcon />
                 ) :text === "Publisher" ? (
                   <PublisherIcon />
+                ) :text === "Issue" ? (
+                  <IssueIcon />
                 ) : (
                   <MailIcon />
                 )}

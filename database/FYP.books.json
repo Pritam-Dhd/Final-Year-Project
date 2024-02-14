@@ -1,0 +1,158 @@
+[{
+  "_id": {
+    "$oid": "65bb0fc8d95b292c4c97c9c1"
+  },
+  "name": "Harry Potter and the Philosopher's Stone",
+  "authors": [
+    {
+      "$oid": "65bb0aa6cf50a1f74c3aa9eb"
+    }
+  ],
+  "genres": [
+    {
+      "$oid": "65b5fc11587a4b3dceb0bbf5"
+    },
+    {
+      "$oid": "65bb0aa6cf50a1f74c3aa9e8"
+    },
+    {
+      "$oid": "65b5fcc9587a4b3dceb0bc16"
+    }
+  ],
+  "publishers": [
+    {
+      "$oid": "65bb0aa6cf50a1f74c3aa9ee"
+    }
+  ],
+  "ISBN": "9780747532743",
+  "publishedYear": 1998,
+  "description": "Harry Potter has no idea how famous he is. That's because he's being raised by his miserable aunt and uncle who are terrified Harry will learn that he's really a wizard, just as his parents were. But everything changes when Harry is summoned to attend an infamous school for wizards, and he begins to discover some clues about his illustrious birthright. From the surprising way he is greeted by a lovable giant, to the unique curriculum and colorful faculty at his unusual school, Harry finds himself drawn deep inside a mystical world he never knew existed and closer to his own noble destiny.",
+  "totalBooks": 5,
+  "image": "https://upload.wikimedia.org/wikipedia/en/6/6b/Harry_Potter_and_the_Philosopher%27s_Stone_Book_Cover.jpg",
+  "__v": 0,
+  "availableBooks": 5
+},
+{
+  "_id": {
+    "$oid": "65bb90b890644ae47cd5afc7"
+  },
+  "name": "Harry Potter and the Chamber of Secrets",
+  "authors": [
+    {
+      "$oid": "65bb0aa6cf50a1f74c3aa9eb"
+    }
+  ],
+  "genres": [
+    {
+      "$oid": "65b5fc11587a4b3dceb0bbf5"
+    }
+  ],
+  "publishers": [
+    {
+      "$oid": "65b7b5c524f317f2da13e7f4"
+    },
+    {
+      "$oid": "65bb0aa6cf50a1f74c3aa9ee"
+    }
+  ],
+  "ISBN": "133887893",
+  "publishedYear": 1998,
+  "description": "The Dursleys were so mean and hideous that summer that all Harry Potter wanted was to get back to the Hogwarts School for Witchcraft and Wizardry. But just as he's packing his bags, Harry receives a warning from a strange, impish creature named Dobby who says that if Harry Potter returns to Hogwarts, disaster will strike.\n\nAnd strike it does. For in Harry's second year at Hogwarts, fresh torments and horrors arise, including an outrageously stuck-up new professor, Gilderoy Lockhart, a spirit named Moaning Myrtle who haunts the girls' bathroom, and the unwanted attentions of Ron Weasley's younger sister, Ginny.",
+  "totalBooks": 4,
+  "availableBooks": 4,
+  "image": "https://m.media-amazon.com/images/I/91WqeCn-PxL._SL1500_.jpg",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65bb929290644ae47cd5b06d"
+  },
+  "name": "Harry Potter and the Prisoner of Azkaban",
+  "authors": [
+    {
+      "$oid": "65bb0aa6cf50a1f74c3aa9eb"
+    }
+  ],
+  "genres": [
+    {
+      "$oid": "65b5fc11587a4b3dceb0bbf5"
+    }
+  ],
+  "publishers": [
+    {
+      "$oid": "65bb929290644ae47cd5b06b"
+    },
+    {
+      "$oid": "65bb0aa6cf50a1f74c3aa9ee"
+    }
+  ],
+  "ISBN": "1338299166",
+  "publishedYear": 1999,
+  "description": "For twelve long years, the dread fortress of Azkaban held an infamous prisoner named Sirius Black. Convicted of killing thirteen people with a single curse, he was said to be the heir apparent to the Dark Lord, Voldemort.Now he has escaped, leaving only two clues as to where he might be headed: Harry Potter's defeat of You-Know-Who was Black's downfall as well. And the Azkaban guards heard Black muttering in his sleep, \"He's at Hogwarts... he's at Hogwarts.\"Harry Potter isn't safe, not even within the walls of his magical school, surrounded by his friends. Because on top of it all, there may be a traitor in their midst.",
+  "totalBooks": 4,
+  "availableBooks": 4,
+  "image": "https://m.media-amazon.com/images/I/A1pqyPSIu6L._SY466_.jpg",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65bdbf89df38bc4334689c94"
+  },
+  "name": "Harry Potter and the Goblet of Fire",
+  "authors": [
+    {
+      "$oid": "65bb0aa6cf50a1f74c3aa9eb"
+    }
+  ],
+  "genres": [
+    {
+      "$oid": "65b5fc11587a4b3dceb0bbf5"
+    }
+  ],
+  "publishers": [
+    {
+      "$oid": "65bb0aa6cf50a1f74c3aa9ee"
+    },
+    {
+      "$oid": "65b7b5c524f317f2da13e7f4"
+    }
+  ],
+  "ISBN": "0439139597",
+  "publishedYear": 2000,
+  "description": "It follows Harry Potter, a wizard in his fourth year at Hogwarts School of Witchcraft and Wizardry, and the mystery surrounding the entry of Harry's name into the Triwizard Tournament, in which he is forced to compete.",
+  "totalBooks": 5,
+  "availableBooks": 5,
+  "image": "https://upload.wikimedia.org/wikipedia/en/b/b6/Harry_Potter_and_the_Goblet_of_Fire_cover.png",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65bef6f96e0b0f702800b6e3"
+  },
+  "name": "Clean Code: A Handbook of Agile Software Craftsmanship",
+  "authors": [
+    {
+      "$oid": "65bef6f96e0b0f702800b6de"
+    }
+  ],
+  "genres": [
+    {
+      "$oid": "65bef6f96e0b0f702800b6d9"
+    },
+    {
+      "$oid": "65bef6f96e0b0f702800b6db"
+    }
+  ],
+  "publishers": [
+    {
+      "$oid": "65bef6f96e0b0f702800b6e1"
+    }
+  ],
+  "ISBN": "9780132350884",
+  "publishedYear": 2008,
+  "description": "Even bad code can function. But if code isn’t clean, it can bring a development organization to its knees. Every year, countless hours and significant resources are lost because of poorly written code. But it doesn’t have to be that way.\n\nNoted software expert Robert C. Martin, presents a revolutionary paradigm with Clean Code: A Handbook of Agile Software Craftsmanship. Martin, who has helped bring agile principles from a practitioner’s point of view to tens of thousands of programmers, has teamed up with his colleagues from Object Mentor to distill their best agile practice of cleaning code “on the fly” into a book that will instill within you the values of software craftsman, and make you a better programmer―but only if you work at it.\n\nWhat kind of work will you be doing? You’ll be reading code―lots of code. And you will be challenged to think about what’s right about that code, and what’s wrong with it. More importantly you will be challenged to reassess your professional values and your commitment to your craft.\n\nClean Codeis divided into three parts. The first describes the principles, patterns, and practices of writing clean code. The second part consists of several case studies of increasing complexity. Each case study is an exercise in cleaning up code―of transforming a code base that has some problems into one that is sound and efficient. The third part is the payoff: a single chapter containing a list of heuristics and “smells” gathered while creating the case studies. The result is a knowledge base that describes the way we think when we write, read, and clean code.\n\nReaders will come away from this book understanding\nHow to tell the difference between good and bad code\nHow to write good code and how to transform bad code into good code\nHow to create good names, good functions, good objects, and good classes\nHow to format code for maximum readability\nHow to implement complete error handling without obscuring code logic\nHow to unit test and practice test-driven development\nWhat “smells” and heuristics can help you identify bad code\nThis book is a must for any developer, software engineer, project manager, team lead, or systems analyst with an interest in producing better code.",
+  "totalBooks": 5,
+  "availableBooks": 5,
+  "image": "https://m.media-amazon.com/images/I/51E2055ZGUL._SL1000_.jpg",
+  "__v": 0
+}]

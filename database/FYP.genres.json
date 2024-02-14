@@ -1,0 +1,112 @@
+[{
+  "_id": {
+    "$oid": "65ab775bdb2c6a75774f11cb"
+  },
+  "name": "Fiction",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b3be2e505d71e558e4e7b9"
+  },
+  "name": "Novel",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b5fb21587a4b3dceb0bbf0"
+  },
+  "name": "Mystery",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b5fc11587a4b3dceb0bbf5"
+  },
+  "name": "Fantasy",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b5fc20587a4b3dceb0bbfa"
+  },
+  "name": "Historical Fiction",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b5fc2e587a4b3dceb0bbff"
+  },
+  "name": "Thriller",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b5fc40587a4b3dceb0bc04"
+  },
+  "name": "Romance",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b5fc55587a4b3dceb0bc09"
+  },
+  "name": "Science Fiction",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b5fc72587a4b3dceb0bc11"
+  },
+  "name": "Drama",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b5fcc9587a4b3dceb0bc16"
+  },
+  "name": "Adventure",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b5fe23587a4b3dceb0bc6b"
+  },
+  "name": "Humor",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b7a9801d3eda2622734c00"
+  },
+  "name": "Poetry",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b7a9ab1d3eda2622734c11"
+  },
+  "name": "Manga",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65bb0aa6cf50a1f74c3aa9e8"
+  },
+  "name": "Young Adult",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65bef6f96e0b0f702800b6d9"
+  },
+  "name": "Programming",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65bef6f96e0b0f702800b6db"
+  },
+  "name": "Computer Science",
+  "__v": 0
+}]

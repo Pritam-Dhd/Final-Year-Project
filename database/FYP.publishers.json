@@ -1,0 +1,35 @@
+[{
+  "_id": {
+    "$oid": "65b7b5bd24f317f2da13e7ef"
+  },
+  "name": "Penguin Random House",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b7b5c524f317f2da13e7f4"
+  },
+  "name": "Scholastic",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65bb0aa6cf50a1f74c3aa9ee"
+  },
+  "name": "Bloomsbury Publishing",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65bb929290644ae47cd5b06b"
+  },
+  "name": "Arthur A. Levine Books",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65bef6f96e0b0f702800b6e1"
+  },
+  "name": "Pearson",
+  "__v": 0
+}]

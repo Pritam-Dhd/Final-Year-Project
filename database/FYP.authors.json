@@ -1,0 +1,49 @@
+[{
+  "_id": {
+    "$oid": "65b7a8ae1d3eda2622734bf0"
+  },
+  "name": " Stephen King",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b7a9781d3eda2622734bf5"
+  },
+  "name": "William Shakespeare",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b7a9bc1d3eda2622734c1c"
+  },
+  "name": "Akira Toriyama",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b7a9c51d3eda2622734c21"
+  },
+  "name": "Eiichiro Oda",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65b7ab401d3eda2622734c2e"
+  },
+  "name": "Koyoharu Gotouge",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65bb0aa6cf50a1f74c3aa9eb"
+  },
+  "name": "J.K. Rowling",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65bef6f96e0b0f702800b6de"
+  },
+  "name": "Robert C. Martin",
+  "__v": 0
+}]

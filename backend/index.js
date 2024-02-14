@@ -10,6 +10,7 @@ import AuthorRoute from "./Routes/Author.js";
 import GenreRoute from "./Routes/Genre.js";
 import PublicationRoute from "./Routes/Publisher.js";
 import BookRoute from "./Routes/Book.js";
+import IssueRoute from "./Routes/Issue.js";
 import cookieParser from "cookie-parser";
 import { dirname } from "path";
 import path from "path";
@@ -27,14 +28,14 @@ app.use(
 app.use(express.json());
 
 // Build and use a router to handle AdminJS routes.
-const router = AdminJSExpress.buildRouter(adminJs); // Create an AdminJS router using your configuration
-app.use(adminJs.options.rootPath, router); // Use the AdminJS router with the specified root path
+// const router = AdminJSExpress.buildRouter(adminJs); // Create an AdminJS router using your configuration
+// app.use(adminJs.options.rootPath, router); // Use the AdminJS router with the specified root path
 
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.use("/", UserRoute, AuthorRoute, GenreRoute, PublicationRoute,BookRoute);
+app.use("/", UserRoute, AuthorRoute, GenreRoute, PublicationRoute,BookRoute,IssueRoute);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

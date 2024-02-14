@@ -72,7 +72,7 @@ export default function MuiTable({ rows, columns,onAddUser  }) {
   };
 
   return (
-    <Paper elevation={3} sx={{ width: {xs:"200px",md:"100%",ls:"100%"}, overflow: "hidden" }}>
+    <Paper elevation={3} sx={{ width: {xs:"100%",md:"100%",ls:"100%"}, overflow: "hidden" }}>
       <Button
         sx={{ marginTop: "15px", marginLeft: "15px" }}
         variant="contained"

@@ -2,6 +2,7 @@ import Book from "../Schema/BookSchema.js";
 import Genre from "../Schema/GenreSchema.js";
 import Author from "../Schema/AuthorSchema.js";
 import Publisher from "../Schema/PublisherSchema.js";
+import Issue from "../Schema/IssueSchema.js";
 
 export const addBook = async ({ data, userRole }) => {
   try {
@@ -12,6 +13,8 @@ export const addBook = async ({ data, userRole }) => {
     }
     // Check if genres, authors, or publishers are provided
     const { genres, authors, publishers,_id, ...bookData } = data;
+
+    const availableBook=bookData.totalBooks;
     // If genres are provided, create them
     const createdGenres = await Promise.all(
       genres.map(async (genreName) => {
@@ -51,6 +54,7 @@ export const addBook = async ({ data, userRole }) => {
       genres: createdGenres,
       authors: createdAuthors,
       publishers: createdPublishers,
+      availableBooks:availableBook,
     });
 
     const result = await book.save();
@@ -87,6 +91,19 @@ export const editBook = async ({ data, userRole }) => {
         message: "Book not found",
       };
     }
+
+    // Check if the total books as it can't be less than the number of books with status "Not Returned"
+    const issuedBooksCount = await Issue.countDocuments({ bookId: existingBook._id, status: "Not Returned" });
+    if (data.totalBooks < issuedBooksCount) {
+      return {
+        message: "Total books can't be less than the number of books currently issued",
+      };
+    }
+
+    const prevTotalBooks = existingBook.totalBooks;
+
+    let availableBooks = existingBook.availableBooks + (data.totalBooks - prevTotalBooks) - issuedBooksCount;
+    availableBooks = availableBooks < 0 ? 0 : availableBooks;
 
     // Update genres if provided
     if (data.genres) {
@@ -132,7 +149,7 @@ export const editBook = async ({ data, userRole }) => {
     const { _id, ...bookData } = data;
     const result = await Book.findByIdAndUpdate(
       data._id,
-      { $set: bookData }, // Update with the provided data
+      { $set: { ...bookData, availableBooks: availableBooks } }, 
       { new: true }
     );
 

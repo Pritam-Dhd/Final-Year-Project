@@ -2,6 +2,7 @@
 import React from "react";
 import { Typography } from "@mui/material";
 import SeeAllUser from "../Pages/User/SeeAll";
+import SeeAllIssueBook from "../Pages/IssueBook/SeeAll";
 import SeeAllBook from "../Pages/Book/SeeAll";
 import SeeAllGenre from "../Pages/Genre/SeeAll";
 import SeeAllAuthor from "../Pages/Author/SeeAll";
@@ -34,6 +35,12 @@ const Content = ({ userRole, userData, updateUserData }) => {
         ) : (
           "Only Librarian has access"
         );
+        case "issue":
+          return userRole === "Librarian" ? (
+            <SeeAllIssueBook userData={userData} />
+          ) : (
+            "Only Librarian has access"
+          );
       case "profile":
         return <Profile userData={userData} updateUserData={updateUserData} />;
       default:

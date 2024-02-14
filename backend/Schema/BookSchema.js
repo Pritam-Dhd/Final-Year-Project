@@ -15,6 +15,7 @@ const bookSchema = new mongoose.Schema({
   publishedYear: { type: Number, required: true },
   description: { type: String },
   totalBooks: { type: Number, required: true },
+  availableBooks: { type: Number, required: true },
   image:{type:String}
 });
 

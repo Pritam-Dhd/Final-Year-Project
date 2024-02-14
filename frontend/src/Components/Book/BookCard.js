@@ -91,7 +91,7 @@ const BookCard = ({ bookDetail, userRole, onDelete }) => {
       <CardActionArea>
         <CardMedia
           component="img"
-          height="340"
+          height="250"
           image={currentBookDetail.image}
           alt="green iguana"
         />
@@ -139,18 +139,6 @@ const BookCard = ({ bookDetail, userRole, onDelete }) => {
               {currentBookDetail.authors.map((author, index) => (
                 <Typography gutterBottom variant="h6" component="div">
                   {author}
-                </Typography>
-              ))}
-            </div>
-          )}
-          {currentBookDetail.publishers && currentBookDetail.publishers.length > 0 && (
-            <div>
-              <Typography gutterBottom variant="h6" component="div">
-                <span style={{ fontWeight: "bold" }}>Publishers: </span>{" "}
-              </Typography>
-              {currentBookDetail.publishers.map((publisher, index) => (
-                <Typography gutterBottom variant="h6" component="div">
-                  {publisher}
                 </Typography>
               ))}
             </div>
