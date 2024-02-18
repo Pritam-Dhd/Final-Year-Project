@@ -209,7 +209,7 @@ export const getAllBooks = async ({ userRole }) => {
   } catch (error) {
     console.log(error.message);
     return {
-      message: "Error getting users ",
+      message: "Error getting books ",
     };
   }
 };
@@ -225,6 +225,31 @@ export const getTotalBooks = async ({ userRole }) => {
     console.log(error.message);
     return {
       message: "Error getting the total books",
+    };
+  }
+};
+
+export const getBookById = async ({ userRole, bookId }) => {
+  try {
+    const book = await Book.findById(bookId)
+      .populate('authors', 'name')
+      .populate('genres', 'name')
+      .populate('publishers', 'name');
+
+    if (!book) {
+      return { message: "Book not found" };
+    }
+
+    return {
+      ...book.toObject(),
+      authors: book.authors.map(author => author.name),
+      genres: book.genres.map(genre => genre.name),
+      publishers: book.publishers.map(publisher => publisher.name)
+    };
+  } catch (error) {
+    console.log(error.message);
+    return {
+      message: "Error getting book"
     };
   }
 };

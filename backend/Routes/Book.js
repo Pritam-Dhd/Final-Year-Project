@@ -4,6 +4,7 @@ import {
     deleteBook,
     getAllBooks,
     getTotalBooks,
+    getBookById
   } from "../Controller/BookController.js";
   import { checkAuth } from "../Middleware/CheckAuth.js";
   import express from "express";
@@ -62,6 +63,17 @@ import {
       console.log(error);
     }
   });
+
+  router.get("/get-book-by-id/:bookId", checkAuth, async (req, res) => {
+    try {
+      const message = await getBookById({ userRole: req.userRole,bookId:req.params.bookId });
+      res.send(message);
+    } catch (error) {
+      res.send("Error deleting author" + error.message);
+      console.log(error);
+    }
+  });
+  
   
   export default router;
   

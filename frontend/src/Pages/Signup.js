@@ -1,4 +1,5 @@
 import { React, useState } from "react";
+import { useUserRole } from "../Components/UserContext";
 import { useNavigate } from "react-router-dom";
 import {
   Avatar,
@@ -26,6 +27,7 @@ const Signup = () => {
   const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] =
     useState("");
   const navigate = useNavigate();
+  const { updateUserRole } = useUserRole();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,6 +52,7 @@ const Signup = () => {
             .then(
               (response) => {
                 if (response.data.message === "User registered successfully") {
+                  updateUserRole(response.data.userRole);
                   localStorage.setItem("userRole", response.data.userRole);
                   navigate("/dashboard");
                 } else if (response.data.message === "User already exists") {

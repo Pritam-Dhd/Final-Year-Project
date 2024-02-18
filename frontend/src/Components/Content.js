@@ -1,15 +1,16 @@
-// Content.js
 import React from "react";
 import { Typography } from "@mui/material";
 import SeeAllUser from "../Pages/User/SeeAll";
 import SeeAllIssueBook from "../Pages/IssueBook/SeeAll";
 import SeeAllBook from "../Pages/Book/SeeAll";
+import Book from "../Pages/Book/Book";
 import SeeAllGenre from "../Pages/Genre/SeeAll";
 import SeeAllAuthor from "../Pages/Author/SeeAll";
 import SeeAllPublisher from "../Pages/Publisher/SeeAll";
 import Profile from "../Pages/User/Profile";
 import PageNotFound from "../Pages/PageNotFound";
 import { useParams } from "react-router-dom";
+
 
 const Content = ({ userRole, userData, updateUserData }) => {
   const { "*": section } = useParams("/dashboard/");
@@ -23,6 +24,8 @@ const Content = ({ userRole, userData, updateUserData }) => {
         return <Typography paragraph>Dashboard</Typography>;
       case "book":
         return <SeeAllBook userRole={userRole} />;
+      case "book/*":
+        return <Book userRole={userRole} />;
       case "genre":
         return <SeeAllGenre userRole={userRole} />;
       case "author":
@@ -44,7 +47,11 @@ const Content = ({ userRole, userData, updateUserData }) => {
       case "profile":
         return <Profile userData={userData} updateUserData={updateUserData} />;
       default:
-        return <PageNotFound />;
+        if (section.startsWith("book/")) { // Match any route starting with "book/"
+          return <Book userRole={userRole} />;
+        } else {
+          return <PageNotFound />;
+        }
     }
   };
 

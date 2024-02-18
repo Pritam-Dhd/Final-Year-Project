@@ -11,6 +11,7 @@ import {
   IconButton,
   Dialog,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteConfirmationDialog from "../../Components/DeleteDialog";
@@ -65,115 +66,147 @@ const BookCard = ({ bookDetail, userRole, onDelete }) => {
     setDeleteDialogOpen(false);
   };
   const handleConfirmDelete = async (id) => {
-    try{
-      const response= await axios.post(
+    try {
+      const response = await axios.post(
         "http://localhost:5000/delete-book",
-        { _id:id },
+        { _id: id },
         { withCredentials: true }
       );
-      if(response.data.message==="Book deleted successfully"){
+      if (response.data.message === "Book deleted successfully") {
         onDelete(id);
         handleSuccessMessage("Book deleted successfully");
-      }
-      else{
+      } else {
         setSnackbarMessage(response.data.message);
         openSnackbar(true);
       }
-    }
-    catch(err){
-
-    }
+    } catch (err) {}
   };
 
   return (
     <>
-    <Card sx={{ maxWidth: 400 }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="250"
-          image={currentBookDetail.image}
-          alt="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h4" component="div">
-            {currentBookDetail.name}
-          </Typography>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{ marginBottom: "4px" }}
-          >
-            {currentBookDetail.description.slice(0, 100)}
-            {/* Shortened description */}
-            {currentBookDetail.description.length > 100 ? (
-              <span>
-                ...{" "}
-                <Typography
-                  variant="body2"
-                  component="span"
-                  sx={{ fontWeight: "bold" }}
-                >
-                  <a href="/">See more</a>
-                </Typography>
-              </span>
-            ) : (
-              ""
-            )}
-          </Typography>
-          {currentBookDetail.genres && currentBookDetail.genres.length > 0 && (
-            <div>
-              <Typography gutterBottom variant="h6" component="div">
-                Genres:
+      <Card sx={{ maxWidth: 400 }}>
+        <Link
+          to={`/dashboard/book/${currentBookDetail.name}/${currentBookDetail._id}`}
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <CardActionArea>
+            <CardMedia
+              component="img"
+              height="250"
+              image={currentBookDetail.image}
+              alt="green iguana"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h4" component="div">
+                {currentBookDetail.name}
               </Typography>
-              {currentBookDetail.genres.map((genre, index) => (
-                <Chip key={index} label={genre} style={{ margin: "4px" }} />
-              ))}
-            </div>
-          )}
-          {currentBookDetail.authors && currentBookDetail.authors.length > 0 && (
-            <div>
-              <Typography gutterBottom variant="h6" component="div">
-                <span style={{ fontWeight: "bold" }}>Authors: </span>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ marginBottom: "4px" }}
+              >
+                {currentBookDetail.description.slice(0, 100)}
+                {/* Shortened description */}
+                {currentBookDetail.description.length > 100 ? (
+                  <span>
+                    ...{" "}
+                    <Typography
+                      variant="body2"
+                      component="span"
+                      sx={{ fontWeight: "bold" }}
+                    >
+                      <Link
+                        to={`/dashboard/book/${currentBookDetail.name}/${currentBookDetail._id}`}
+                        style={{ textDecoration: "none", color: "#002575" }}
+                      >
+                        See more
+                      </Link>
+                    </Typography>
+                  </span>
+                ) : (
+                  ""
+                )}
               </Typography>
-              {currentBookDetail.authors.map((author, index) => (
+              {currentBookDetail.genres &&
+                currentBookDetail.genres.length > 0 && (
+                  <div>
+                    <Typography gutterBottom variant="h6" component="div">
+                      Genres:
+                    </Typography>
+                    {currentBookDetail.genres.map((genre, index) => (
+                      <Link
+                        to={`/dashboard/genre/${genre}`}
+                        style={{ textDecoration: "none", color: "#002575" }}
+                      >
+                        <Chip
+                          key={index}
+                          label={genre}
+                          style={{ margin: "4px" }}
+                        />
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              {currentBookDetail.authors &&
+                currentBookDetail.authors.length > 0 && (
+                  <div>
+                    <Typography gutterBottom variant="h6" component="div">
+                      <span style={{ fontWeight: "bold" }}>Authors: </span>
+                    </Typography>
+                    {currentBookDetail.authors.map((author, index) => (
+                      <Typography gutterBottom variant="h6" component="div">
+                        {author}
+                      </Typography>
+                    ))}
+                  </div>
+                )}
+              {userRole === "User" ? (
                 <Typography gutterBottom variant="h6" component="div">
-                  {author}
+                  {currentBookDetail.availableBooks > 0
+                    ? "Available"
+                    : "Not Available"}
                 </Typography>
-              ))}
-            </div>
-          )}
-        </CardContent>
-      </CardActionArea>
-      {userRole === "Librarian" && (
-        <CardActions>
-          <IconButton
-            color="primary"
-            onClick={() => handleEditClick(currentBookDetail._id)}
-          >
-            <EditIcon />
-          </IconButton>
-          <IconButton
-            sx={{ color: "red" }}
-            onClick={() => handleDelete(currentBookDetail._id)}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </CardActions>
-      )}
-      {isEditOpen && (
-        <Dialog open={isEditOpen} onClose={handleEditClose}>
-          <AddEdit data={currentBookDetail} onSuccess={handleSuccessEditClose} successMessage={handleSuccessMessage}/>
-      </Dialog>
-      )}
-    </Card>
-    <DeleteConfirmationDialog
+              ) : (
+                <Typography gutterBottom variant="h6" component="div">
+                  Available Books: {currentBookDetail.availableBooks}
+                </Typography>
+              )}
+            </CardContent>
+          </CardActionArea>
+        </Link>
+        {userRole === "Librarian" && (
+          <CardActions>
+            <IconButton
+              color="primary"
+              onClick={() => handleEditClick(currentBookDetail._id)}
+            >
+              <EditIcon />
+            </IconButton>
+            <IconButton
+              sx={{ color: "red" }}
+              onClick={() => handleDelete(currentBookDetail._id)}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </CardActions>
+        )}
+        {isEditOpen && (
+          <Dialog open={isEditOpen} onClose={handleEditClose}>
+            <AddEdit
+              data={currentBookDetail}
+              onSuccess={handleSuccessEditClose}
+              successMessage={handleSuccessMessage}
+            />
+          </Dialog>
+        )}
+      </Card>
+      <DeleteConfirmationDialog
         open={deleteDialogOpen}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
         userId={deletingBookId}
       />
-    <SnackBar
+      <SnackBar
         open={openSnackbar}
         message={snackbarMessage}
         onClose={handleSnackbarClose}
