@@ -99,7 +99,7 @@ const SeeAll = () => {
           ...issue,
           dueDate: editedIssue.dueDate,
           status: editedIssue.status,
-          returnedDate: editedIssue.returnedDate
+          returnedDate: editedIssue.returnedDate,
         };
       } else {
         return issue;
@@ -108,7 +108,6 @@ const SeeAll = () => {
     setIssuedBooks(updatedIssues);
     setIsEditOpen(false);
   };
-  
 
   const handleSuccessMessage = (message) => {
     setSnackbarMessage(message);
@@ -131,7 +130,7 @@ const SeeAll = () => {
     axios
       .get("http://localhost:5000/get-all-issues", { withCredentials: true })
       .then(function (response) {
-        const data = response.data.Issues;
+        const data = response.data.Issues.reverse();
         setIssuedBooks(data);
         console.log(data);
       })
@@ -196,18 +195,15 @@ const SeeAll = () => {
           rows={rows}
           columns={columns}
           pagination={{ pageSize: 10 }}
-          getRowHeight={() => "auto"}
+          // getRowHeight={() => "auto"}
           initialState={{
             pagination: { paginationModel: { pageSize: 10 } },
+            sorting: {
+              sortModel: [{ field: 'status', sort: 'asc' }],
+            },
           }}
           pageSizeOptions={[10, 25, 50]}
           disableRowSelectionOnClick
-          sortModel={[
-            {
-              field: 'status',
-              sort: 'asc',
-            },
-          ]}
         />
       </Box>
       {isEditOpen && (

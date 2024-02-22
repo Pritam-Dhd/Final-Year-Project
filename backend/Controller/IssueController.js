@@ -173,7 +173,7 @@ export const getAllIssues = async ({ userRole }) => {
   } catch (error) {
     console.log(error.message);
     return {
-      message: "Error getting users ",
+      message: "Error getting issues ",
     };
   }
 };
@@ -193,7 +193,7 @@ export const getIssueByUser = async ({ userRole, userId }) => {
   } catch (error) {
     console.log(error.message);
     return {
-      message: "Error getting users ",
+      message: "Error getting issues ",
     };
   }
 };

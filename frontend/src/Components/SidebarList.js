@@ -21,6 +21,7 @@ import {
   People as AuthorIcon,
   Business as PublisherIcon,
   LibraryAdd as IssueIcon,
+  AttachMoney as FineIcon,
 } from "@mui/icons-material";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
@@ -98,12 +99,14 @@ const SidebarList = ({ text, open, dropdown }) => {
                 <PersonIcon />
               ) : text === "Genre" ? (
                 <GenreIcon />
-              ) :text === "Author" ? (
+              ) : text === "Author" ? (
                 <AuthorIcon />
-              ) :text === "Publisher" ? (
+              ) : text === "Publisher" ? (
                 <PublisherIcon />
               ) : text === "Issue" ? (
                 <IssueIcon />
+              ) : text === "Fine" ? (
+                <FineIcon />
               ) : (
                 <MailIcon />
               )}
@@ -141,12 +144,14 @@ const SidebarList = ({ text, open, dropdown }) => {
                   <PersonIcon />
                 ) : text === "Genre" ? (
                   <GenreIcon />
-                ) :text === "Author" ? (
+                ) : text === "Author" ? (
                   <AuthorIcon />
-                ) :text === "Publisher" ? (
+                ) : text === "Publisher" ? (
                   <PublisherIcon />
-                ) :text === "Issue" ? (
+                ) : text === "Issue" ? (
                   <IssueIcon />
+                ) : text === "Fine" ? (
+                  <FineIcon />
                 ) : (
                   <MailIcon />
                 )}

@@ -11,10 +11,14 @@ import GenreRoute from "./Routes/Genre.js";
 import PublicationRoute from "./Routes/Publisher.js";
 import BookRoute from "./Routes/Book.js";
 import IssueRoute from "./Routes/Issue.js";
+import FineRoute from "./Routes/Fine.js";
+import EsewaRoute from "./Routes/Esewa.js";
 import cookieParser from "cookie-parser";
 import { dirname } from "path";
 import path from "path";
 import { fileURLToPath } from "url";
+import cron from "node-cron";
+import { addFines } from "./Controller/FineController.js";
 
 const app = express();
 
@@ -35,12 +39,25 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.use("/", UserRoute, AuthorRoute, GenreRoute, PublicationRoute,BookRoute,IssueRoute);
+app.use(
+  "/",
+  UserRoute,
+  AuthorRoute,
+  GenreRoute,
+  PublicationRoute,
+  BookRoute,
+  IssueRoute,
+  FineRoute,
+  EsewaRoute,
+);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 app.use("/api/images", express.static(path.join(__dirname, "Pictures")));
 
+cron.schedule("0 0 * * *", () => {
+  addFines();
+});
 // Run the server.
 const run = async () => {
   // Connect to MongoDB
@@ -52,6 +69,7 @@ const run = async () => {
   }
   UserSeeder();
   RoleSeeder();
+  addFines();
   // Start the Express server on port 5000 and log a message once it's listening
   await app.listen(5000, () =>
     console.log(`Example app listening on port 5000`)

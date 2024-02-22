@@ -17,6 +17,7 @@ export const checkAuth = async (req, res, next) => {
       const userId = decodedUser.userId;
       const user = await User.findOne({ _id: userId });
       const role = await Role.findOne({ _id: user.role });
+      req.userId=user._id;
       req.userRole = role.name;
       next(); // Continue to the next middleware or route handler
     }
