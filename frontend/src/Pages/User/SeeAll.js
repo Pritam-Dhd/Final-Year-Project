@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MuiTable from "../../Components/Table";
-import axios from "axios";
+import axiosClient from "../../Components/AxiosClient.js";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
@@ -75,8 +75,8 @@ const SeeAll = ({userData}) => {
 
   const handleConfirmDelete = async () => {
     // Perform the delete operation
-    const response = await axios.post(
-      "http://localhost:5000/delete-user",
+    const response = await axiosClient.post(
+      "/delete-user",
       {
         _id: deletingUserId,
       },
@@ -121,8 +121,8 @@ const SeeAll = ({userData}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.post(
-      "http://localhost:5000/edit-user",
+    const response = await axiosClient.post(
+      "/edit-user",
       {
         _id: editingUserDetails._id,
         name: editingUserDetails.name,
@@ -160,8 +160,8 @@ const SeeAll = ({userData}) => {
   };
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/get-all-users", { withCredentials: true })
+    axiosClient
+      .get("/get-all-users", { withCredentials: true })
       .then(function (response) {
         const data = response.data.users;
         setUsers(data);

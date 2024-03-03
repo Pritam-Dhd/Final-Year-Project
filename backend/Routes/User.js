@@ -81,6 +81,11 @@ router.get("/get-profile", checkAuth, async (req, res) => {
   const token = req.cookies.jwt;
   try {
     const message = await getProfile({ token });
+    res.clearCookie('jwt');
+    res.cookie("jwt", message.token, {
+      httpOnly: true,
+      maxAge: 3 * 24 * 60 * 60 * 1000,
+    });
     res.send(message);
   } catch (error) {
     res.send(error.message);

@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import SnackBar from "../../Components/SnackBar";
 import Autocomplete from "@mui/material/Autocomplete";
-import axios from "axios";
+import axiosClient from "../AxiosClient.js";
 
 const AddEdit = ({ onSuccess, data, successMessage }) => {
   const [formData, setFormData] = useState({
@@ -46,13 +46,13 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
     const fetchAllData = async () => {
       try {
         const [genresRes, authorsRes, publishersRes] = await Promise.all([
-          axios.get("http://localhost:5000/get-all-genres", {
+          axiosClient.get("/get-all-genres", {
             withCredentials: true,
           }),
-          axios.get("http://localhost:5000/get-all-authors", {
+          axiosClient.get("/get-all-authors", {
             withCredentials: true,
           }),
-          axios.get("http://localhost:5000/get-all-publishers", {
+          axiosClient.get("/get-all-publishers", {
             withCredentials: true,
           }),
         ]);
@@ -86,9 +86,9 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
     e.preventDefault();
     const url =
       formData._id === ""
-        ? "http://localhost:5000/add-book"
-        : "http://localhost:5000/edit-book";
-    const response = await axios.post(
+        ? "/add-book"
+        : "/edit-book";
+    const response = await axiosClient.post(
       url,
       { ...formData },
       { withCredentials: true }
@@ -141,7 +141,6 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
             <Grid item xs={12}>
               <TextField
                 label="ISBN"
-                type="number"
                 name="ISBN"
                 value={formData.ISBN}
                 onChange={(e) => handleChange("ISBN", e.target.value)}

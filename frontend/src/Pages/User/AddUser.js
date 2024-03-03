@@ -14,7 +14,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import SnackBar from "../../Components/SnackBar";
-import axios from "axios";
+import axiosClient from "../../Components/AxiosClient.js";
 
 const AddUser = ({ onSuccess }) => {
   const [role, setRole] = useState("Student");
@@ -37,8 +37,8 @@ const AddUser = ({ onSuccess }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(
-        "http://localhost:5000/add-user",
+      const response = await axiosClient.post(
+        "/add-user",
         {
           name: e.target.name.value,
           email: e.target.email.value,

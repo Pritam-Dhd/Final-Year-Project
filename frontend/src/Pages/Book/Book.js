@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosClient from "../../Components/AxiosClient.js";
 import {
   Container,
   Grid,
@@ -36,8 +36,8 @@ const Book = () => {
   const [deletingBookId, setDeletingBookId] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/get-book-by-id/${bookId}`, {
+    axiosClient
+      .get(`/get-book-by-id/${bookId}`, {
         withCredentials: true,
       })
       .then(function (response) {
@@ -87,8 +87,8 @@ const Book = () => {
   };
   const handleConfirmDelete = async (id) => {
     try {
-      const response = await axios.post(
-        "http://localhost:5000/delete-book",
+      const response = await axiosClient.post(
+        "/delete-book",
         { _id: id },
         { withCredentials: true }
       );
@@ -103,7 +103,7 @@ const Book = () => {
   };
 
   return (
-    <Container>
+    <Grid>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={12}>
           <Breadcrumbs aria-label="breadcrumb">
@@ -131,8 +131,8 @@ const Book = () => {
                 style={{ width: "100%", height: "auto" }}
               />
               {userRole === "Student" ? (
-                <Box>
-                  {book.available ? (
+                <Box sx={{display:"flex",justifyContent:"center"}}>
+                  {book.availableBooks>0 ? (
                     <Typography variant="body1" color="primary">
                       Available
                     </Typography>
@@ -243,7 +243,7 @@ const Book = () => {
         message={snackbarMessage}
         onClose={handleSnackbarClose}
       />
-    </Container>
+    </Grid>
   );
 };
 

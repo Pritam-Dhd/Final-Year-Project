@@ -6,8 +6,16 @@ import randomstring from "randomstring";
 
 const calculateFine = (dueDate) => {
   const today = new Date();
-  if (today > dueDate) {
-    const daysOverdue = Math.ceil((today - dueDate) / (1000 * 60 * 60 * 24));
+  // Set time component of 'today' to start of day
+  today.setHours(0, 0, 0, 0);
+  // Set time component of 'dueDate' to start of day
+  const dueDateStartOfDay = new Date(dueDate);
+  dueDateStartOfDay.setHours(0, 0, 0, 0);
+
+  if (today > dueDateStartOfDay) {
+    const daysOverdue = Math.ceil(
+      (today - dueDateStartOfDay) / (1000 * 60 * 60 * 24)
+    );
     return daysOverdue * 100;
   } else {
     return 0;
@@ -16,8 +24,12 @@ const calculateFine = (dueDate) => {
 
 export const addFines = async () => {
   try {
+    const today = new Date();
+    // Set time component of 'today' to start of day
+    today.setHours(0, 0, 0, 0);
+
     const overdueIssues = await Issue.find({
-      dueDate: { $lt: new Date() },
+      dueDate: { $lt: today },
       status: "Not Returned",
     });
 
@@ -57,7 +69,7 @@ export const paidFine = async ({ data, userRole }) => {
   }
 };
 
-export const paidOnline = async (req,res) => {
+export const paidOnline = async (req, res) => {
   try {
     const id = await Fine.findById(req.transaction_uuid);
     const fine = await Fine.findByIdAndUpdate(id, { status: "paid" });
@@ -125,10 +137,10 @@ export const payFine = async ({ data, userRole }) => {
       product_service_charge: 0,
       transaction_uuid: `${id}`,
       product_code: "EPAYTEST",
-      signature:signature,
+      signature: signature,
       signed_field_names: "total_amount,transaction_uuid,product_code",
-      success_url: "http://localhost:5000/esewa-success", // Replace with your success URL
-      failure_url: "http://localhost:5000/esewa-failure", // Replace with your failure URL
+      success_url: "http://localhost:5000/esewa-success",
+      failure_url: "http://localhost:5000/esewa-failure",
     };
 
     // Return the eSewa response

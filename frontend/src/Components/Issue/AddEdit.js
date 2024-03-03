@@ -19,7 +19,7 @@ import dayjs from "dayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import SnackBar from "../../Components/SnackBar";
-import axios from "axios";
+import axiosClient from "../AxiosClient";
 
 const AddEdit = ({ onSuccess, data, successMessage }) => {
   const [formData, setFormData] = useState({
@@ -48,10 +48,10 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
     const fetchAllData = async () => {
       try {
         const [booksRes, usersRes] = await Promise.all([
-          axios.get("http://localhost:5000/get-all-books", {
+          axiosClient.get("/get-all-books", {
             withCredentials: true,
           }),
-          axios.get("http://localhost:5000/get-all-users", {
+          axiosClient.get("/get-all-users", {
             withCredentials: true,
           }),
         ]);
@@ -95,9 +95,9 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
     e.preventDefault();
     const url =
       formData._id === ""
-        ? "http://localhost:5000/add-issue"
-        : "http://localhost:5000/edit-issue";
-    const response = await axios.post(
+        ? "/add-issue"
+        : "/edit-issue";
+    const response = await axiosClient.post(
       url,
       { ...formData },
       { withCredentials: true }
@@ -112,8 +112,10 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
           ? "Book added successfully"
           : "Book updated successfully";
       setSnackbarMessage(successMsg);
-      const bookName = books.find((book) => book._id === formData.book)?.name || '';
-      const userName = users.find((user) => user._id === formData.user)?.name || '';
+      const bookName =
+        books.find((book) => book._id === formData.book)?.name || "";
+      const userName =
+        users.find((user) => user._id === formData.user)?.name || "";
       onSuccess({
         _id: formData._id || response.data.id,
         book: { name: bookName },
@@ -121,7 +123,7 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
         issueDate: formData.issueDate,
         dueDate: formData.dueDate,
         returnedDate: formData.returnedDate,
-        status: formData.status?formData.status:"Not Returned",
+        status: formData.status ? formData.status : "Not Returned",
       });
       successMessage(response.data.message);
     } else {
@@ -132,10 +134,7 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
 
   return (
     <Container maxWidth="md">
-      <Paper
-        elevation={3}
-        style={{ padding: 16, textAlign: "center", margin: 16 }}
-      >
+      <Paper elevation={3} style={{ padding: 26, margin: 26 }}>
         <Typography variant="h5">Add/Edit Issue</Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <Grid container spacing={2}>
@@ -179,17 +178,19 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
                   minDate={
                     formData.issueDate ? dayjs(formData.issueDate) : null
                   }
+                  sx={{ width: "100%" }}
                 />
               </LocalizationProvider>
             </Grid>
 
             {formData._id && (
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   value={formData.status}
                   label="Status"
+                  fullWidth
                   onChange={(e) => handleChange("status", e.target.value)}
                   required
                 >
@@ -199,9 +200,10 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
               </Grid>
             )}
             {formData.status === "Returned" && (
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
+                    sx={{ width: "100%" }}
                     label="Returned Date"
                     name="returnedDate"
                     value={

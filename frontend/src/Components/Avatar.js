@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Avatar, IconButton, Menu, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosClient from "./AxiosClient";
 import SnackBar from "./SnackBar";
 
 const Avatar1 = ({ userData }) => {
@@ -27,8 +27,8 @@ const Avatar1 = ({ userData }) => {
   };
 
   const handleLogout = async () => {
-    const response = await axios.post(
-      "http://localhost:5000/logout",
+    const response = await axiosClient.post(
+      "/logout",
       {},
       { withCredentials: true }
     );

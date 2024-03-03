@@ -8,7 +8,7 @@ import {
   Grid,
   IconButton,
 } from "@mui/material";
-import axios from "axios";
+import axiosClient from "../../Components/AxiosClient.js";
 import SnackBar from "../../Components/SnackBar";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -74,8 +74,8 @@ const Profile = ({ userData, updateUserData }) => {
         formData.append("image", Image);
       }
 
-      const response = await axios.post(
-        "http://localhost:5000/edit-profile",
+      const response = await axiosClient.post(
+        "/edit-profile",
         formData,
         {
           withCredentials: true,
@@ -181,8 +181,8 @@ const Profile = ({ userData, updateUserData }) => {
       return;
     }
     try {
-      const response = await axios.post(
-        "http://localhost:5000/change-password",
+      const response = await axiosClient.post(
+        "/change-password",
         passwordData,
         {
           withCredentials: true,

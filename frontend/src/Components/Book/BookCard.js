@@ -17,7 +17,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteConfirmationDialog from "../../Components/DeleteDialog";
 import AddEdit from "./AddEdit";
 import SnackBar from "../../Components/SnackBar";
-import axios from "axios";
+import axiosClient from "../AxiosClient.js";
 
 const BookCard = ({ bookDetail, userRole, onDelete }) => {
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -67,8 +67,8 @@ const BookCard = ({ bookDetail, userRole, onDelete }) => {
   };
   const handleConfirmDelete = async (id) => {
     try {
-      const response = await axios.post(
-        "http://localhost:5000/delete-book",
+      const response = await axiosClient.post(
+        "/delete-book",
         { _id: id },
         { withCredentials: true }
       );
@@ -84,7 +84,7 @@ const BookCard = ({ bookDetail, userRole, onDelete }) => {
 
   return (
     <>
-      <Card sx={{ maxWidth: 400 }}>
+      <Card sx={{ maxWidth: 300 }}>
         <Link
           to={`/dashboard/book/${currentBookDetail.name}/${currentBookDetail._id}`}
           style={{ textDecoration: "none", color: "black" }}
@@ -97,77 +97,18 @@ const BookCard = ({ bookDetail, userRole, onDelete }) => {
               alt="green iguana"
             />
             <CardContent>
-              <Typography gutterBottom variant="h4" component="div">
+              <Typography gutterBottom variant="body1" component="div">
                 {currentBookDetail.name}
               </Typography>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{ marginBottom: "4px" }}
-              >
-                {currentBookDetail.description.slice(0, 100)}
-                {/* Shortened description */}
-                {currentBookDetail.description.length > 100 ? (
-                  <span>
-                    ...{" "}
-                    <Typography
-                      variant="body2"
-                      component="span"
-                      sx={{ fontWeight: "bold" }}
-                    >
-                      <Link
-                        to={`/dashboard/book/${currentBookDetail.name}/${currentBookDetail._id}`}
-                        style={{ textDecoration: "none", color: "#002575" }}
-                      >
-                        See more
-                      </Link>
-                    </Typography>
-                  </span>
-                ) : (
-                  ""
-                )}
-              </Typography>
-              {currentBookDetail.genres &&
-                currentBookDetail.genres.length > 0 && (
-                  <div>
-                    <Typography gutterBottom variant="h6" component="div">
-                      Genres:
-                    </Typography>
-                    {currentBookDetail.genres.map((genre, index) => (
-                      <Link
-                        to={`/dashboard/genre/${genre}`}
-                        style={{ textDecoration: "none", color: "#002575" }}
-                      >
-                        <Chip
-                          key={index}
-                          label={genre}
-                          style={{ margin: "4px" }}
-                        />
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              {currentBookDetail.authors &&
-                currentBookDetail.authors.length > 0 && (
-                  <div>
-                    <Typography gutterBottom variant="h6" component="div">
-                      <span style={{ fontWeight: "bold" }}>Authors: </span>
-                    </Typography>
-                    {currentBookDetail.authors.map((author, index) => (
-                      <Typography gutterBottom variant="h6" component="div">
-                        {author}
-                      </Typography>
-                    ))}
-                  </div>
-                )}
-              {userRole === "User" ? (
-                <Typography gutterBottom variant="h6" component="div">
+              
+              {userRole === "Student" ? (
+                <Typography gutterBottom variant="subtitle2" component="div">
                   {currentBookDetail.availableBooks > 0
                     ? "Available"
                     : "Not Available"}
                 </Typography>
               ) : (
-                <Typography gutterBottom variant="h6" component="div">
+                <Typography gutterBottom variant="subtitle2" component="div">
                   Available Books: {currentBookDetail.availableBooks}
                 </Typography>
               )}

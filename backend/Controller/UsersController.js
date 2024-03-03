@@ -37,7 +37,7 @@ export const Signup = async ({ data }) => {
           password: hashedPassword,
           phone_no: data.phone_no,
           role: role._id,
-          image: "Windows_10_Default_Profile_Picture.svg",
+          image: "Windows_10_Default_Profile_Picture.png",
         });
         if (result) {
           const token = jwt.sign(
@@ -122,11 +122,19 @@ export const getProfile = async ({ token }) => {
   } else {
     const userId = decodedUser.userId;
     const existingUser = await User.findOne({ _id: userId });
+    const token = jwt.sign(
+      {
+        userId: existingUser._id,
+      },
+      process.env.SecretKey,
+      { expiresIn: maxAge }
+    );
     return {
       name: existingUser.name,
       email: existingUser.email,
       phone_no: existingUser.phone_no,
       image: existingUser.image,
+      token: token,
     };
   }
 };
@@ -255,7 +263,7 @@ export const addUser = async ({ data, userRole }) => {
       password: hashedPassword,
       phone_no: data.phone_no,
       role: role._id,
-      image: "Windows_10_Default_Profile_Picture.svg",
+      image: "Windows_10_Default_Profile_Picture.png",
     });
 
     const transporter = nodemailer.createTransport({
@@ -385,4 +393,9 @@ export const getTotalUser = async ({ userRole }) => {
       message: "Error getting the total users",
     };
   }
+};
+
+export const invalidToken = ({res,req}) => {
+  res.clearCookie("jwt");
+  res.send({ message: "Invalid token" });
 };

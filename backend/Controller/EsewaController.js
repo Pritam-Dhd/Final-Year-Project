@@ -31,3 +31,12 @@ export const handleEsewaSuccess = async (req, res, next) => {
     return { error: err?.message || "No Fine found" };
   }
 };
+
+export const handleEsewaFailure = async (req, res, next) => {
+  try {
+    res.redirect("http://localhost:3002/dashboard/fine");
+  } catch (err) {
+    console.log(err);
+    return { error: err?.message || "No Fine found" };
+  }
+};

@@ -9,7 +9,7 @@ import {
   IconButton,
 } from "@mui/material";
 import AddNameForm from "../../Components/AddNameForm";
-import axios from "axios";
+import axiosClient from "../../Components/AxiosClient.js";
 import SnackBar from "../../Components/SnackBar";
 import DeleteConfirmationDialog from "../../Components/DeleteDialog";
 import EditIcon from "@mui/icons-material/Edit";
@@ -62,8 +62,8 @@ const SeeAll = ({ userRole }) => {
 
   const handleConfirmDelete = async () => {
     // Perform the delete operation
-    const response = await axios.post(
-      "http://localhost:5000/delete-author",
+    const response = await axiosClient.post(
+      "/delete-author",
       {
         _id: deletingAuthorId,
       },
@@ -85,8 +85,8 @@ const SeeAll = ({ userRole }) => {
   };
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/get-all-authors", { withCredentials: true })
+    axiosClient
+      .get("/get-all-authors", { withCredentials: true })
       .then(function (response) {
         const data = response.data.Authors;
         setAuthors(data);
@@ -98,8 +98,8 @@ const SeeAll = ({ userRole }) => {
   }, []);
 
   const addAuthor = async (authorName) => {
-    const response = await axios.post(
-      "http://localhost:5000/add-author",
+    const response = await axiosClient.post(
+      "/add-author",
       { name: authorName },
       { withCredentials: true }
     );
@@ -131,8 +131,8 @@ const SeeAll = ({ userRole }) => {
 
   const handleSaveEdit = async (authorName) => {
     // Perform the edit operation
-    const response = await axios.post(
-      "http://localhost:5000/edit-author",
+    const response = await axiosClient.post(
+      "/edit-author",
       {
         _id: editingAuthorId,
         name: authorName,

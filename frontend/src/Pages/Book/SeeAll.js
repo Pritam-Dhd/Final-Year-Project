@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosClient from "../../Components/AxiosClient.js";
 import {
   IconButton,
   Container,
@@ -27,8 +27,8 @@ const SeeAll = ({ userRole }) => {
   const [itemsPerPage, setItemsPerPage] = useState(10); 
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/get-all-books", { withCredentials: true })
+    axiosClient
+      .get("/get-all-books", { withCredentials: true })
       .then(function (response) {
         const data = response.data.Books;
         setBooks(data);
@@ -87,7 +87,7 @@ const SeeAll = ({ userRole }) => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <Container>
+    <Grid>
       <Grid container spacing={2} alignItems="center" marginBottom={"10px"}>
         {userRole === "Librarian" && (
           <Grid item xs={12} sm={6} md={3} lg={3} sx={{ marginBottom: "8px" }}>
@@ -118,10 +118,10 @@ const SeeAll = ({ userRole }) => {
       <Grid
         container
         spacing={3}
-        sx={{ display: "flex", justifyContent: "space-evenly" }}
+        sx={{ display: "flex", justifyContent:"space-around" }}
       >
         {currentItems.map((book, index) => (
-          <Grid item xs={12} sm={6} md={4} lg={4} key={index}>
+          <Grid item xs={12} sm={6} md={3} lg="auto" key={index}>
             <BookCard
               bookDetail={book}
               userRole={userRole}
@@ -145,7 +145,7 @@ const SeeAll = ({ userRole }) => {
         message={snackbarMessage}
         onClose={handleSnackbarClose}
       />
-    </Container>
+    </Grid>
   );
 };
 

@@ -4,13 +4,13 @@ import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Sidebar from "../Components/Sidebar.js";
 import Content from "../Components/Content.js";
-import axios from "axios";
+import axiosClient from "../Components/AxiosClient.js";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [userRole, setUserRole] = useState("");
   const [userData, setUserData] = useState([])
-  const [totalUsers, setTotalUsers] = useState(null)
+  
   useEffect(() => {
     const role = localStorage.getItem("userRole");
     console.log(role);
@@ -18,24 +18,17 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/get-profile", { withCredentials: true })
+    axiosClient
+      .get("/get-profile", { withCredentials: true })
       .then(function (response) {
+        console.log(response);
         const data = response.data;
-        setUserData(data);
         console.log(data);
-      })
-      .catch(function (error) {
-        alert(error);
-      });
-  }, []);
-  
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/get-total-users", { withCredentials: true })
-      .then(function (response) {
-        const data = response.data.totalUsers;
-        setTotalUsers(data);
+        if(response.data.message === "Please login"||response.data.message==="Invalid token") {
+          localStorage.removeItem("userRole");
+          navigate("/login");
+        }
+        setUserData(data);
         console.log(data);
       })
       .catch(function (error) {

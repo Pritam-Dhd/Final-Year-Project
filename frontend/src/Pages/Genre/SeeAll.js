@@ -9,7 +9,7 @@ import {
   IconButton,
 } from "@mui/material";
 import AddNameForm from "../../Components/AddNameForm";
-import axios from "axios";
+import axiosClient from "../../Components/AxiosClient.js";
 import SnackBar from "../../Components/SnackBar";
 import DeleteConfirmationDialog from "../../Components/DeleteDialog";
 import EditIcon from "@mui/icons-material/Edit";
@@ -62,8 +62,8 @@ const SeeAll = ({ userRole }) => {
 
   const handleConfirmDelete = async () => {
     // Perform the delete operation
-    const response = await axios.post(
-      "http://localhost:5000/delete-genre",
+    const response = await axiosClient.post(
+      "/delete-genre",
       {
         _id: deletingGenreId,
       },
@@ -85,8 +85,8 @@ const SeeAll = ({ userRole }) => {
   };
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/get-all-genres", { withCredentials: true })
+    axiosClient
+      .get("/get-all-genres", { withCredentials: true })
       .then(function (response) {
         const data = response.data.Genres;
         setGenres(data);
@@ -98,8 +98,8 @@ const SeeAll = ({ userRole }) => {
   }, []);
 
   const addGenre = async (genreName) => {
-    const response = await axios.post(
-      "http://localhost:5000/add-genre",
+    const response = await axiosClient.post(
+      "/add-genre",
       { name: genreName },
       { withCredentials: true }
     );
@@ -131,8 +131,8 @@ const SeeAll = ({ userRole }) => {
 
   const handleSaveEdit = async (genreName) => {
     // Perform the edit operation
-    const response = await axios.post(
-      "http://localhost:5000/edit-genre",
+    const response = await axiosClient.post(
+      "/edit-genre",
       {
         _id: editingGenreId,
         name: genreName,

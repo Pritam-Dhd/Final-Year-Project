@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Box, Button, Dialog, Paper, Grid, IconButton } from "@mui/material";
+import axiosClient from "../../Components/AxiosClient.js";
+import {
+  Box,
+  Button,
+  Dialog,
+  Paper,
+  Grid,
+  IconButton,
+  LinearProgress,
+} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid } from "@mui/x-data-grid";
 import AddEdit from "../../Components/Issue/AddEdit";
 import SnackBar from "../../Components/SnackBar";
 import DeleteConfirmationDialog from "../../Components/DeleteDialog";
+import TableToolbar from "../../Components/TableToolbar";
 
 const SeeAll = () => {
   const [issueBooks, setIssuedBooks] = useState([]);
@@ -17,6 +26,7 @@ const SeeAll = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [currentIssue, setCurrentIssue] = useState(null);
+  const [loading, setLoading] = useState(true); // State for loading indicator
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -38,12 +48,14 @@ const SeeAll = () => {
       width: 100,
       renderCell: (params) => (
         <div>
-          <IconButton
-            color="primary"
-            onClick={() => handleEditClick(params.row.id)}
-          >
-            <EditIcon />
-          </IconButton>
+          {params.row.status !== "Returned" && (
+            <IconButton
+              color="primary"
+              onClick={() => handleEditClick(params.row.id)}
+            >
+              <EditIcon />
+            </IconButton>
+          )}
           <IconButton
             color="secondary"
             onClick={() => handleDelete(params.row.id)}
@@ -71,7 +83,7 @@ const SeeAll = () => {
     const year = formattedDate.getFullYear();
     const month = String(formattedDate.getMonth() + 1).padStart(2, "0");
     const day = String(formattedDate.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
+    return `${day}/${month}/${year}`;
   };
 
   const handleEditClick = (id) => {
@@ -127,14 +139,16 @@ const SeeAll = () => {
   }));
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/get-all-issues", { withCredentials: true })
+    axiosClient
+      .get("/get-all-issues", { withCredentials: true })
       .then(function (response) {
         const data = response.data.Issues.reverse();
         setIssuedBooks(data);
+        setLoading(false); // After data fetching, set loading to false
         console.log(data);
       })
       .catch(function (error) {
+        setLoading(false); // Set loading to false in case of error too
         alert(error);
       });
   }, []);
@@ -146,8 +160,8 @@ const SeeAll = () => {
 
   const handleConfirmDelete = async () => {
     // Perform the delete operation
-    const response = await axios.post(
-      "http://localhost:5000/delete-issue",
+    const response = await axiosClient.post(
+      "/delete-issue",
       {
         _id: deletingIssueId,
       },
@@ -190,20 +204,30 @@ const SeeAll = () => {
           successMessage={handleSuccessMessage}
         />
       </Dialog>
-      <Box sx={{ overflow: "auto" }}>
+      <Box
+        sx={{
+          overflow: "auto",
+          height: "460px",
+        }}
+      >
         <DataGrid
           rows={rows}
           columns={columns}
           pagination={{ pageSize: 10 }}
+          loading={loading} // Use the loading state
           // getRowHeight={() => "auto"}
           initialState={{
             pagination: { paginationModel: { pageSize: 10 } },
             sorting: {
-              sortModel: [{ field: 'status', sort: 'asc' }],
+              sortModel: [{ field: "status", sort: "asc" }],
             },
           }}
           pageSizeOptions={[10, 25, 50]}
           disableRowSelectionOnClick
+          slots={{
+            toolbar: () => <TableToolbar filename="Issued Books" />,
+            loadingOverlay: LinearProgress,
+          }}
         />
       </Box>
       {isEditOpen && (

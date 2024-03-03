@@ -9,7 +9,7 @@ import {
   IconButton,
 } from "@mui/material";
 import AddNameForm from "../../Components/AddNameForm";
-import axios from "axios";
+import axiosClient from "../../Components/AxiosClient.js";
 import SnackBar from "../../Components/SnackBar";
 import DeleteConfirmationDialog from "../../Components/DeleteDialog";
 import EditIcon from "@mui/icons-material/Edit";
@@ -64,8 +64,8 @@ const SeeAll = ({ userRole }) => {
 
   const handleConfirmDelete = async () => {
     // Perform the delete operation
-    const response = await axios.post(
-      "http://localhost:5000/delete-publisher",
+    const response = await axiosClient.post(
+      "/delete-publisher",
       {
         _id: deletingPublisherId,
       },
@@ -89,8 +89,8 @@ const SeeAll = ({ userRole }) => {
   };
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/get-all-publishers", {
+    axiosClient
+      .get("/get-all-publishers", {
         withCredentials: true,
       })
       .then(function (response) {
@@ -104,8 +104,8 @@ const SeeAll = ({ userRole }) => {
   }, []);
 
   const addPublisher = async (publisherName) => {
-    const response = await axios.post(
-      "http://localhost:5000/add-publisher",
+    const response = await axiosClient.post(
+      "/add-publisher",
       { name: publisherName },
       { withCredentials: true }
     );
@@ -137,8 +137,8 @@ const SeeAll = ({ userRole }) => {
 
   const handleSaveEdit = async (publisherName) => {
     // Perform the edit operation
-    const response = await axios.post(
-      "http://localhost:5000/edit-publisher",
+    const response = await axiosClient.post(
+      "/edit-publisher",
       {
         _id: editingPublisherId,
         name: publisherName,
