@@ -159,6 +159,7 @@ const Sidebar = ({userRole, userData}) => {
           <SidebarList open={open} text="Issue"  />
         ) : null}
         <SidebarList open={open} text="Fine" />
+        <SidebarList open={open} text="Request" />
         <Divider />
       </Drawer>
     </>

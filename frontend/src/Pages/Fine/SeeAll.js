@@ -5,13 +5,12 @@ import {
   Button,
   Dialog,
   Paper,
-  Grid,
   IconButton,
   DialogTitle,
   DialogContent,
   DialogActions,
   Typography,
-  LinearProgress  
+  LinearProgress,
 } from "@mui/material";
 import SnackBar from "../../Components/SnackBar";
 import { DataGrid } from "@mui/x-data-grid";
@@ -26,7 +25,7 @@ const SeeAll = () => {
   const { userRole } = useUserRole();
   const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
   const [paidIssueId, setPaidIssueId] = useState();
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -53,15 +52,14 @@ const SeeAll = () => {
     if (response.data.message === "Fine paid successfully") {
       setSnackbarMessage("Fine paid successfully");
       setOpenSnackbar(true);
-      setFines(prevFines => {
-        return prevFines.map(fine => {
+      setFines((prevFines) => {
+        return prevFines.map((fine) => {
           if (fine._id === paidIssueId) {
-            return { ...fine, status: "paid", remark: "no action" };
+            return { ...fine, status: "paid", remark: "no action", paidDate: formatDate(new Date())};
           }
           return fine;
         });
       });
-
     } else {
       setSnackbarMessage(response.data.message);
       setOpenSnackbar(true);
@@ -104,16 +102,16 @@ const SeeAll = () => {
       document.body.appendChild(form);
       form.submit();
     }
-
   };
 
   const columns = [
-    { field: "book", headerName: "Book", width: 560 },
+    { field: "book", headerName: "Book", width: 500 },
     ...(userRole === "Librarian"
-      ? [{ field: "user", headerName: "User", width: 350 }]
+      ? [{ field: "user", headerName: "User", width: 300 }]
       : []),
-    { field: "amount", headerName: "Amount", width: 150 },
-    { field: "status", headerName: "Status", width: 180 },
+    { field: "amount", headerName: "Amount", width: 120 },
+    { field: "paidDate", headerName: "Paid Date", width: 150 },
+    { field: "status", headerName: "Status", width: 150 },
     ...(userRole === "Student"
       ? [{ field: "remark", headerName: "Remark", width: 250 }]
       : []),
@@ -150,11 +148,21 @@ const SeeAll = () => {
       },
     },
   ];
+  const formatDate = (date) => {
+    if (!date) return "";
+    const formattedDate = new Date(date);
+    const year = formattedDate.getFullYear();
+    const month = String(formattedDate.getMonth() + 1).padStart(2, "0");
+    const day = String(formattedDate.getDate()).padStart(2, "0");
+    return `${day}/${month}/${year}`;
+  };
+
   const rows = fines.map((fine) => ({
     id: fine._id,
     issue: fine.issue,
     book: fine.issue.book.name,
     user: fine.issue.user.name,
+    paidDate: fine.paid_date === "" ? "Not Paid" : formatDate(fine.paid_date),
     amount: fine.amount,
     remark:
       fine.status === "paid"
@@ -188,28 +196,24 @@ const SeeAll = () => {
         overflow: "hidden",
       }}
     >
-      <Box sx={{ overflow: "auto",height:"460px"}}>
+      <Box sx={{ overflow: "auto", height: "460px" }}>
         <DataGrid
           rows={rows}
           columns={columns}
-          loading={loading} 
+          loading={loading}
           pagination={{ pageSize: 10 }}
           //   getRowHeight={() => "auto"}
           initialState={{
             pagination: { paginationModel: { pageSize: 10 } },
             sorting: {
-              sortModel: [{ field: "status", sort: "asc" }],
+              sortModel: [{ field: "status", sort: "desc" }],
             },
           }}
           pageSizeOptions={[10, 25, 50]}
           disableRowSelectionOnClick
           slots={{
-            toolbar: () => (
-              <TableToolbar
-                filename="Issued Books"
-              />
-            ),
-            loadingOverlay: LinearProgress  ,
+            toolbar: () => <TableToolbar filename="Issued Books" />,
+            loadingOverlay: LinearProgress,
           }}
         />
       </Box>

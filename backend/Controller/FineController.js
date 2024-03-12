@@ -47,6 +47,7 @@ export const addFines = async () => {
         await Fine.create({
           issue: issue._id,
           amount,
+          paid_date: ''
         });
       }
     }
@@ -57,7 +58,7 @@ export const addFines = async () => {
 
 export const paidFine = async ({ data, userRole }) => {
   try {
-    const fine = await Fine.findByIdAndUpdate(data._id, { status: "paid" });
+    const fine = await Fine.findByIdAndUpdate(data._id, { status: "paid",paid_date:Date.now() });
     return {
       message: "Fine paid successfully",
     };
@@ -72,7 +73,7 @@ export const paidFine = async ({ data, userRole }) => {
 export const paidOnline = async (req, res) => {
   try {
     const id = await Fine.findById(req.transaction_uuid);
-    const fine = await Fine.findByIdAndUpdate(id, { status: "paid" });
+    const fine = await Fine.findByIdAndUpdate(id, { status: "paid",paid_date:Date.now() });
     res.redirect("http://localhost:3002/dashboard/fine");
     // const fine = await Fine.findByIdAndUpdate(data._id, { status: "paid" });
     // return {
@@ -152,32 +153,3 @@ export const payFine = async ({ data, userRole }) => {
     };
   }
 };
-
-// export const getUserFines = async ({userRole, userId}) => {
-//   try {
-//     const allFines = await Fine.find().populate({
-//       path: 'issue',
-//       populate: {
-//         path: 'book',
-//         select: '_id name',
-//       },
-//     }).populate({
-//       path: 'issue',
-//       populate: {
-//         path: 'user',
-//         select: '_id name',
-//       },
-//     });
-
-//     const Fines = allFines.filter(fine => fine.issue.user._id.toString() === userId);
-
-//     return {
-//       Fines,
-//     };
-//   } catch (error) {
-//     console.log(error.message);
-//     return {
-//       message: 'Error getting fines for the user',
-//     };
-//   }
-// };

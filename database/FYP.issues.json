@@ -1,0 +1,534 @@
+[{
+  "_id": {
+    "$oid": "65c844c6e47b4c5b380b5788"
+  },
+  "book": {
+    "$oid": "65bb0fc8d95b292c4c97c9c1"
+  },
+  "user": {
+    "$oid": "6581b8362264772d7de00052"
+  },
+  "issueDate": {
+    "$date": "2024-02-01T00:00:00.000Z"
+  },
+  "dueDate": {
+    "$date": "2024-02-05T18:15:00.000Z"
+  },
+  "returnedDate": {
+    "$date": "2024-02-04T00:00:00.000Z"
+  },
+  "status": "Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cc97cd056f2fcbc7f52623"
+  },
+  "book": {
+    "$oid": "65bef6f96e0b0f702800b6e3"
+  },
+  "user": {
+    "$oid": "6581b8362264772d7de00052"
+  },
+  "issueDate": {
+    "$date": "2024-02-14T10:36:45.553Z"
+  },
+  "dueDate": {
+    "$date": "2024-02-19T18:15:00.000Z"
+  },
+  "returnedDate": {
+    "$date": "2024-02-15T18:15:00.000Z"
+  },
+  "status": "Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cc9d36056f2fcbc7f52881"
+  },
+  "book": {
+    "$oid": "65bb90b890644ae47cd5afc7"
+  },
+  "user": {
+    "$oid": "6581b8362264772d7de00052"
+  },
+  "issueDate": {
+    "$date": "2024-02-14T10:59:50.614Z"
+  },
+  "dueDate": {
+    "$date": "2024-02-19T18:15:00.000Z"
+  },
+  "returnedDate": {
+    "$date": "2024-02-20T18:15:00.000Z"
+  },
+  "status": "Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cca58fdec058969b688e44"
+  },
+  "book": {
+    "$oid": "65bb929290644ae47cd5b06d"
+  },
+  "user": {
+    "$oid": "6581b8362264772d7de00052"
+  },
+  "issueDate": {
+    "$date": "2024-02-14T11:35:37.428Z"
+  },
+  "dueDate": {
+    "$date": "2024-02-20T18:15:00.000Z"
+  },
+  "returnedDate": {
+    "$date": "2024-02-21T18:15:00.000Z"
+  },
+  "status": "Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65db0273ecf2a2ce07171c98"
+  },
+  "book": {
+    "$oid": "65bb0fc8d95b292c4c97c9c1"
+  },
+  "user": {
+    "$oid": "6581b8362264772d7de00052"
+  },
+  "issueDate": {
+    "$date": "2024-02-25T09:02:26.958Z"
+  },
+  "dueDate": {
+    "$date": "2024-02-24T18:15:00.000Z"
+  },
+  "returnedDate": {
+    "$date": "2024-02-24T18:15:00.000Z"
+  },
+  "status": "Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65dc66d3888c24e1b03e72d1"
+  },
+  "book": {
+    "$oid": "65bef6f96e0b0f702800b6e3"
+  },
+  "user": {
+    "$oid": "65dc6555235265d3ab97c697"
+  },
+  "issueDate": {
+    "$date": "2024-02-26T10:24:05.189Z"
+  },
+  "dueDate": {
+    "$date": "2024-02-29T18:15:00.000Z"
+  },
+  "returnedDate": {
+    "$date": "2024-03-03T18:15:00.000Z"
+  },
+  "status": "Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65dc66ea888c24e1b03e72ed"
+  },
+  "book": {
+    "$oid": "65dc62b193ec81b87f24d069"
+  },
+  "user": {
+    "$oid": "6581b8362264772d7de00052"
+  },
+  "issueDate": {
+    "$date": "2024-02-26T10:24:21.020Z"
+  },
+  "dueDate": {
+    "$date": "2024-03-01T18:15:00.000Z"
+  },
+  "returnedDate": {
+    "$date": "2024-03-01T18:15:00.000Z"
+  },
+  "status": "Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65dc66f9888c24e1b03e7309"
+  },
+  "book": {
+    "$oid": "65dc5dfb93ec81b87f24d017"
+  },
+  "user": {
+    "$oid": "65dc665a888c24e1b03e724a"
+  },
+  "issueDate": {
+    "$date": "2024-02-26T10:24:44.905Z"
+  },
+  "dueDate": {
+    "$date": "2024-03-03T18:15:00.000Z"
+  },
+  "returnedDate": {
+    "$date": "2024-03-03T18:15:00.000Z"
+  },
+  "status": "Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65dc670a888c24e1b03e7325"
+  },
+  "book": {
+    "$oid": "65dc626293ec81b87f24d04d"
+  },
+  "user": {
+    "$oid": "65dc66a4888c24e1b03e7264"
+  },
+  "issueDate": {
+    "$date": "2024-02-26T10:25:01.321Z"
+  },
+  "dueDate": {
+    "$date": "2024-03-01T18:15:00.000Z"
+  },
+  "returnedDate": {
+    "$date": "2024-03-03T18:15:00.000Z"
+  },
+  "status": "Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65dc67ca888c24e1b03e7341"
+  },
+  "book": {
+    "$oid": "65bdbf89df38bc4334689c94"
+  },
+  "user": {
+    "$oid": "65dc665a888c24e1b03e724a"
+  },
+  "issueDate": {
+    "$date": "2024-02-26T10:28:15.078Z"
+  },
+  "dueDate": {
+    "$date": "2024-02-27T18:15:00.000Z"
+  },
+  "returnedDate": {
+    "$date": "2024-02-26T18:15:00.000Z"
+  },
+  "status": "Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65e070a128d3c5ff7697d3bc"
+  },
+  "book": {
+    "$oid": "65dc626293ec81b87f24d04d"
+  },
+  "user": {
+    "$oid": "6581b8362264772d7de00052"
+  },
+  "issueDate": {
+    "$date": "2024-02-29T11:54:57.586Z"
+  },
+  "dueDate": {
+    "$date": "2024-03-04T18:15:00.000Z"
+  },
+  "returnedDate": {
+    "$date": "2024-03-01T18:15:00.000Z"
+  },
+  "status": "Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65e5b8e717122970696579e7"
+  },
+  "book": {
+    "$oid": "65bb0fc8d95b292c4c97c9c1"
+  },
+  "user": {
+    "$oid": "65e5b7c21712297069657986"
+  },
+  "issueDate": {
+    "$date": "2024-03-01T12:04:42.470Z"
+  },
+  "dueDate": {
+    "$date": "2024-03-05T18:15:00.000Z"
+  },
+  "returnedDate": {
+    "$date": "2024-03-08T18:15:00.000Z"
+  },
+  "status": "Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65e5b8f31712297069657a03"
+  },
+  "book": {
+    "$oid": "65dc626293ec81b87f24d04d"
+  },
+  "user": {
+    "$oid": "65e5b76f1712297069657980"
+  },
+  "issueDate": {
+    "$date": "2024-03-01T12:04:56.292Z"
+  },
+  "dueDate": {
+    "$date": "2024-03-06T18:15:00.000Z"
+  },
+  "returnedDate": {
+    "$date": "2024-03-08T18:15:00.000Z"
+  },
+  "status": "Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65e5b91b1712297069657a1f"
+  },
+  "book": {
+    "$oid": "65bb0fc8d95b292c4c97c9c1"
+  },
+  "user": {
+    "$oid": "65e5b80c1712297069657992"
+  },
+  "issueDate": {
+    "$date": "2024-03-02T12:05:37.863Z"
+  },
+  "dueDate": {
+    "$date": "2024-03-07T18:15:00.000Z"
+  },
+  "returnedDate": {
+    "$date": "2024-03-08T18:15:00.000Z"
+  },
+  "status": "Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65e5b9291712297069657a3b"
+  },
+  "book": {
+    "$oid": "65dc62b193ec81b87f24d069"
+  },
+  "user": {
+    "$oid": "65e5b849171229706965799e"
+  },
+  "issueDate": {
+    "$date": "2024-03-02T12:05:48.629Z"
+  },
+  "dueDate": {
+    "$date": "2024-03-07T18:15:00.000Z"
+  },
+  "returnedDate": {
+    "$date": "2024-03-10T18:15:00.000Z"
+  },
+  "status": "Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65e5b9311712297069657a57"
+  },
+  "book": {
+    "$oid": "65bb0fc8d95b292c4c97c9c1"
+  },
+  "user": {
+    "$oid": "65e5b87f17122970696579aa"
+  },
+  "issueDate": {
+    "$date": "2024-03-03T12:06:01.955Z"
+  },
+  "dueDate": {
+    "$date": "2024-03-09T18:15:00.000Z"
+  },
+  "returnedDate": {
+    "$date": "2024-03-10T18:15:00.000Z"
+  },
+  "status": "Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65e5b93b1712297069657a73"
+  },
+  "book": {
+    "$oid": "65bb929290644ae47cd5b06d"
+  },
+  "user": {
+    "$oid": "65e5b8301712297069657998"
+  },
+  "issueDate": {
+    "$date": "2024-03-04T12:06:10.146Z"
+  },
+  "dueDate": {
+    "$date": "2024-03-10T18:15:00.000Z"
+  },
+  "returnedDate": {
+    "$date": "2024-03-09T18:15:00.000Z"
+  },
+  "status": "Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65e86ddb233195f4045a3f60"
+  },
+  "book": {
+    "$oid": "65dc5e7f93ec81b87f24d031"
+  },
+  "user": {
+    "$oid": "6581b8362264772d7de00052"
+  },
+  "issueDate": {
+    "$date": "2024-03-06T13:21:14.932Z"
+  },
+  "dueDate": {
+    "$date": "2024-03-12T18:15:00.000Z"
+  },
+  "returnedDate": null,
+  "status": "Not Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65e86de9233195f4045a3f7c"
+  },
+  "book": {
+    "$oid": "65bb0fc8d95b292c4c97c9c1"
+  },
+  "user": {
+    "$oid": "65e5b76f1712297069657980"
+  },
+  "issueDate": {
+    "$date": "2024-03-06T13:21:33.203Z"
+  },
+  "dueDate": {
+    "$date": "2024-03-12T18:15:00.000Z"
+  },
+  "returnedDate": null,
+  "status": "Not Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec68d6b43693813f8bc3a8"
+  },
+  "book": {
+    "$oid": "65bb90b890644ae47cd5afc7"
+  },
+  "user": {
+    "$oid": "65e5b87f17122970696579aa"
+  },
+  "issueDate": {
+    "$date": "2024-03-09T13:49:00.371Z"
+  },
+  "dueDate": {
+    "$date": "2024-03-15T18:15:00.000Z"
+  },
+  "returnedDate": null,
+  "status": "Not Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec68e1b43693813f8bc3c4"
+  },
+  "book": {
+    "$oid": "65bb0fc8d95b292c4c97c9c1"
+  },
+  "user": {
+    "$oid": "65e5b849171229706965799e"
+  },
+  "issueDate": {
+    "$date": "2024-03-09T13:49:12.096Z"
+  },
+  "dueDate": {
+    "$date": "2024-03-15T18:15:00.000Z"
+  },
+  "returnedDate": null,
+  "status": "Not Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec68edb43693813f8bc3e0"
+  },
+  "book": {
+    "$oid": "65dc62b193ec81b87f24d069"
+  },
+  "user": {
+    "$oid": "6581b8362264772d7de00052"
+  },
+  "issueDate": {
+    "$date": "2024-03-09T13:49:22.439Z"
+  },
+  "dueDate": {
+    "$date": "2024-03-14T18:15:00.000Z"
+  },
+  "returnedDate": null,
+  "status": "Not Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65eeb918fa9e51133e8d8f7d"
+  },
+  "book": {
+    "$oid": "65dc5dfb93ec81b87f24d017"
+  },
+  "user": {
+    "$oid": "6581b8362264772d7de00052"
+  },
+  "issueDate": {
+    "$date": "2024-03-11T07:56:00.050Z"
+  },
+  "dueDate": {
+    "$date": "2024-03-17T18:15:00.000Z"
+  },
+  "returnedDate": null,
+  "status": "Not Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65eeb924fa9e51133e8d8f99"
+  },
+  "book": {
+    "$oid": "65dc626293ec81b87f24d04d"
+  },
+  "user": {
+    "$oid": "65e5b8301712297069657998"
+  },
+  "issueDate": {
+    "$date": "2024-03-11T07:56:09.784Z"
+  },
+  "dueDate": {
+    "$date": "2024-03-17T18:15:00.000Z"
+  },
+  "returnedDate": null,
+  "status": "Not Returned",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65eeb92dfa9e51133e8d8fb5"
+  },
+  "book": {
+    "$oid": "65bb0fc8d95b292c4c97c9c1"
+  },
+  "user": {
+    "$oid": "65e5b7f5171229706965798c"
+  },
+  "issueDate": {
+    "$date": "2024-03-11T07:56:20.995Z"
+  },
+  "dueDate": {
+    "$date": "2024-03-17T18:15:00.000Z"
+  },
+  "returnedDate": null,
+  "status": "Not Returned",
+  "__v": 0
+}]

@@ -84,7 +84,7 @@ const BookCard = ({ bookDetail, userRole, onDelete }) => {
 
   return (
     <>
-      <Card sx={{ maxWidth: 300 }}>
+      <Card sx={{ width: "auto" }}>
         <Link
           to={`/dashboard/book/${currentBookDetail.name}/${currentBookDetail._id}`}
           style={{ textDecoration: "none", color: "black" }}

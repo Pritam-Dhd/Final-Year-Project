@@ -87,7 +87,7 @@ const SeeAll = ({ userRole }) => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <Grid>
+    <Grid container>
       <Grid container spacing={2} alignItems="center" marginBottom={"10px"}>
         {userRole === "Librarian" && (
           <Grid item xs={12} sm={6} md={3} lg={3} sx={{ marginBottom: "8px" }}>
@@ -118,10 +118,10 @@ const SeeAll = ({ userRole }) => {
       <Grid
         container
         spacing={3}
-        sx={{ display: "flex", justifyContent:"space-around" }}
+        sx={{ display: "flex"}}
       >
         {currentItems.map((book, index) => (
-          <Grid item xs={12} sm={6} md={3} lg="auto" key={index}>
+          <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
             <BookCard
               bookDetail={book}
               userRole={userRole}
@@ -130,7 +130,7 @@ const SeeAll = ({ userRole }) => {
           </Grid>
         ))}
       </Grid>
-      <Box sx={{ mt: 4, display: "flex", justifyContent: "center" }}>
+      <Box sx={{ mt: 4, display: "flex", justifyContent: "center", width: "100%" }}>
         <Pagination
           showFirstButton
           showLastButton

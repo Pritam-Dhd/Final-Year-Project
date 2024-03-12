@@ -22,6 +22,7 @@ import {
   Business as PublisherIcon,
   LibraryAdd as IssueIcon,
   AttachMoney as FineIcon,
+  LocalLibrary as RequestIcon
 } from "@mui/icons-material";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
@@ -107,6 +108,8 @@ const SidebarList = ({ text, open, dropdown }) => {
                 <IssueIcon />
               ) : text === "Fine" ? (
                 <FineIcon />
+              ) : text === "Request" ? (
+                <RequestIcon />
               ) : (
                 <MailIcon />
               )}
@@ -152,6 +155,8 @@ const SidebarList = ({ text, open, dropdown }) => {
                   <IssueIcon />
                 ) : text === "Fine" ? (
                   <FineIcon />
+                ) : text === "Request" ? (
+                  <RequestIcon />
                 ) : (
                   <MailIcon />
                 )}

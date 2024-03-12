@@ -1,28 +1,224 @@
 [{
   "_id": {
-    "$oid": "657c610b027f1762e6b4d5e0"
+    "$oid": "6581b8362264772d7de00052"
   },
-  "name": "Admin",
-  "email": "admin@admin.com",
+  "name": "Pritam Dhaugoda",
+  "email": "pritamdhaugoda@gmail.com",
   "phone_no": "9864336393",
   "role": {
-    "$oid": "657c5a15a986dafb5efc47fe"
+    "$oid": "657c5b8fbcfddd631c2bcf33"
   },
-  "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
-  "password": "$2b$10$ltwWh9/cieOKyEURwo5foeg7uzgwYeCNjqq7ZaM6BdHGAecCf/jEe",
+  "image": "1708164621889-pokemon.png",
+  "password": "$2b$10$5yr1a7/ptgwbxgfG/QZjV.3y/vrIagq22RUlTtq.WTX3QIvzvQbAC",
   "__v": 0
 },
 {
   "_id": {
-    "$oid": "657d1721f41d261df2daccc3"
+    "$oid": "65a543fbf1bb4321f935ab83"
+  },
+  "name": "Admin",
+  "email": "admin@admin.com",
+  "phone_no": "",
+  "role": {
+    "$oid": "657c5a15a986dafb5efc47fe"
+  },
+  "image": "1707016244212-pokemon.png",
+  "password": "$2b$10$TFRTpPdwWulrLBKGjV/.1uyyQZAlzkC0WcOmlnzwc0zhZYChQu.mu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65aa9741530c8f7fbee9655d"
   },
   "name": "Pritam Dhaugoda",
-  "email": "pritamdhaugoda@gmail.com",
-  "phone_no": "Pritam Dhaugoda",
+  "email": "np03cs4s220160@heraldcollege.edu.np",
+  "phone_no": "9864336393",
+  "role": {
+    "$oid": "657c5a15a986dafb5efc47fe"
+  },
+  "image": "1705678850507-pokemon.png",
+  "password": "$2b$10$/cR4g/etfQUczxFfsWPGgOZueqZ4xsB2saGrgwT/wBCPqGJKUkadS",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65dc647c93ec81b87f24d08f"
+  },
+  "name": "Pritam",
+  "email": "pritamdhaugoda2@gmail.com",
+  "phone_no": "9876764236",
   "role": {
     "$oid": "657c5b8fbcfddd631c2bcf33"
   },
-  "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png",
-  "password": "$2b$10$pYiVk/lhf7KUNC15PSnitOb9I4X1NYA1zza76yzYYbhdG8qk3C5Fm",
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$5yr1a7/ptgwbxgfG/QZjV.3y/vrIagq22RUlTtq.WTX3QIvzvQbAC",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65dc6555235265d3ab97c697"
+  },
+  "name": "Ram Shah",
+  "email": "ramshah@gmail.com",
+  "phone_no": "9876564738",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$5yr1a7/ptgwbxgfG/QZjV.3y/vrIagq22RUlTtq.WTX3QIvzvQbAC",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65dc665a888c24e1b03e724a"
+  },
+  "name": "Hari Shah",
+  "email": "harishah@gmail.com",
+  "phone_no": "9876657483",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$5yr1a7/ptgwbxgfG/QZjV.3y/vrIagq22RUlTtq.WTX3QIvzvQbAC",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65dc66a4888c24e1b03e7264"
+  },
+  "name": "Shyam Shah",
+  "email": "shyamshah@gmail.com",
+  "phone_no": "9876758439",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$5yr1a7/ptgwbxgfG/QZjV.3y/vrIagq22RUlTtq.WTX3QIvzvQbAC",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65e5b76f1712297069657980"
+  },
+  "name": "Rohit Sharma",
+  "email": "rohit@gmail.com",
+  "phone_no": "5847395743",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$5yr1a7/ptgwbxgfG/QZjV.3y/vrIagq22RUlTtq.WTX3QIvzvQbAC",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65e5b7c21712297069657986"
+  },
+  "name": "Clifford Phestos Mizushima",
+  "email": "clifford@gmail.com ",
+  "phone_no": "75843653",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$5yr1a7/ptgwbxgfG/QZjV.3y/vrIagq22RUlTtq.WTX3QIvzvQbAC",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65e5b7f5171229706965798c"
+  },
+  "name": "Rajiv Joshi",
+  "email": "rajiv@gmail.com",
+  "phone_no": "9785748439",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$5yr1a7/ptgwbxgfG/QZjV.3y/vrIagq22RUlTtq.WTX3QIvzvQbAC",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65e5b80c1712297069657992"
+  },
+  "name": "Prakash Singh",
+  "email": "prakash@gmail.com",
+  "phone_no": "9874637263",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$5yr1a7/ptgwbxgfG/QZjV.3y/vrIagq22RUlTtq.WTX3QIvzvQbAC",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65e5b8301712297069657998"
+  },
+  "name": "Kalpana Singh",
+  "email": "kalpana@gmail.com",
+  "phone_no": "9875647438",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$5yr1a7/ptgwbxgfG/QZjV.3y/vrIagq22RUlTtq.WTX3QIvzvQbAC",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65e5b849171229706965799e"
+  },
+  "name": "Nisha Singh",
+  "email": "nisha@gmail.com",
+  "phone_no": "9867564738",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$5yr1a7/ptgwbxgfG/QZjV.3y/vrIagq22RUlTtq.WTX3QIvzvQbAC",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65e5b85f17122970696579a4"
+  },
+  "name": "Laxmi Sharma",
+  "email": "laxmi@gmail,com",
+  "phone_no": "9875647382",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$5yr1a7/ptgwbxgfG/QZjV.3y/vrIagq22RUlTtq.WTX3QIvzvQbAC",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65e5b87f17122970696579aa"
+  },
+  "name": "Shankar Joshi",
+  "email": "shankar@gmail.com",
+  "phone_no": "9896748373",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$5yr1a7/ptgwbxgfG/QZjV.3y/vrIagq22RUlTtq.WTX3QIvzvQbAC",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65e5b89a17122970696579b0"
+  },
+  "name": "Ganesh Joshi",
+  "email": "ganesh@gmail.com",
+  "phone_no": "986738273",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$5yr1a7/ptgwbxgfG/QZjV.3y/vrIagq22RUlTtq.WTX3QIvzvQbAC",
   "__v": 0
 }]

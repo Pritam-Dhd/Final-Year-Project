@@ -1,0 +1,114 @@
+[{
+  "_id": {
+    "$oid": "65d4aba0ccf4144b2a0c6d0f"
+  },
+  "issue": {
+    "$oid": "65cc9d36056f2fcbc7f52881"
+  },
+  "amount": 200,
+  "status": "paid",
+  "__v": 0,
+  "paid_date": {
+    "$date": "2024-02-20T18:15:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "65d5633455c7cf300c74d0ff"
+  },
+  "issue": {
+    "$oid": "65cca58fdec058969b688e44"
+  },
+  "amount": 100,
+  "status": "paid",
+  "__v": 0,
+  "paid_date": "2024-02-21T18:15:00.000+00:00"
+},
+{
+  "_id": {
+    "$oid": "65e2e582041fc45137cbe15a"
+  },
+  "issue": {
+    "$oid": "65dc66d3888c24e1b03e72d1"
+  },
+  "amount": 300,
+  "status": "paid",
+  "__v": 0,
+  "paid_date": {
+    "$date": "2024-03-04T11:53:28.078Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "65e5b458171229706965780f"
+  },
+  "issue": {
+    "$oid": "65dc670a888c24e1b03e7325"
+  },
+  "amount": 200,
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-03-04T11:51:35.680Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec684ab43693813f8bc2f9"
+  },
+  "issue": {
+    "$oid": "65e5b8e717122970696579e7"
+  },
+  "amount": 300,
+  "status": "unpaid",
+  "paid_date": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec684bb43693813f8bc2fc"
+  },
+  "issue": {
+    "$oid": "65e5b8f31712297069657a03"
+  },
+  "amount": 200,
+  "status": "unpaid",
+  "paid_date": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec684bb43693813f8bc2ff"
+  },
+  "issue": {
+    "$oid": "65e5b91b1712297069657a1f"
+  },
+  "amount": 100,
+  "status": "unpaid",
+  "paid_date": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ec684bb43693813f8bc302"
+  },
+  "issue": {
+    "$oid": "65e5b9291712297069657a3b"
+  },
+  "amount": 300,
+  "status": "unpaid",
+  "paid_date": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65eeb7ecfa9e51133e8d8ec5"
+  },
+  "issue": {
+    "$oid": "65e5b9311712297069657a57"
+  },
+  "amount": 100,
+  "status": "unpaid",
+  "paid_date": null,
+  "__v": 0
+}]

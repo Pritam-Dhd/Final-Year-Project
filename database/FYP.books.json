@@ -30,7 +30,7 @@
   "totalBooks": 5,
   "image": "https://upload.wikimedia.org/wikipedia/en/6/6b/Harry_Potter_and_the_Philosopher%27s_Stone_Book_Cover.jpg",
   "__v": 0,
-  "availableBooks": 5
+  "availableBooks": 2
 },
 {
   "_id": {
@@ -59,7 +59,7 @@
   "publishedYear": 1998,
   "description": "The Dursleys were so mean and hideous that summer that all Harry Potter wanted was to get back to the Hogwarts School for Witchcraft and Wizardry. But just as he's packing his bags, Harry receives a warning from a strange, impish creature named Dobby who says that if Harry Potter returns to Hogwarts, disaster will strike.\n\nAnd strike it does. For in Harry's second year at Hogwarts, fresh torments and horrors arise, including an outrageously stuck-up new professor, Gilderoy Lockhart, a spirit named Moaning Myrtle who haunts the girls' bathroom, and the unwanted attentions of Ron Weasley's younger sister, Ginny.",
   "totalBooks": 4,
-  "availableBooks": 4,
+  "availableBooks": 3,
   "image": "https://m.media-amazon.com/images/I/91WqeCn-PxL._SL1500_.jpg",
   "__v": 0
 },
@@ -154,5 +154,160 @@
   "totalBooks": 5,
   "availableBooks": 5,
   "image": "https://m.media-amazon.com/images/I/51E2055ZGUL._SL1000_.jpg",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65dc5cc393ec81b87f24cf10"
+  },
+  "name": "Harry Potter and the Order of the Phoenix",
+  "authors": [
+    {
+      "$oid": "65bb0aa6cf50a1f74c3aa9eb"
+    }
+  ],
+  "genres": [
+    {
+      "$oid": "65b5fc11587a4b3dceb0bbf5"
+    }
+  ],
+  "publishers": [
+    {
+      "$oid": "65bb0aa6cf50a1f74c3aa9ee"
+    },
+    {
+      "$oid": "65bb929290644ae47cd5b06b"
+    }
+  ],
+  "ISBN": "-1",
+  "publishedYear": 2003,
+  "description": "There is a door at the end of a silent corridor. And it's haunting Harry Potter's dreams. Why else would he be waking in the middle of the night, screaming in terror? It's not just the upcoming O.W.L. exams; a new teacher with a personality like poisoned honey; a venomous, disgruntled house-elf; or even the growing threat of He-Who-Must-Not-Be-Named. Now Harry Potter is faced with the unreliability of the very government of the magical world and the impotence of the authorities at Hogwarts. Despite this (or perhaps because of it), he finds depth and strength in his friends, beyond what even he knew; boundless loyalty; and unbearable sacrifice.",
+  "totalBooks": 5,
+  "availableBooks": 5,
+  "image": "https://m.media-amazon.com/images/I/A1hhGzpHssL._SL1500_.jpg",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65dc5dfb93ec81b87f24d017"
+  },
+  "name": "Harry Potter and the Half-Blood Prince",
+  "authors": [
+    {
+      "$oid": "65bb0aa6cf50a1f74c3aa9eb"
+    }
+  ],
+  "genres": [
+    {
+      "$oid": "65b5fc11587a4b3dceb0bbf5"
+    }
+  ],
+  "publishers": [
+    {
+      "$oid": "65bb0aa6cf50a1f74c3aa9ee"
+    },
+    {
+      "$oid": "65bb929290644ae47cd5b06b"
+    }
+  ],
+  "ISBN": "0-7475-8108-8",
+  "publishedYear": 2005,
+  "description": "The war against Voldemort is not going well; even Muggle governments are noticing. Ron scans the obituary pages of the Daily Prophet, looking for familiar names. Dumbledore is absent from Hogwarts for long stretches of time, and the Order of the Phoenix has already suffered losses. And yet...\n\nAs in all wars, life goes on. Sixth-year students learn to Apparate - and lose a few eyebrows in the process. The Weasley twins expand their business. Teenagers flirt and fight and fall in love. Classes are never straightforward, though Harry receives some extraordinary help from the mysterious Half-Blood Prince.",
+  "totalBooks": 5,
+  "availableBooks": 4,
+  "image": "https://upload.wikimedia.org/wikipedia/en/b/b5/Harry_Potter_and_the_Half-Blood_Prince_cover.png",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65dc5e7f93ec81b87f24d031"
+  },
+  "name": "Harry Potter and the Deathly Hallows",
+  "authors": [
+    {
+      "$oid": "65bb0aa6cf50a1f74c3aa9eb"
+    }
+  ],
+  "genres": [
+    {
+      "$oid": "65b5fc11587a4b3dceb0bbf5"
+    }
+  ],
+  "publishers": [
+    {
+      "$oid": "65bb0aa6cf50a1f74c3aa9ee"
+    },
+    {
+      "$oid": "65bb929290644ae47cd5b06b"
+    }
+  ],
+  "ISBN": "0-7475-9105-9",
+  "publishedYear": 2007,
+  "description": "Harry has been burdened with a dark, dangerous and seemingly impossible task: that of locating and destroying Voldemort's remaining Horcruxes. Never has Harry felt so alone, or faced a future so full of shadows. But Harry must somehow find within himself the strength to complete the task he has been given. He must leave the warmth, safety and companionship of The Burrow and follow without fear or hesitation the inexorable path laid out for him...",
+  "totalBooks": 5,
+  "availableBooks": 4,
+  "image": "https://m.media-amazon.com/images/I/91VsRHjTY-L._SL1500_.jpg",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65dc626293ec81b87f24d04d"
+  },
+  "name": "Agile Principles, Patterns, and Practices in C#",
+  "authors": [
+    {
+      "$oid": "65bef6f96e0b0f702800b6de"
+    }
+  ],
+  "genres": [
+    {
+      "$oid": "65bef6f96e0b0f702800b6d9"
+    },
+    {
+      "$oid": "65dc626293ec81b87f24d049"
+    }
+  ],
+  "publishers": [
+    {
+      "$oid": "65bef6f96e0b0f702800b6e1"
+    }
+  ],
+  "ISBN": "9780131857254",
+  "publishedYear": 2006,
+  "description": "With the award-winning book Agile Software Development: Principles, Patterns, and Practices, Robert C. Martin helped bring Agile principles to tens of thousands of Java and C++ programmers. Now .NET programmers have a definitive guide to agile methods with this completely updated volume from Robert C. Martin and Micah Martin, Agile Principles, Patterns, and Practices in C#. This book presents a series of case studies illustrating the fundamentals of Agile development and Agile design, and moves quickly from UML models to real C# code. The introductory chapters lay out the basics of the agile movement, while the later chapters show proven techniques in action. The book includes many source code examples that are also available for download from the authors’ Web site. Readers will come away from this book understanding Whether you are a C# programmer or a Visual Basic or Java programmer learning C#, a software development manager, or a business analyst, Agile Principles, Patterns, and Practices in C# is the first book you should read to understand agile software and how it applies to programming in the .NET Framework.",
+  "totalBooks": 10,
+  "availableBooks": 9,
+  "image": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1348657323i/84983.jpg",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65dc62b193ec81b87f24d069"
+  },
+  "name": "UML for Java¿ Programmers",
+  "authors": [
+    {
+      "$oid": "65bef6f96e0b0f702800b6de"
+    }
+  ],
+  "genres": [
+    {
+      "$oid": "65bef6f96e0b0f702800b6d9"
+    },
+    {
+      "$oid": "65dc626293ec81b87f24d049"
+    }
+  ],
+  "publishers": [
+    {
+      "$oid": "65dc62b193ec81b87f24d067"
+    }
+  ],
+  "ISBN": "9780131428485",
+  "publishedYear": 2003,
+  "description": "The Unified Modeling Language has become the industry standard for the expression of software designs. The Java programming language continues to grow in popularity as the language of choice for the serious application developer. Using UML and Java together would appear to be a natural marriage, one that can produce considerable benefit. However, there are nuances that the seasoned developer needs to keep in mind when using UML and Java together. Software expert Robert Martin presents a concise guide, with numerous examples, that will help the programmer leverage the power of both development concepts. The author ignores features of UML that do not apply to java programmers, saving the reader time and effort. He provides direct guidance and points the reader to real-world usage scenarios. The overall practical approach of this book brings key information related to Java to the many presentations. The result is an highly practical guide to using the UML with Java.",
+  "totalBooks": 5,
+  "availableBooks": 4,
+  "image": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1348858361i/873375.jpg",
   "__v": 0
 }]

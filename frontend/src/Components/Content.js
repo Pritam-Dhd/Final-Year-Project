@@ -1,6 +1,6 @@
 import React from "react";
-import { Typography } from "@mui/material";
 import Dashboard from "../Pages/Dashboard/Dashboard";
+import StudentDashboard from "../Pages/Dashboard/StudentDashboard";
 import SeeAllUser from "../Pages/User/SeeAll";
 import SeeAllIssueBook from "../Pages/IssueBook/SeeAll";
 import SeeAllBook from "../Pages/Book/SeeAll";
@@ -20,9 +20,17 @@ const Content = ({ userRole, userData, updateUserData }) => {
   const renderContent = () => {
     switch (section) {
       case "":
-        return <Typography paragraph><Dashboard userRole={userRole}/></Typography>;
-      case "home":
-        return <Typography paragraph><Dashboard userRole={userRole}/></Typography>;
+        return (
+            <>
+                {userRole === "Librarian" ? <Dashboard userRole={userRole} /> : <StudentDashboard />}
+            </>
+        );
+    case "home":
+        return (
+            <>
+                {userRole === "Librarian" ? <Dashboard userRole={userRole} /> : <StudentDashboard />}
+            </>
+        );
       case "book":
         return <SeeAllBook userRole={userRole} />;
       case "book/*":

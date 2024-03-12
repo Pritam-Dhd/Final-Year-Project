@@ -19,6 +19,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteConfirmationDialog from "../../Components/DeleteDialog";
 import AddEdit from "../../Components/Book/AddEdit";
 import SnackBar from "../../Components/SnackBar";
+import RelatedBooks from "../../Components/Book/RelatedBooks";
 
 const Book = () => {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ const Book = () => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingBookId, setDeletingBookId] = useState(null);
+  const [relatedBooks, setRelatedBooks] = useState(null);
 
   useEffect(() => {
     axiosClient
@@ -44,6 +46,7 @@ const Book = () => {
         const data = response.data;
         setBook(data);
         setLoading(false); // Set loading to false once data is fetched
+        setRelatedBooks(data.relatedBooks);
       })
       .catch(function (error) {
         alert(error);
@@ -131,8 +134,8 @@ const Book = () => {
                 style={{ width: "100%", height: "auto" }}
               />
               {userRole === "Student" ? (
-                <Box sx={{display:"flex",justifyContent:"center"}}>
-                  {book.availableBooks>0 ? (
+                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  {book.availableBooks > 0 ? (
                     <Typography variant="body1" color="primary">
                       Available
                     </Typography>
@@ -222,7 +225,18 @@ const Book = () => {
             </Box>
           )}
         </Grid>
-      </Grid>
+        {loading ? (
+        <Grid item  xs={12} sm={12}>
+          <Skeleton variant="rectangular" width="100%" height={100} />
+        </Grid>
+      ) : (
+        <Grid item  xs={12} sm={12}>
+        
+        <RelatedBooks relatedBooks={relatedBooks} />
+        </Grid>
+      )}
+      </Grid >
+      
       {isEditOpen && (
         <Dialog open={isEditOpen} onClose={handleEditClose}>
           <AddEdit

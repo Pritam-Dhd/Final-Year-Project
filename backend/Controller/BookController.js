@@ -232,19 +232,32 @@ export const getTotalBooks = async ({ userRole }) => {
 export const getBookById = async ({ userRole, bookId }) => {
   try {
     const book = await Book.findById(bookId)
-      .populate('authors', 'name')
-      .populate('genres', 'name')
-      .populate('publishers', 'name');
+      .populate('authors', '_id name')
+      .populate('genres', '_id name')
+      .populate('publishers', '_id name');
 
     if (!book) {
       return { message: "Book not found" };
     }
+    const authors = book.authors.map(author => author._id);
+    const genres = book.genres.map(genre => genre._id);
+    const publishers = book.publishers.map(publisher => publisher._id);
+    // Find related books based on genre, author, or publisher
+    const relatedBooks = await Book.find({
+      $or: [
+        { genres: { $in: genres } },
+        { authors: { $in: authors } },
+        { publishers: { $in: publishers } }
+      ],
+      _id: { $ne: bookId } // Exclude the current book
+    }).limit(10);
 
     return {
       ...book.toObject(),
       authors: book.authors.map(author => author.name),
       genres: book.genres.map(genre => genre.name),
-      publishers: book.publishers.map(publisher => publisher.name)
+      publishers: book.publishers.map(publisher => publisher.name),
+      relatedBooks:relatedBooks
     };
   } catch (error) {
     console.log(error.message);

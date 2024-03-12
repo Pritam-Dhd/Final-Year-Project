@@ -1,83 +1,165 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography,Container } from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 import axiosClient from "../../Components/AxiosClient";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import DTable from "../../Components/DTable";
+import PieChartComponent from "../../Components/PieChartComponent";
 
 const Dashboard = ({ userRole }) => {
   const [info, setInfo] = useState({});
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [usersResponse, booksResponse, publishersResponse] =
-          await Promise.all([
-            axiosClient.get("/get-total-users", { withCredentials: true }),
-            axiosClient.get("/get-total-books", { withCredentials: true }),
-            axiosClient.get("/get-total-publishers", { withCredentials: true }),
-          ]);
-          console.log(usersResponse)
-        setInfo({
-          totalUsers: usersResponse.data.totalUsers,
-          totalBooks: booksResponse.data.totalBooks,
-          totalPublishers: publishersResponse.data.totalPublishers,
+        const response = await axiosClient.get("/dashboard-data", {
+          withCredentials: true,
         });
+        setInfo(response.data);
+        setLoading(false);
       } catch (error) {
         alert(error);
+        setLoading(false);
       }
     };
 
-    // if (userRole === "Librarian") {
-      fetchData();
-    // }
-  }, [userRole]);
+    fetchData();
+  }, []);
 
   return (
-    <Container>
-      <Box
-      container
-        sx={{
-          display: "flex",
-          alignItem:"center",
-          justifyContent: "space-between",
-          marginTop: "20px",
-        }}
-      >
-        {userRole === "Librarian" && (
-          <Box
-            sx={{
-              bgcolor: "info.main",
-              color: "info.contrastText",
-              p: 2,
-              borderRadius: 1,
-            }}
-          >
-            <Typography variant="h6">Total Users</Typography>
-            <Typography variant="h4">{info.totalUsers}</Typography>
-          </Box>
-        )}
-        <Box
-          sx={{
-            bgcolor: "success.main",
-            color: "success.contrastText",
-            p: 2,
-            borderRadius: 1,
-          }}
-        >
-          <Typography variant="h6">Total Books</Typography>
-          <Typography variant="h4">{info.totalBooks}</Typography>
+    <Grid container spacing={2}>
+      {userRole === "Librarian" && (
+        <>
+          <Grid item xs={12} md={2}>
+            <Box p={2} marginRight={2} sx={{ backgroundColor: "#CCCCCD" }}>
+              <Typography variant="h6">Total Users</Typography>
+              <Typography variant="h4">{info.totalUsers}</Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <Box p={2} marginRight={2} sx={{ backgroundColor: "#CCCCCD" }}>
+              <Typography variant="h6">Total Books</Typography>
+              <Typography variant="h4">{info.totalBooks}</Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <Box p={2} marginRight={2} sx={{ backgroundColor: "#CCCCCD" }}>
+              <Typography variant="h6">Total Authors</Typography>
+              <Typography variant="h4">{info.totalAuthors}</Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <Box p={2} marginRight={2} sx={{ backgroundColor: "#CCCCCD" }}>
+              <Typography variant="h6">Total Genres</Typography>
+              <Typography variant="h4">{info.totalGenres}</Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <Box p={2} marginRight={2} sx={{ backgroundColor: "#CCCCCD" }}>
+              <Typography variant="h6">Total Publishers</Typography>
+              <Typography variant="h4">{info.totalPublishers}</Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <Box p={2} marginRight={2} sx={{ backgroundColor: "#CCCCCD" }}>
+              <Typography variant="h6">Fines Paid This month</Typography>
+              <Typography variant="h4">
+                Rs. {info.totalFinesPaidThisMonth}
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <Box p={2} marginRight={2} sx={{ backgroundColor: "#CCCCCD" }}>
+              <Typography variant="h6">Total Not Returned</Typography>
+              <Typography variant="h4">
+                {info.totalIssuedBooksNotReturned}
+              </Typography>
+            </Box>
+          </Grid>
+        </>
+      )}
+
+      <Grid item xs={12}>
+        <Box>
+          <Typography variant="h6">Top 5 Issued Books</Typography>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart
+              data={info.topIssuedBooks}
+              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                dataKey="book"
+                angle={-16}
+                textAnchor="end"
+                interval={0}
+                tick={{ fontSize: 12 }}
+              />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="count" fill="#8884d8" />
+            </BarChart>
+          </ResponsiveContainer>
         </Box>
-        <Box
-          sx={{
-            bgcolor: "warning.main",
-            color: "warning.contrastText",
-            p: 2,
-            borderRadius: 1,
-          }}
-        >
-          <Typography variant="h6">Total Publishers</Typography>
-          <Typography variant="h4">{info.totalPublishers}</Typography>
+      </Grid>
+      {loading ? (
+        <Grid item xs={12}>
+          <Typography>Loading...</Typography>
+        </Grid>
+      ) : (
+        <>
+          {info.topStudents.length > 0 && (
+            <Grid item xs={12} md={6}>
+              <PieChartComponent
+                data={info.topStudents}
+                title="Top 5 Students with most issues"
+              />
+            </Grid>
+          )}{" "}
+          {info.topGenres.length > 0 && (
+            <Grid item xs={12} md={6}>
+              <PieChartComponent data={info.topGenres} title="Top Genres" />
+            </Grid>
+          )}
+          {info.topAuthors.length > 0 && (
+            <Grid item xs={12} md={6}>
+              <PieChartComponent data={info.topAuthors} title="Top Authors" />
+            </Grid>
+          )}
+          {info.topPublishers.length > 0 && (
+            <Grid item xs={12} md={6}>
+              <PieChartComponent
+                data={info.topPublishers}
+                title="Top Publishers"
+              />
+            </Grid>
+          )}
+        </>
+      )}
+
+      <Grid item xs={12} md={6}>
+        <Box>
+          <Typography variant="h6">Unpaid Fines</Typography>
+          <DTable columns={["user", "amount", "book"]} rows={info.fines} />
         </Box>
-      </Box>
-    </Container>
+      </Grid>
+
+      <Grid item xs={12} md={6}>
+        <Box>
+          <Typography variant="h6">One Day Overdue Issues</Typography>
+          <DTable columns={["user", "book"]} rows={info.oneDayOverdueIssues} />
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
 
