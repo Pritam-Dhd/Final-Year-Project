@@ -7,6 +7,7 @@ import {
   Grid,
   Box,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
 import AddNameForm from "../../Components/AddNameForm";
 import axiosClient from "../../Components/AxiosClient.js";
@@ -14,6 +15,7 @@ import SnackBar from "../../Components/SnackBar";
 import DeleteConfirmationDialog from "../../Components/DeleteDialog";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useNavigate } from "react-router-dom";
 
 const SeeAll = ({ userRole }) => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -24,8 +26,10 @@ const SeeAll = ({ userRole }) => {
   const [deletingAuthorId, setDeletingAuthorId] = useState(null);
   const [editingAuthorId, setEditingAuthorId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [editModalOpen, setEditModalOpen] = useState(false); 
-  const [editAuthorName, setEditAuthorName] = useState(""); 
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editAuthorName, setEditAuthorName] = useState("");
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -39,8 +43,8 @@ const SeeAll = ({ userRole }) => {
     setOpenSnackbar(false);
   };
 
-  const handleClick = () => {
-    console.info("You clicked the Chip.");
+  const handleClick = ({ name }) => {
+    navigate(`/dashboard/book/filter?filterType=author&filterValue=${name}`);
   };
 
   const handleDelete = (authorId) => {
@@ -91,9 +95,11 @@ const SeeAll = ({ userRole }) => {
         const data = response.data.Authors;
         setAuthors(data);
         console.log(data);
+        setLoading(false);
       })
       .catch(function (error) {
         alert(error);
+        setLoading(false);
       });
   }, []);
 
@@ -195,52 +201,57 @@ const SeeAll = ({ userRole }) => {
           />
         </Grid>
       </Grid>
-      <Grid
-        container
-        spacing={2}
-        sx={{ display: "flex", marginTop: "10px", justifyContent: "center" }}
-      >
-        {filteredAuthors.length > 0 ? (
-          filteredAuthors.map((author) => (
-            <Button
-              sx={{
-                border: "1px solid #ccc",
-                backgroundColor: "#CCCCCD",
-                borderRadius: "8px",
-                padding: "5px",
-                marginBottom: "10px",
-                marginRight: "8px",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Typography sx={{ padding: "5px", color: "black" }}>
-                {author.name}
-              </Typography>
-              {userRole === "Librarian" && (
-                <>
-                  <IconButton
-                    onClick={() => handleEdit(author._id)}
-                    aria-label="edit"
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    onClick={() => handleDelete(author._id)}
-                    aria-label="delete"
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </>
-              )}
-            </Button>
-          ))
-        ) : (
-          <Typography variant="body1" sx={{ marginTop: 2 }}>
-            No author
-          </Typography>
-        )}
-      </Grid>
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <Grid
+          container
+          spacing={2}
+          sx={{ display: "flex", marginTop: "10px", justifyContent: "center" }}
+        >
+          {filteredAuthors.length > 0 ? (
+            filteredAuthors.map((author) => (
+              <Button
+                sx={{
+                  border: "1px solid #ccc",
+                  backgroundColor: "#CCCCCD",
+                  borderRadius: "8px",
+                  padding: "5px",
+                  marginBottom: "10px",
+                  marginRight: "8px",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+                onClick={() => handleClick(author)}
+              >
+                <Typography sx={{ padding: "5px", color: "black" }}>
+                  {author.name}
+                </Typography>
+                {userRole === "Librarian" && (
+                  <>
+                    <IconButton
+                      onClick={() => handleEdit(author._id)}
+                      aria-label="edit"
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => handleDelete(author._id)}
+                      aria-label="delete"
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </>
+                )}
+              </Button>
+            ))
+          ) : (
+            <Typography variant="body1" sx={{ marginTop: 2 }}>
+              No author
+            </Typography>
+          )}
+        </Grid>
+      )}
       <DeleteConfirmationDialog
         open={deleteDialogOpen}
         onClose={handleCancelDelete}

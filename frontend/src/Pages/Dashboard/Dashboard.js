@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, Grid } from "@mui/material";
+import { Box, Typography, Grid, Link,CircularProgress } from "@mui/material";
 import axiosClient from "../../Components/AxiosClient";
+import { useNavigate } from "react-router-dom";
 import {
   BarChart,
   Bar,
@@ -13,11 +14,16 @@ import {
 } from "recharts";
 import DTable from "../../Components/DTable";
 import PieChartComponent from "../../Components/PieChartComponent";
+import { useUserRole } from "../../Components/UserContext";
 
-const Dashboard = ({ userRole }) => {
+const Dashboard = () => {
   const [info, setInfo] = useState({});
   const [loading, setLoading] = useState(true);
+  const { userRole } = useUserRole();
+  const navigate = useNavigate();
+
   useEffect(() => {
+    if (userRole !== "Librarian") navigate("/dashboard");
     const fetchData = async () => {
       try {
         const response = await axiosClient.get("/dashboard-data", {
@@ -38,48 +44,58 @@ const Dashboard = ({ userRole }) => {
     <Grid container spacing={2}>
       {userRole === "Librarian" && (
         <>
-          <Grid item xs={12} md={2}>
-            <Box p={2} marginRight={2} sx={{ backgroundColor: "#CCCCCD" }}>
-              <Typography variant="h6">Total Users</Typography>
-              <Typography variant="h4">{info.totalUsers}</Typography>
-            </Box>
+          <Grid item xs={6} md={2}>
+            <Link href="/dashboard/user" underline="none" color="inherit">
+              <Box p={2} marginRight={2} sx={{ backgroundColor: "#CCCCCD" }}>
+                <Typography variant="body1">Total Users</Typography>
+                <Typography variant="body2">{info.totalUsers}</Typography>
+              </Box>
+            </Link>
           </Grid>
-          <Grid item xs={12} md={2}>
-            <Box p={2} marginRight={2} sx={{ backgroundColor: "#CCCCCD" }}>
-              <Typography variant="h6">Total Books</Typography>
-              <Typography variant="h4">{info.totalBooks}</Typography>
-            </Box>
+          <Grid item xs={6} md={2}>
+            <Link href="/dashboard/book" underline="none" color="inherit">
+              <Box p={2} marginRight={2} sx={{ backgroundColor: "#CCCCCD" }}>
+                <Typography variant="body1">Total Books</Typography>
+                <Typography variant="body2">{info.totalBooks}</Typography>
+              </Box>
+            </Link>
           </Grid>
-          <Grid item xs={12} md={2}>
-            <Box p={2} marginRight={2} sx={{ backgroundColor: "#CCCCCD" }}>
-              <Typography variant="h6">Total Authors</Typography>
-              <Typography variant="h4">{info.totalAuthors}</Typography>
-            </Box>
+          <Grid item xs={6} md={2}>
+            <Link href="/dashboard/author" underline="none" color="inherit">
+              <Box p={2} marginRight={2} sx={{ backgroundColor: "#CCCCCD" }}>
+                <Typography variant="body1">Total Authors</Typography>
+                <Typography variant="body2">{info.totalAuthors}</Typography>
+              </Box>
+            </Link>
           </Grid>
-          <Grid item xs={12} md={2}>
-            <Box p={2} marginRight={2} sx={{ backgroundColor: "#CCCCCD" }}>
-              <Typography variant="h6">Total Genres</Typography>
-              <Typography variant="h4">{info.totalGenres}</Typography>
-            </Box>
+          <Grid item xs={6} md={2}>
+            <Link href="/dashboard/genre" underline="none" color="inherit">
+              <Box p={2} marginRight={2} sx={{ backgroundColor: "#CCCCCD" }}>
+                <Typography variant="body1">Total Genres</Typography>
+                <Typography variant="body2">{info.totalGenres}</Typography>
+              </Box>
+            </Link>
           </Grid>
-          <Grid item xs={12} md={2}>
-            <Box p={2} marginRight={2} sx={{ backgroundColor: "#CCCCCD" }}>
-              <Typography variant="h6">Total Publishers</Typography>
-              <Typography variant="h4">{info.totalPublishers}</Typography>
-            </Box>
+          <Grid item xs={6} md={2}>
+            <Link href="/dashboard/publisher" underline="none" color="inherit">
+              <Box p={2} marginRight={2} sx={{ backgroundColor: "#CCCCCD" }}>
+                <Typography variant="body1">Total Publishers</Typography>
+                <Typography variant="body2">{info.totalPublishers}</Typography>
+              </Box>
+            </Link>
           </Grid>
-          <Grid item xs={12} md={2}>
+          <Grid item xs={6} md={2}>
             <Box p={2} marginRight={2} sx={{ backgroundColor: "#CCCCCD" }}>
-              <Typography variant="h6">Fines Paid This month</Typography>
-              <Typography variant="h4">
+              <Typography variant="body1">Fines Paid This month</Typography>
+              <Typography variant="body2">
                 Rs. {info.totalFinesPaidThisMonth}
               </Typography>
             </Box>
           </Grid>
-          <Grid item xs={12} md={2}>
+          <Grid item xs={6} md={2}>
             <Box p={2} marginRight={2} sx={{ backgroundColor: "#CCCCCD" }}>
-              <Typography variant="h6">Total Not Returned</Typography>
-              <Typography variant="h4">
+              <Typography variant="body1">Total Not Returned</Typography>
+              <Typography variant="body2">
                 {info.totalIssuedBooksNotReturned}
               </Typography>
             </Box>
@@ -113,7 +129,7 @@ const Dashboard = ({ userRole }) => {
       </Grid>
       {loading ? (
         <Grid item xs={12}>
-          <Typography>Loading...</Typography>
+          <Typography>Loading...</Typography><CircularProgress />
         </Grid>
       ) : (
         <>

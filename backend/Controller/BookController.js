@@ -266,3 +266,43 @@ export const getBookById = async ({ userRole, bookId }) => {
     };
   }
 };
+
+export const filterBooks = async ({ userRole, filterType, filterValue }) => {
+  try {
+    let Books = await Book.find()
+      .populate('authors', 'name')
+      .populate('genres', 'name')
+      .populate('publishers', 'name');
+
+    Books = Books.map(book => {
+      return {
+        ...book.toObject(),
+        authors: book.authors.map(author => author.name),
+        genres: book.genres.map(genre => genre.name),
+        publishers: book.publishers.map(publisher => publisher.name)
+      };
+    });
+    if (filterType && filterValue) {
+      Books = Books.filter(book => {
+        switch (filterType) {
+          case 'author':
+            return book.authors.includes(filterValue);
+          case 'genre':
+            return book.genres.includes(filterValue);
+          case 'publisher':
+            return book.publishers.includes(filterValue);
+          default:
+            return false;
+        }
+      });
+    }
+    return{
+      Books
+    }
+  } catch (error) {
+    console.log(error.message);
+    return {
+      message: "Error getting books ",
+    };
+  }
+};

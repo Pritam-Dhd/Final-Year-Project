@@ -6,7 +6,7 @@ const issueSchema = new mongoose.Schema({
   issueDate: { type: Date, required: true },
   dueDate: { type: Date, required: true },
   returnedDate: { type: Date },
-  status: { type: String, enum: ['Returned', 'Not Returned'],required: true },
+  status: { type: String, enum: ['Returned', 'Not Returned','Lost'],required: true },
 });
 
 const Issue = mongoose.model("issues", issueSchema);

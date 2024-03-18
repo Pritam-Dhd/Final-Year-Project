@@ -48,7 +48,7 @@ const SeeAll = () => {
       width: 100,
       renderCell: (params) => (
         <div>
-          {params.row.status !== "Returned" && (
+          {params.row.status === "Not Returned" && (
             <IconButton
               color="primary"
               onClick={() => handleEditClick(params.row.id)}

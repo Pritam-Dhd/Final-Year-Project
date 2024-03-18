@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, Link, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axiosClient from "../../Components/AxiosClient.js";
 import {
   Container,
@@ -7,10 +7,10 @@ import {
   Typography,
   Skeleton,
   Box,
-  //   Link,
   Breadcrumbs,
   IconButton,
   Chip,
+  Link,
   Dialog,
 } from "@mui/material";
 import { useUserRole } from "../../Components/UserContext";
@@ -200,7 +200,7 @@ const Book = () => {
               </Typography>
               {book.genres.map((genre, index) => (
                 <Link
-                  to={`/dashboard/genre/${genre}`}
+                  href={`/dashboard/book/filter?filterType=genre&filterValue=${genre}`}
                   style={{ textDecoration: "none", color: "#002575" }}
                 >
                   <Chip key={index} label={genre} style={{ margin: "4px" }} />
@@ -209,34 +209,37 @@ const Book = () => {
               <Typography gutterBottom variant="h6" component="div">
                 <span style={{ fontWeight: "bold" }}>Authors: </span>
               </Typography>
-              {book?.authors.map((author) => (
-                <Typography gutterBottom variant="h6" component="div">
-                  {author}
-                </Typography>
+              {book.authors.map((author) => (
+                <Link href={`/dashboard/book/filter?filterType=genre&filterValue=${author}`} underline="none" color="inherit">
+                  <Typography gutterBottom variant="h6" component="div">
+                    {author}
+                  </Typography>
+                </Link>
               ))}
               <Typography gutterBottom variant="h6" component="div">
                 <span style={{ fontWeight: "bold" }}>Publishers: </span>
               </Typography>
-              {book?.publishers.map((publisher) => (
-                <Typography gutterBottom variant="h6" component="div">
-                  {publisher}
-                </Typography>
+              {book.publishers.map((publisher) => (
+                <Link href={`/dashboard/book/filter?filterType=genre&filterValue=${publisher}`} underline="none" color="inherit">
+                  <Typography gutterBottom variant="h6" component="div">
+                    {publisher}
+                  </Typography>
+                </Link>
               ))}
             </Box>
           )}
         </Grid>
         {loading ? (
-        <Grid item  xs={12} sm={12}>
-          <Skeleton variant="rectangular" width="100%" height={100} />
-        </Grid>
-      ) : (
-        <Grid item  xs={12} sm={12}>
-        
-        <RelatedBooks relatedBooks={relatedBooks} />
-        </Grid>
-      )}
-      </Grid >
-      
+          <Grid item xs={12} sm={12}>
+            <Skeleton variant="rectangular" width="100%" height={100} />
+          </Grid>
+        ) : (
+          <Grid item xs={12} sm={12}>
+            <RelatedBooks relatedBooks={relatedBooks} />
+          </Grid>
+        )}
+      </Grid>
+
       {isEditOpen && (
         <Dialog open={isEditOpen} onClose={handleEditClose}>
           <AddEdit

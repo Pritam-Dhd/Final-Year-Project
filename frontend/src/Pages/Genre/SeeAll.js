@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Dialog,
@@ -7,6 +8,7 @@ import {
   Grid,
   Box,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
 import AddNameForm from "../../Components/AddNameForm";
 import axiosClient from "../../Components/AxiosClient.js";
@@ -26,6 +28,8 @@ const SeeAll = ({ userRole }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [editModalOpen, setEditModalOpen] = useState(false); // State for edit modal
   const [editGenreName, setEditGenreName] = useState(""); // State to store edited genre name
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -39,8 +43,8 @@ const SeeAll = ({ userRole }) => {
     setOpenSnackbar(false);
   };
 
-  const handleClick = () => {
-    console.info("You clicked the Chip.");
+  const handleClick = ({ name }) => {
+    navigate(`/dashboard/book/filter?filterType=genre&filterValue=${name}`);
   };
 
   const handleDelete = (genreId) => {
@@ -91,9 +95,11 @@ const SeeAll = ({ userRole }) => {
         const data = response.data.Genres;
         setGenres(data);
         console.log(data);
+        setLoading(false);
       })
       .catch(function (error) {
         alert(error);
+        setLoading(false)
       });
   }, []);
 
@@ -184,7 +190,7 @@ const SeeAll = ({ userRole }) => {
           </Grid>
         )}
 
-        <Grid item xs={12} sm={6} md={6} lg={6}>
+        <Grid item xs={12} sm={6} md={6} lg={6} marginBottom={2}>
           <TextField
             label="Search"
             variant="outlined"
@@ -193,52 +199,57 @@ const SeeAll = ({ userRole }) => {
           />
         </Grid>
       </Grid>
-      <Grid
-        container
-        spacing={2}
-        sx={{ display: "flex", marginTop: "10px", justifyContent: "center" }}
-      >
-        {filteredGenres.length > 0 ? (
-          filteredGenres.map((genre) => (
-            <Button
-              sx={{
-                border: "1px solid #ccc",
-                backgroundColor: "#CCCCCD",
-                borderRadius: "8px",
-                padding: "5px",
-                marginBottom: "10px",
-                marginRight: "8px",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Typography sx={{ padding: "5px", color: "black" }}>
-                {genre.name}
-              </Typography>
-              {userRole === "Librarian" && (
-                <>
-                  <IconButton
-                    onClick={() => handleEdit(genre._id)}
-                    aria-label="edit"
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    onClick={() => handleDelete(genre._id)}
-                    aria-label="delete"
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </>
-              )}
-            </Button>
-          ))
-        ) : (
-          <Typography variant="body1" sx={{ marginTop: 2 }}>
-            No genre
-          </Typography>
-        )}
-      </Grid>
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <Grid
+          container
+          spacing={2}
+          sx={{ display: "flex", marginTop: "10px", justifyContent: "center" }}
+        >
+          {filteredGenres.length > 0 ? (
+            filteredGenres.map((genre) => (
+              <Button
+                sx={{
+                  border: "1px solid #ccc",
+                  backgroundColor: "#CCCCCD",
+                  borderRadius: "8px",
+                  padding: "5px",
+                  marginBottom: "10px",
+                  marginRight: "8px",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+                onClick={() => handleClick(genre)}
+              >
+                <Typography sx={{ padding: "5px", color: "black" }}>
+                  {genre.name}
+                </Typography>
+                {userRole === "Librarian" && (
+                  <>
+                    <IconButton
+                      onClick={() => handleEdit(genre._id)}
+                      aria-label="edit"
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => handleDelete(genre._id)}
+                      aria-label="delete"
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </>
+                )}
+              </Button>
+            ))
+          ) : (
+            <Typography variant="body1" sx={{ marginTop: 2 }}>
+              No genre
+            </Typography>
+          )}
+        </Grid>
+      )}
       <DeleteConfirmationDialog
         open={deleteDialogOpen}
         onClose={handleCancelDelete}

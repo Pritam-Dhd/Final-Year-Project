@@ -5,11 +5,14 @@ import SeeAllUser from "../Pages/User/SeeAll";
 import SeeAllIssueBook from "../Pages/IssueBook/SeeAll";
 import SeeAllBook from "../Pages/Book/SeeAll";
 import Book from "../Pages/Book/Book";
+import FilterBook from "../Pages/Book/FilterBook";
 import SeeAllGenre from "../Pages/Genre/SeeAll";
 import SeeAllAuthor from "../Pages/Author/SeeAll";
 import SeeAllPublisher from "../Pages/Publisher/SeeAll";
 import SeeAllFine from "../Pages/Fine/SeeAll";
 import Profile from "../Pages/User/Profile";
+import StudentRequest from "../Pages/Request/StudentRequest";
+import LibrarianRequest from "../Pages/Request/LibrarianRequest";
 import PageNotFound from "../Pages/PageNotFound";
 import { useParams } from "react-router-dom";
 
@@ -55,10 +58,20 @@ const Content = ({ userRole, userData, updateUserData }) => {
         ) : (
           "Only Librarian has access"
         );
+      case "request":
+        return (
+          <>
+              {userRole === "Librarian" ? <LibrarianRequest userRole={userRole} /> : <StudentRequest />}
+          </>
+      );
       case "profile":
         return <Profile userData={userData} updateUserData={updateUserData} />;
       default:
-        if (section.startsWith("book/")) {
+        if (section.startsWith("book/filter")) {
+          // Match any route starting with "book/"
+          return <FilterBook userRole={userRole} />;
+        }
+        else if (section.startsWith("book/")) {
           // Match any route starting with "book/"
           return <Book userRole={userRole} />;
         } else {

@@ -7,8 +7,9 @@ import User from "../Schema/UserSchema.js";
 import Fine from "../Schema/FineSchema.js";
 import { startOfMonth, endOfMonth, addDays } from "date-fns";
 
-export const dashboardData = async ({ userRole }) => {
+export const dashboardData = async ({ userRole, userId }) => {
   try {
+    let dashboardInfo;
     const currentMonth = new Date();
     const startOfMonthDate = startOfMonth(currentMonth);
     const endOfMonthDate = endOfMonth(currentMonth);
@@ -92,7 +93,7 @@ export const dashboardData = async ({ userRole }) => {
     ]);
 
     const nowDate = new Date();
-    nowDate.setDate(nowDate.getDate() + 1);
+    nowDate.setDate(nowDate.getDate() );
     nowDate.setHours(0, 0, 0, 0);
     const dayAfterTomorrow = new Date(nowDate);
     dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
@@ -138,8 +139,8 @@ export const dashboardData = async ({ userRole }) => {
       },
     ]);
 
-     // Calculate total issue count
-     const totalIssues = await Issue.countDocuments();
+    // Calculate total issue count
+    const totalIssues = await Issue.countDocuments();
 
     const topGenres = await Genre.aggregate([
       {
@@ -167,8 +168,6 @@ export const dashboardData = async ({ userRole }) => {
       { $sort: { issueCount: -1 } },
       { $limit: 5 },
     ]);
-
-   
 
     // Calculate percentage for each top genre
     const genrePercentages = topGenres.map((genre) => ({
@@ -202,8 +201,6 @@ export const dashboardData = async ({ userRole }) => {
       { $sort: { issueCount: -1 } },
       { $limit: 5 },
     ]);
-
-   
 
     // Calculate percentage for each top author
     const authorPercentages = topAuthors.map((author) => ({
@@ -246,10 +243,15 @@ export const dashboardData = async ({ userRole }) => {
 
     const topStudents = await Issue.aggregate([
       {
+        $match: {
+          issueDate: { $gte: startOfMonthDate, $lte: endOfMonthDate },
+        },
+      },
+      {
         $group: {
           _id: "$user",
-          total: { $sum: 1 }
-        }
+          total: { $sum: 1 },
+        },
       },
       { $sort: { total: -1 } },
       { $limit: 5 },
@@ -258,41 +260,141 @@ export const dashboardData = async ({ userRole }) => {
           from: "users",
           localField: "_id",
           foreignField: "_id",
-          as: "userDetails"
-        }
+          as: "userDetails",
+        },
       },
       { $unwind: "$userDetails" },
       {
         $project: {
           _id: 0,
           name: "$userDetails.name",
-          total: 1
+          total: 1,
+        },
+      },
+    ]);
+
+    
+    // Find issued books for the current student
+    const issuedBooks= await Issue.aggregate([
+      {
+        $match: {
+          user:userId,
+          status: "Not Returned",
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "user",
+          foreignField: "_id",
+          as: "userDetails",
+        },
+      },
+      { $unwind: "$userDetails" },
+      {
+        $lookup: {
+          from: "books",
+          localField: "book",
+          foreignField: "_id",
+          as: "bookDetails",
+        },
+      },
+      { $unwind: "$bookDetails" },
+      {
+        $project: {
+          _id: 0,
+          name: "$userDetails.name",
+          book: "$bookDetails.name",
+          issueDate:"$issueDate",
+          dueDate:"$dueDate"
+        },
+      },
+    ]);
+
+    // Find fines for the current student
+    const studentFines = await Fine.aggregate([
+      {
+        $match: {
+          status: "unpaid"
+        }
+      },
+      {
+        $lookup: {
+          from: "issues",
+          localField: "issue",
+          foreignField: "_id",
+          as: "issue"
+        }
+      },
+      {
+        $unwind: "$issue"
+      },
+      
+      {
+        $match: {
+          "issue.user": userId
         }
       }
     ]);
+    
+    const topPopularBooks = await Issue.aggregate([
+      { $group: { _id: "$book", count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+      { $limit: 8 },
+      {
+        $lookup: {
+          from: "books",
+          localField: "_id",
+          foreignField: "_id",
+          as: "bookDetails",
+        },
+      },
+      { $unwind: "$bookDetails" },
+      { $project: { _id: 1, name: "$bookDetails.name",image:"$bookDetails.image" ,count: 1 } },
+    ]);
 
-    const dashboardInfo = {
-      totalBooks,
-      totalGenres,
-      totalAuthors,
-      totalPublishers,
-      totalUsers,
-      topIssuedBooks,
-      totalIssuedBooksNotReturned,
-      totalFinesPaidThisMonth:
-        totalFinesPaidThisMonth.length > 0
-          ? totalFinesPaidThisMonth[0].totalPaid
-          : 0,
-      fines,
-      oneDayOverdueIssues,
-      topGenres: genrePercentages,
-      topAuthors: authorPercentages,
-      topPublishers: publisherPercentages,
-      topStudents
-    };
+    if (userRole === "Librarian") {
+      dashboardInfo = {
+        totalBooks,
+        totalGenres,
+        totalAuthors,
+        totalPublishers,
+        totalUsers,
+        topIssuedBooks,
+        totalIssuedBooksNotReturned,
+        totalFinesPaidThisMonth:
+          totalFinesPaidThisMonth.length > 0
+            ? totalFinesPaidThisMonth[0].totalPaid
+            : 0,
+        fines,
+        oneDayOverdueIssues,
+        topGenres: genrePercentages,
+        topAuthors: authorPercentages,
+        topPublishers: publisherPercentages,
+        topStudents,
+      };
+    } else {
+      dashboardInfo = {
+        totalBooks,
+        totalGenres,
+        totalAuthors,
+        totalPublishers,
+        issuedBooks,
+        studentFines,
+        topPopularBooks,
+      };
+    }
 
     return dashboardInfo;
   } catch (error) {
     throw new Error(`Error fetching dashboard data: ${error.message}`);
+  }
+};
+
+export const studentDashboardData = async ({ userRole, userId }) => {
+  try {
+    // Find top 8 popular books based on the number of issues
+  } catch (err) {
+    console.log(err);
   }
 };

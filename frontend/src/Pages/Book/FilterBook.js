@@ -11,26 +11,33 @@ import {
   TextField,
   Button,
   Dialog,
-  CircularProgress
+  CircularProgress,
 } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import SnackBar from "../../Components/SnackBar";
-import AddEdit from "../../Components/Book/AddEdit";
 import BookCard from "../../Components/Book/BookCard";
+import { useUserRole } from "../../Components/UserContext";
 
-const SeeAll = ({ userRole }) => {
+const FilterBook = () => {
   const [books, setBooks] = useState([]);
-  const [openAddEditDialog, setOpenAddEditDialog] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10); 
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const { userRole } = useUserRole();
+  const queryParams = new URLSearchParams(window.location.search);
+  const filterType = queryParams.get("filterType");
+  const filterValue1 = queryParams.get("filterValue");
+  const filterValue = decodeURI(filterValue1);
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
     axiosClient
-      .get("/get-all-books", { withCredentials: true })
+      .get(
+        `/filter-books?filterType=${filterType}&filterValue=${filterValue}`,
+        { withCredentials: true }
+      )
       .then(function (response) {
         const data = response.data.Books;
         setBooks(data);
@@ -41,24 +48,6 @@ const SeeAll = ({ userRole }) => {
         setLoading(false);
       });
   }, []);
-
-  const handleSuccessMessage = (message) => {
-    setSnackbarMessage(message);
-    setOpenSnackbar(true);
-  };
-
-  const handleOpenAddEditDialog = () => {
-    setOpenAddEditDialog(true);
-  };
-
-  const handleCloseAddEditDialog = () => {
-    setOpenAddEditDialog(false);
-  };
-
-  const handleSuccessCloseAddEditDialog = (newBook) => {
-    setOpenAddEditDialog(false);
-    setBooks((prevBooks) => [...prevBooks, newBook]);
-  };
 
   const handleBookDelete = (id) => {
     // Remove the deleted book from the list
@@ -92,25 +81,7 @@ const SeeAll = ({ userRole }) => {
 
   return (
     <Grid container>
-      <Grid container spacing={2} alignItems="center" marginBottom={"10px"}>
-        {userRole === "Librarian" && (
-          <Grid item xs={12} sm={6} md={3} lg={3} sx={{ marginBottom: "8px" }}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleOpenAddEditDialog}
-            >
-              Add Book
-            </Button>
-            <Dialog open={openAddEditDialog} onClose={handleCloseAddEditDialog}>
-              <AddEdit
-                onSuccess={handleSuccessCloseAddEditDialog}
-                successMessage={handleSuccessMessage}
-              />
-            </Dialog>
-          </Grid>
-        )}
-        <Grid item xs={12} sm={6} md={6} lg={6}>
+      <Grid item xs={12} sm={6} md={6} lg={6} marginBottom={3}>
           <TextField
             label="Search"
             variant="outlined"
@@ -118,45 +89,54 @@ const SeeAll = ({ userRole }) => {
             value={searchTerm}
           />
         </Grid>
-      </Grid>
-      
-        {loading ? (
+      {loading ? (
           <CircularProgress />
       ) : (
+      <>
+      {currentItems.length > 0 ? (
         <>
-        <Grid
-        container
-        spacing={3}
-        sx={{ display: "flex"}}
-      >
-        {currentItems.map((book, index) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-            <BookCard
-              bookDetail={book}
-              userRole={userRole}
-              onDelete={handleBookDelete}
-            />
+          <Grid container spacing={3} sx={{ display: "flex" }}>
+            {currentItems.map((book, index) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+                <BookCard
+                  bookDetail={book}
+                  userRole={userRole}
+                  onDelete={handleBookDelete}
+                />
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
-      <Box sx={{ mt: 4, display: "flex", justifyContent: "center", width: "100%" }}>
-        <Pagination
-          showFirstButton
-          showLastButton
-          count={Math.ceil(filteredBooks.length / itemsPerPage)}
-          page={currentPage}
-          onChange={(event, page) => paginate(page)}
-          color="primary"
-        />
-      </Box>
-      </>)}
+          <Box
+            sx={{
+              mt: 4,
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+            }}
+          >
+            <Pagination
+              showFirstButton
+              showLastButton
+              count={Math.ceil(filteredBooks.length / itemsPerPage)}
+              page={currentPage}
+              onChange={(event, page) => paginate(page)}
+              color="primary"
+            />
+          </Box>
+        </>
+      ) : (
+        <Typography variant="h5" align="center" mt={4}>
+          No Books of this {filterType}
+        </Typography>
+      )}
       <SnackBar
         open={openSnackbar}
         message={snackbarMessage}
         onClose={handleSnackbarClose}
       />
+      </>)}
     </Grid>
   );
 };
 
-export default SeeAll;
+export default FilterBook;

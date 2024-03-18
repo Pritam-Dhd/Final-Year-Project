@@ -7,6 +7,7 @@ import {
   Grid,
   Box,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
 import AddNameForm from "../../Components/AddNameForm";
 import axiosClient from "../../Components/AxiosClient.js";
@@ -14,6 +15,7 @@ import SnackBar from "../../Components/SnackBar";
 import DeleteConfirmationDialog from "../../Components/DeleteDialog";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useNavigate } from "react-router-dom";
 
 const SeeAll = ({ userRole }) => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -26,6 +28,8 @@ const SeeAll = ({ userRole }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [editModalOpen, setEditModalOpen] = useState(false); // State for edit modal
   const [editPublisherName, setEditPublisherName] = useState(""); // State to store edited publisher name
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -39,8 +43,8 @@ const SeeAll = ({ userRole }) => {
     setOpenSnackbar(false);
   };
 
-  const handleClick = () => {
-    console.info("You clicked the Chip.");
+  const handleClick = ({ name }) => {
+    navigate(`/dashboard/book/filter?filterType=publisher&filterValue=${name}`);
   };
 
   const handleDelete = (publisherId) => {
@@ -97,9 +101,11 @@ const SeeAll = ({ userRole }) => {
         const data = response.data.Publishers;
         setPublishers(data);
         console.log(data);
+        setLoading(false);
       })
       .catch(function (error) {
         alert(error);
+        setLoading(false);
       });
   }, []);
 
@@ -201,52 +207,57 @@ const SeeAll = ({ userRole }) => {
           />
         </Grid>
       </Grid>
-      <Grid
-        container
-        spacing={2}
-        sx={{ display: "flex", marginTop: "10px", justifyContent: "center" }}
-      >
-        {filteredPublishers.length > 0 ? (
-          filteredPublishers.map((publisher) => (
-            <Button
-              sx={{
-                border: "1px solid #ccc",
-                backgroundColor: "#CCCCCD",
-                borderRadius: "8px",
-                padding: "5px",
-                marginBottom: "10px",
-                marginRight: "8px",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Typography sx={{ padding: "5px", color: "black" }}>
-                {publisher.name}
-              </Typography>
-              {userRole === "Librarian" && (
-                <>
-                  <IconButton
-                    onClick={() => handleEdit(publisher._id)}
-                    aria-label="edit"
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    onClick={() => handleDelete(publisher._id)}
-                    aria-label="delete"
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </>
-              )}
-            </Button>
-          ))
-        ) : (
-          <Typography variant="body1" sx={{ marginTop: 2 }}>
-            No publisher
-          </Typography>
-        )}
-      </Grid>
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <Grid
+          container
+          spacing={2}
+          sx={{ display: "flex", marginTop: "10px", justifyContent: "center" }}
+        >
+          {filteredPublishers.length > 0 ? (
+            filteredPublishers.map((publisher) => (
+              <Button
+                sx={{
+                  border: "1px solid #ccc",
+                  backgroundColor: "#CCCCCD",
+                  borderRadius: "8px",
+                  padding: "5px",
+                  marginBottom: "10px",
+                  marginRight: "8px",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+                onClick={() => handleClick(publisher)}
+              >
+                <Typography sx={{ padding: "5px", color: "black" }}>
+                  {publisher.name}
+                </Typography>
+                {userRole === "Librarian" && (
+                  <>
+                    <IconButton
+                      onClick={() => handleEdit(publisher._id)}
+                      aria-label="edit"
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => handleDelete(publisher._id)}
+                      aria-label="delete"
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </>
+                )}
+              </Button>
+            ))
+          ) : (
+            <Typography variant="body1" sx={{ marginTop: 2 }}>
+              No publisher
+            </Typography>
+          )}
+        </Grid>
+      )}
       <DeleteConfirmationDialog
         open={deleteDialogOpen}
         onClose={handleCancelDelete}
