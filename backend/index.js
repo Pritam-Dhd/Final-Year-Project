@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
-import AdminJSExpress from "@adminjs/express";
-import adminJs from "./Admin.js";
+// import AdminJSExpress from "@adminjs/express";
+// import adminJs from "./Admin.js";
 import { UserSeeder } from "./Seeder/UserSeeder.js";
 import { RoleSeeder } from "./Seeder/RoleSeeder.js";
 import cors from "cors";
@@ -14,6 +14,7 @@ import IssueRoute from "./Routes/Issue.js";
 import FineRoute from "./Routes/Fine.js";
 import EsewaRoute from "./Routes/Esewa.js";
 import DashboardRoute from "./Routes/Dashboard.js";
+import ReportRoute from "./Routes/Report.js";
 import cookieParser from "cookie-parser";
 import { dirname } from "path";
 import path from "path";
@@ -52,7 +53,8 @@ app.use(
   IssueRoute,
   FineRoute,
   EsewaRoute,
-  DashboardRoute
+  DashboardRoute,
+  ReportRoute
 );
 
 const __filename = fileURLToPath(import.meta.url);

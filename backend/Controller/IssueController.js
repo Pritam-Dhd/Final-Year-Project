@@ -1,7 +1,7 @@
 import Issue from "../Schema/IssueSchema.js";
 import Book from "../Schema/BookSchema.js";
 import User from "../Schema/UserSchema.js";
-
+import Fine from "../Schema/FineSchema.js";
 
 export const addIssue = async ({ data, userRole }) => {
   try {
@@ -110,7 +110,7 @@ export const editIssue = async ({ data, userRole }) => {
   } catch (error) {
     console.error(error.message);
     return {
-      message: "Error adding issue",
+      message: "Error editing issue",
     };
   }
 };
@@ -209,6 +209,52 @@ export const getTotalIssue = async ({ userRole }) => {
     console.log(error.message);
     return {
       message: "Error getting the total issues",
+    };
+  }
+};
+
+export const lostBook = async ({ data, userRole }) => {
+  try {
+    // Check if the user has the "Librarian" role
+    if (userRole !== "Librarian") {
+      return {
+        message: "Only admin can access this",
+      };
+    }
+
+    // Check if the data is empty or if name is missing
+    if (!data || !data._id || !data.amount) {
+      return {
+        message: "Fill the amount",
+      };
+    }
+
+    const issue = await Issue.findById(data._id);
+    if (!issue) {
+      return {
+        message: "Issue Not found",
+      };
+    }
+
+    const result = await Issue.findByIdAndUpdate(data._id, {
+      status: "Lost",
+    });
+
+    if (issue.status === "Not Returned") {
+      await Book.findByIdAndUpdate(issue.book, { $inc: { totalBooks: -1 } });
+    }
+    const fine = await Fine.create({
+      issue: data._id,
+      amount: data.amount,
+      reason: "Lost",
+    });
+    return {
+      message: "Book lost data added successfully",
+    };
+  } catch (error) {
+    console.error(error.message);
+    return {
+      message: "Error editing issue",
     };
   }
 };

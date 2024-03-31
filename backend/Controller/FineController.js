@@ -27,7 +27,6 @@ export const addFines = async () => {
     const today = new Date();
     // Set time component of 'today' to start of day
     today.setHours(0, 0, 0, 0);
-
     const overdueIssues = await Issue.find({
       dueDate: { $lt: today },
       status: "Not Returned",
@@ -37,7 +36,7 @@ export const addFines = async () => {
       const amount = calculateFine(issue.dueDate);
 
       // Check if a fine already exists for this issue
-      const existingFine = await Fine.findOne({ issue: issue._id });
+      const existingFine = await Fine.findOne({ issue: issue._id, reason:'Overdue'});
 
       if (existingFine) {
         // Update existing fine
@@ -47,7 +46,8 @@ export const addFines = async () => {
         await Fine.create({
           issue: issue._id,
           amount,
-          paid_date: ''
+          paid_date: '',
+          reason:'Overdue'
         });
       }
     }

@@ -1,4 +1,12 @@
-import { addIssue, editIssue, deleteIssue, getAllIssues, getTotalIssue, getIssueByUser } from "../Controller/IssueController.js";
+import {
+  addIssue,
+  editIssue,
+  deleteIssue,
+  getAllIssues,
+  getTotalIssue,
+  getIssueByUser,
+  lostBook,
+} from "../Controller/IssueController.js";
 import { checkAuth } from "../Middleware/CheckAuth.js";
 import express from "express";
 
@@ -57,15 +65,26 @@ router.get("/get-total-issues", checkAuth, async (req, res) => {
   }
 });
 
-  router.get("/get-issue-by-user/:userId", checkAuth, async (req, res) => {
-    const userId = req.params.userId;
-    try {
-      const message = await getIssueByUser({ userId, userRole: req.userRole });
-      res.send(message);
-    } catch (error) {
-      res.send("Error getting issue by user" + error.message);
-      console.log(error);
-    }
-  });
+router.get("/get-issue-by-user/:userId", checkAuth, async (req, res) => {
+  const userId = req.params.userId;
+  try {
+    const message = await getIssueByUser({ userId, userRole: req.userRole });
+    res.send(message);
+  } catch (error) {
+    res.send("Error getting issue by user" + error.message);
+    console.log(error);
+  }
+});
+
+router.post("/book-lost", checkAuth, async (req, res) => {
+  const data = req.body;
+  try {
+    const message = await lostBook({ data, userRole: req.userRole });
+    res.send(message);
+  } catch (error) {
+    res.send("Error editing issue" + error.message);
+    console.log(error);
+  }
+});
 
 export default router;

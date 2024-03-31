@@ -22,24 +22,18 @@ import {
   Business as PublisherIcon,
   LibraryAdd as IssueIcon,
   AttachMoney as FineIcon,
-  LocalLibrary as RequestIcon
+  LocalLibrary as RequestIcon,
+  Assessment as ReportIcon,
 } from "@mui/icons-material";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 
 const SidebarList = ({ text, open, dropdown }) => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const handleTextClick = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
-
-  const dropdownItems =
-    dropdown &&
-    dropdown.map((item, index) => (
-      <Collapse key={item} in={dropdownOpen} timeout="auto" unmountOnExit>
+  return (
+    <List>
+      <ListItem key={text} disablePadding sx={{ display: "block" }}>
         <Link
-          to={`/dashboard/${item.toLowerCase().replace(/\s+/g, "-")}`}
+          to={`/dashboard/${text.toLowerCase().replace(/\s+/g, "-")}`}
           style={{ textDecoration: "none", color: "white" }}
         >
           <ListItemButton
@@ -48,41 +42,6 @@ const SidebarList = ({ text, open, dropdown }) => {
               justifyContent: open ? "initial" : "center",
               px: 2.5,
             }}
-          >
-            <ListItemIcon
-              sx={{
-                minWidth: 0,
-                mr: open ? 3 : "auto",
-                justifyContent: "center",
-                color: "white",
-                paddingLeft: 2,
-              }}
-            >
-              {item === "Add User" || item === "Add Book" ? (
-                <AddBoxIcon />
-              ) : item === "All Users" ? (
-                <PersonIcon />
-              ) : (
-                <MailIcon />
-              )}
-            </ListItemIcon>
-            <ListItemText primary={item} sx={{ opacity: open ? 1 : 0 }} />
-          </ListItemButton>
-        </Link>
-      </Collapse>
-    ));
-
-  return (
-    <List>
-      <ListItem key={text} disablePadding sx={{ display: "block" }}>
-        {dropdown ? (
-          <ListItemButton
-            sx={{
-              minHeight: 48,
-              justifyContent: open ? "initial" : "center",
-              px: 2.5,
-            }}
-            onClick={handleTextClick}
           >
             <ListItemIcon
               sx={{
@@ -108,66 +67,18 @@ const SidebarList = ({ text, open, dropdown }) => {
                 <IssueIcon />
               ) : text === "Fine" ? (
                 <FineIcon />
-              ) : text === "Request" ? (
+              ) :text === "Report" ? (
+                <ReportIcon />
+              ) :  text === "Request" ? (
                 <RequestIcon />
               ) : (
                 <MailIcon />
               )}
             </ListItemIcon>
             <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-            <IconButton sx={{ color: "white" }} onClick={handleTextClick}>
-              {dropdownOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-            </IconButton>
           </ListItemButton>
-        ) : (
-          <Link
-            to={`/dashboard/${text.toLowerCase().replace(/\s+/g, "-")}`}
-            style={{ textDecoration: "none", color: "white" }}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                  color: "white",
-                }}
-              >
-                {text === "Home" ? (
-                  <HomeIcon />
-                ) : text === "Book" ? (
-                  <BookIcon />
-                ) : text === "User" ? (
-                  <PersonIcon />
-                ) : text === "Genre" ? (
-                  <GenreIcon />
-                ) : text === "Author" ? (
-                  <AuthorIcon />
-                ) : text === "Publisher" ? (
-                  <PublisherIcon />
-                ) : text === "Issue" ? (
-                  <IssueIcon />
-                ) : text === "Fine" ? (
-                  <FineIcon />
-                ) : text === "Request" ? (
-                  <RequestIcon />
-                ) : (
-                  <MailIcon />
-                )}
-              </ListItemIcon>
-              <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </Link>
-        )}
+        </Link>
       </ListItem>
-
-      {dropdownItems}
     </List>
   );
 };

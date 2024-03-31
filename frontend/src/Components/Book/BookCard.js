@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  Box,
   Card,
   CardContent,
   CardMedia,
@@ -84,7 +85,7 @@ const BookCard = ({ bookDetail, userRole, onDelete }) => {
 
   return (
     <>
-      <Card sx={{ width: "auto" }}>
+      <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
         <Link
           to={`/dashboard/book/${currentBookDetail.name}/${currentBookDetail._id}`}
           style={{ textDecoration: "none", color: "black" }}
@@ -100,7 +101,6 @@ const BookCard = ({ bookDetail, userRole, onDelete }) => {
               <Typography gutterBottom variant="body1" component="div">
                 {currentBookDetail.name}
               </Typography>
-              
               {userRole === "Student" ? (
                 <Typography gutterBottom variant="subtitle2" component="div">
                   {currentBookDetail.availableBooks > 0
@@ -115,31 +115,24 @@ const BookCard = ({ bookDetail, userRole, onDelete }) => {
             </CardContent>
           </CardActionArea>
         </Link>
-        {userRole === "Librarian" && (
-          <CardActions>
-            <IconButton
-              color="primary"
-              onClick={() => handleEditClick(currentBookDetail._id)}
-            >
-              <EditIcon />
-            </IconButton>
-            <IconButton
-              sx={{ color: "red" }}
-              onClick={() => handleDelete(currentBookDetail._id)}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </CardActions>
-        )}
-        {isEditOpen && (
-          <Dialog open={isEditOpen} onClose={handleEditClose}>
-            <AddEdit
-              data={currentBookDetail}
-              onSuccess={handleSuccessEditClose}
-              successMessage={handleSuccessMessage}
-            />
-          </Dialog>
-        )}
+        <Box sx={{ marginTop: "auto" }}>
+          {userRole === "Librarian" && (
+            <CardActions>
+              <IconButton
+                color="primary"
+                onClick={() => handleEditClick(currentBookDetail._id)}
+              >
+                <EditIcon />
+              </IconButton>
+              <IconButton
+                sx={{ color: "red" }}
+                onClick={() => handleDelete(currentBookDetail._id)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </CardActions>
+          )}
+        </Box>
       </Card>
       <DeleteConfirmationDialog
         open={deleteDialogOpen}

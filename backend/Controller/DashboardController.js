@@ -23,6 +23,11 @@ export const dashboardData = async ({ userRole, userId }) => {
       status: "Not Returned",
     });
     const topIssuedBooks = await Issue.aggregate([
+      {
+        $match: {
+          issueDate: { $gte: startOfMonthDate, $lte: endOfMonthDate },
+        },
+      },
       { $group: { _id: "$book", count: { $sum: 1 } } },
       { $sort: { count: -1 } },
       { $limit: 5 },

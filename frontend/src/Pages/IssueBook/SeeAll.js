@@ -11,8 +11,10 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import LostIcon from "@mui/icons-material/NoBackpack";
 import { DataGrid } from "@mui/x-data-grid";
 import AddEdit from "../../Components/Issue/AddEdit";
+import LostBook from "../../Components/Issue/LostBook.js";
 import SnackBar from "../../Components/SnackBar";
 import DeleteConfirmationDialog from "../../Components/DeleteDialog";
 import TableToolbar from "../../Components/TableToolbar";
@@ -25,6 +27,7 @@ const SeeAll = () => {
   const [deletingIssueId, setDeletingIssueId] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isLostOpen, setIsLostOpen] = useState(false);
   const [currentIssue, setCurrentIssue] = useState(null);
   const [loading, setLoading] = useState(true); // State for loading indicator
 
@@ -37,15 +40,15 @@ const SeeAll = () => {
 
   const columns = [
     { field: "book", headerName: "Book", width: 460 },
-    { field: "user", headerName: "User", width: 250 },
+    { field: "user", headerName: "User", width: 230 },
     { field: "issueDate", headerName: "Issue Date", width: 130 },
     { field: "dueDate", headerName: "Due Date", width: 130 },
-    { field: "returnedDate", headerName: "Returned Date", width: 150 },
+    { field: "returnedDate", headerName: "Returned Date", width: 130 },
     { field: "status", headerName: "Status", width: 130 },
     {
       field: "actions",
       headerName: "Actions",
-      width: 100,
+      width: 150,
       renderCell: (params) => (
         <div>
           {params.row.status === "Not Returned" && (
@@ -56,10 +59,15 @@ const SeeAll = () => {
               <EditIcon />
             </IconButton>
           )}
-          <IconButton
-            color="secondary"
-            onClick={() => handleDelete(params.row.id)}
-          >
+          {params.row.status === "Not Returned" && (
+            <IconButton
+              color="warning"
+              onClick={() => handleLostClick(params.row.id)}
+            >
+              <LostIcon />
+            </IconButton>
+          )}
+          <IconButton color="error" onClick={() => handleDelete(params.row.id)}>
             <DeleteIcon />
           </IconButton>
         </div>
@@ -74,6 +82,7 @@ const SeeAll = () => {
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setIsEditOpen(false);
+    setIsLostOpen(false);
   };
 
   // Function to format date to "Y-M-D"
@@ -92,6 +101,12 @@ const SeeAll = () => {
     setCurrentIssue(issue);
   };
 
+  const handleLostClick = (id) => {
+    setIsLostOpen(true);
+    const issue = issueBooks.find((issue) => issue._id === id);
+    setCurrentIssue(issue);
+  };
+
   const handleDelete = (issueId) => {
     setDeletingIssueId(issueId);
     setDeleteDialogOpen(true);
@@ -99,7 +114,7 @@ const SeeAll = () => {
 
   // Function to handle adding a new issue
   const handleAddIssue = (newIssue) => {
-    setIssuedBooks([...issueBooks, newIssue]);
+    setIssuedBooks([newIssue, ...issueBooks]);
     setOpenDialog(false);
   };
 
@@ -119,6 +134,21 @@ const SeeAll = () => {
     });
     setIssuedBooks(updatedIssues);
     setIsEditOpen(false);
+  };
+
+  const handleLostIssue = (editedIssue) => {
+    const updatedIssues = issueBooks.map((issue) => {
+      if (issue._id === editedIssue._id) {
+        return {
+          ...issue,
+          status: "Lost",
+        };
+      } else {
+        return issue;
+      }
+    });
+    setIssuedBooks(updatedIssues);
+    setIsLostOpen(false);
   };
 
   const handleSuccessMessage = (message) => {
@@ -218,9 +248,9 @@ const SeeAll = () => {
           // getRowHeight={() => "auto"}
           initialState={{
             pagination: { paginationModel: { pageSize: 10 } },
-            sorting: {
-              sortModel: [{ field: "status", sort: "asc" }],
-            },
+            // sorting: {
+            //   sortModel: [{ field: "dueDate", sort: "desc" }],
+            // },
           }}
           pageSizeOptions={[10, 25, 50]}
           disableRowSelectionOnClick
@@ -235,6 +265,15 @@ const SeeAll = () => {
           <AddEdit
             data={currentIssue}
             onSuccess={handleEditIssue}
+            successMessage={handleSuccessMessage}
+          />
+        </Dialog>
+      )}
+      {isLostOpen && (
+        <Dialog open={isLostOpen} onClose={handleCloseDialog}>
+          <LostBook
+            data={currentIssue}
+            onSuccess={handleLostIssue}
             successMessage={handleSuccessMessage}
           />
         </Dialog>

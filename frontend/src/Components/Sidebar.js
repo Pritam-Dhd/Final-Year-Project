@@ -160,6 +160,9 @@ const Sidebar = ({userRole, userData}) => {
         ) : null}
         <SidebarList open={open} text="Fine" />
         <SidebarList open={open} text="Request" />
+        {userRole === "Librarian" ? (
+          <SidebarList open={open} text="Report"  />
+        ) : null}
         <Divider />
       </Drawer>
     </>

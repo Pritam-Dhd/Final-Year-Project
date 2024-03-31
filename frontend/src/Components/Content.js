@@ -13,6 +13,7 @@ import SeeAllFine from "../Pages/Fine/SeeAll";
 import Profile from "../Pages/User/Profile";
 import StudentRequest from "../Pages/Request/StudentRequest";
 import LibrarianRequest from "../Pages/Request/LibrarianRequest";
+import Report from "../Pages/Report/Report";
 import PageNotFound from "../Pages/PageNotFound";
 import { useParams } from "react-router-dom";
 
@@ -64,6 +65,8 @@ const Content = ({ userRole, userData, updateUserData }) => {
               {userRole === "Librarian" ? <LibrarianRequest userRole={userRole} /> : <StudentRequest />}
           </>
       );
+      case "report":
+        return <Report userRole={userRole} />;
       case "profile":
         return <Profile userData={userData} updateUserData={updateUserData} />;
       default:

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, Grid, Link,CircularProgress } from "@mui/material";
+import { Box, Typography, Grid, Link, CircularProgress } from "@mui/material";
 import axiosClient from "../../Components/AxiosClient";
 import { useNavigate } from "react-router-dom";
 import {
@@ -105,7 +105,7 @@ const Dashboard = () => {
 
       <Grid item xs={12}>
         <Box>
-          <Typography variant="h6">Top 5 Issued Books</Typography>
+          <Typography variant="h6">Top 5 Issued Books of this month</Typography>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart
               data={info.topIssuedBooks}
@@ -129,7 +129,8 @@ const Dashboard = () => {
       </Grid>
       {loading ? (
         <Grid item xs={12}>
-          <Typography>Loading...</Typography><CircularProgress />
+          <Typography>Loading...</Typography>
+          <CircularProgress />
         </Grid>
       ) : (
         <>
@@ -137,18 +138,27 @@ const Dashboard = () => {
             <Grid item xs={12} md={6}>
               <PieChartComponent
                 data={info.topStudents}
-                title="Top 5 Students with most issues"
+                title="Top 5 Students with most issues of this month"
+                COLORS={["#003f5c", "#58508d", "#bc5090", "#ff6361", "#ffa600"]}
               />
             </Grid>
           )}{" "}
           {info.topGenres.length > 0 && (
             <Grid item xs={12} md={6}>
-              <PieChartComponent data={info.topGenres} title="Top Genres" />
+              <PieChartComponent
+                data={info.topGenres}
+                title="Top Genres"
+                COLORS={["#5c3214", "#8b4340", "#af5b7b", "#bc80bf", "#acadff"]}
+              />
             </Grid>
           )}
           {info.topAuthors.length > 0 && (
             <Grid item xs={12} md={6}>
-              <PieChartComponent data={info.topAuthors} title="Top Authors" />
+              <PieChartComponent
+                data={info.topAuthors}
+                title="Top Authors"
+                COLORS={["#5c3e3e", "#915d41", "#ac8b39", "#a1c347", "#33b967"]}
+              />
             </Grid>
           )}
           {info.topPublishers.length > 0 && (
@@ -156,6 +166,7 @@ const Dashboard = () => {
               <PieChartComponent
                 data={info.topPublishers}
                 title="Top Publishers"
+                COLORS={["#0c505c", "#217c77", "#5aa884", "#a4d289", "#d0c878"]}
               />
             </Grid>
           )}

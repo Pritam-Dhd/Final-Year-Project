@@ -105,12 +105,13 @@ const SeeAll = () => {
   };
 
   const columns = [
-    { field: "book", headerName: "Book", width: 500 },
+    { field: "book", headerName: "Book", width: 450 },
     ...(userRole === "Librarian"
-      ? [{ field: "user", headerName: "User", width: 300 }]
+      ? [{ field: "user", headerName: "User", width: 250 }]
       : []),
-    { field: "amount", headerName: "Amount", width: 120 },
+    { field: "amount", headerName: "Amount", width: 90 },
     { field: "paidDate", headerName: "Paid Date", width: 150 },
+    { field: "reason", headerName: "Reason", width: 150 },
     { field: "status", headerName: "Status", width: 150 },
     ...(userRole === "Student"
       ? [{ field: "remark", headerName: "Remark", width: 250 }]
@@ -121,7 +122,7 @@ const SeeAll = () => {
       headerName: "Actions",
       width: 100,
       renderCell: (params) => {
-        const isNotReturned = params.row.issue.status === "Returned";
+        const isNotReturned = params.row.issue.status === "Returned"||params.row.issue.status === "Lost";
         const isUnpaid = params.row.status === "unpaid";
 
         if (isNotReturned && isUnpaid) {
@@ -163,6 +164,7 @@ const SeeAll = () => {
     book: fine.issue.book.name,
     user: fine.issue.user.name,
     paidDate: fine.paid_date === "" ? "Not Paid" : formatDate(fine.paid_date),
+    reason:fine.reason,
     amount: fine.amount,
     remark:
       fine.status === "paid"
