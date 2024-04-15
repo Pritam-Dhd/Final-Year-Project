@@ -27,6 +27,7 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
     publishedYear: [],
     totalBooks: [],
     image: "",
+    price:"",
   });
 
   useEffect(() => {
@@ -114,8 +115,10 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
         publishedYear: formData.publishedYear,
         totalBooks: formData.totalBooks,
         image: formData.image,
+        price: formData.price,
       });
       successMessage(response.data.message);
+      onSuccess(formData);
     } else {
       setSnackbarMessage(response.data.message);
     }
@@ -245,7 +248,7 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
                 required
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <TextField
                 label="Published Year"
                 name="published year"
@@ -255,13 +258,24 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
                 required
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <TextField
                 label="Total Books"
                 name="totalBooks"
                 type="number"
                 value={formData.totalBooks}
                 onChange={(e) => handleChange("totalBooks", e.target.value)}
+                fullWidth
+                required
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                label="Price"
+                name="price"
+                type="number"
+                value={formData.price}
+                onChange={(e) => handleChange("price", e.target.value)}
                 fullWidth
                 required
               />

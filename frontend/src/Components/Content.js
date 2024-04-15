@@ -11,7 +11,6 @@ import SeeAllAuthor from "../Pages/Author/SeeAll";
 import SeeAllPublisher from "../Pages/Publisher/SeeAll";
 import SeeAllFine from "../Pages/Fine/SeeAll";
 import Profile from "../Pages/User/Profile";
-import StudentRequest from "../Pages/Request/StudentRequest";
 import LibrarianRequest from "../Pages/Request/LibrarianRequest";
 import Report from "../Pages/Report/Report";
 import PageNotFound from "../Pages/PageNotFound";
@@ -25,15 +24,23 @@ const Content = ({ userRole, userData, updateUserData }) => {
     switch (section) {
       case "":
         return (
-            <>
-                {userRole === "Librarian" ? <Dashboard userRole={userRole} /> : <StudentDashboard />}
-            </>
+          <>
+            {userRole === "Librarian" ? (
+              <Dashboard userRole={userRole} />
+            ) : (
+              <StudentDashboard />
+            )}
+          </>
         );
-    case "home":
+      case "home":
         return (
-            <>
-                {userRole === "Librarian" ? <Dashboard userRole={userRole} /> : <StudentDashboard />}
-            </>
+          <>
+            {userRole === "Librarian" ? (
+              <Dashboard userRole={userRole} />
+            ) : (
+              <StudentDashboard />
+            )}
+          </>
         );
       case "book":
         return <SeeAllBook userRole={userRole} />;
@@ -54,17 +61,17 @@ const Content = ({ userRole, userData, updateUserData }) => {
           "Only Librarian has access"
         );
       case "issue":
-        return userRole === "Librarian" ? (
-          <SeeAllIssueBook userData={userData} />
-        ) : (
-          "Only Librarian has access"
-        );
+        return <SeeAllIssueBook userData={userData} />;
       case "request":
         return (
           <>
-              {userRole === "Librarian" ? <LibrarianRequest userRole={userRole} /> : <StudentRequest />}
+            {userRole === "Librarian" ? (
+              <LibrarianRequest userRole={userRole} />
+            ) : (
+              "Only Librarian has access"
+            )}
           </>
-      );
+        );
       case "report":
         return <Report userRole={userRole} />;
       case "profile":
@@ -73,8 +80,7 @@ const Content = ({ userRole, userData, updateUserData }) => {
         if (section.startsWith("book/filter")) {
           // Match any route starting with "book/"
           return <FilterBook userRole={userRole} />;
-        }
-        else if (section.startsWith("book/")) {
+        } else if (section.startsWith("book/")) {
           // Match any route starting with "book/"
           return <Book userRole={userRole} />;
         } else {

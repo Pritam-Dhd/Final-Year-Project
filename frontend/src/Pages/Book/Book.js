@@ -12,6 +12,7 @@ import {
   Chip,
   Link,
   Dialog,
+  Button,
 } from "@mui/material";
 import { useUserRole } from "../../Components/UserContext";
 import EditIcon from "@mui/icons-material/Edit";
@@ -26,7 +27,7 @@ const Book = () => {
   const { pathname } = useLocation();
   const bookId = pathname.split("/")[4];
   const bookName = pathname.split("/")[3];
-  const decodedBookName = decodeURI(bookName);
+  const decodedBookName = decodeURIComponent(bookName);
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const { userRole } = useUserRole();
@@ -36,21 +37,36 @@ const Book = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingBookId, setDeletingBookId] = useState(null);
   const [relatedBooks, setRelatedBooks] = useState(null);
+  const [request, setRequest] = useState([]);
+  const [issue, setIssue] = useState([]);
+  const [requestMade, setRequestMade] = useState(false);
+
 
   useEffect(() => {
-    axiosClient
-      .get(`/get-book-by-id/${bookId}`, {
-        withCredentials: true,
-      })
-      .then(function (response) {
-        const data = response.data;
-        setBook(data);
-        setLoading(false); // Set loading to false once data is fetched
-        setRelatedBooks(data.relatedBooks);
-      })
-      .catch(function (error) {
-        alert(error);
-      });
+    const fetchAllData = async () => {
+      try {
+        const [books, requests,issues] = await Promise.all([
+          axiosClient.get(`/get-book-by-id/${bookId}`, {
+            withCredentials: true,
+          }),
+          axiosClient.get("/get-pending-request", {
+            withCredentials: true,
+          }),
+          axiosClient.get("/get-not-returned-issues", {
+            withCredentials: true,
+          }),
+        ]);
+        setLoading(false);
+        setBook(books.data);
+        setRelatedBooks(books.data.relatedBooks);
+        setRequest(requests.data.requests);
+        setIssue(issues.data.Issues)
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchAllData();
   }, []);
 
   const handleEditClick = () => {
@@ -63,7 +79,7 @@ const Book = () => {
 
   const handleSuccessEditClose = (newBook) => {
     setIsEditOpen(false);
-    navigate(`/dashboard/book/${newBook.name}/${newBook._id}`);
+    navigate(`/dashboard/book/${encodeURIComponent(newBook.name)}/${newBook._id}`);
     setBook(newBook);
   };
 
@@ -105,6 +121,26 @@ const Book = () => {
     } catch (err) {}
   };
 
+  const handleRequest = async (book) => {
+    console.log(book);
+    try {
+      const response = await axiosClient.post(
+        "/add-request",
+        {book:book._id,requestType:"request issue"},
+        { withCredentials: true }
+      );
+      if (response.data.message === "Request added successfully") {
+        handleSuccessMessage("Request added successfully");
+        setRequestMade(true);
+        setOpenSnackbar(true); 
+      } else {
+        setSnackbarMessage(response.data.message);
+        setOpenSnackbar(true);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Grid>
       <Grid container spacing={3}>
@@ -112,7 +148,7 @@ const Book = () => {
           <Breadcrumbs aria-label="breadcrumb">
             <Link
               color="inherit"
-              to="/dashboard/book"
+              href="/dashboard/book"
               style={{
                 textDecoration: "none",
               }}
@@ -136,9 +172,19 @@ const Book = () => {
               {userRole === "Student" ? (
                 <Box sx={{ display: "flex", justifyContent: "center" }}>
                   {book.availableBooks > 0 ? (
-                    <Typography variant="body1" color="primary">
-                      Available
-                    </Typography>
+                  <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleRequest(book)}
+                  disabled={requestMade || 
+                    (request.length > 0 && request.some(req => req.book._id === book?._id)) ||
+                    (issue.length > 0 && issue.some(iss => iss.book._id === book?._id))
+                  }
+                >
+                  {(requestMade || request.length > 0 && request.some(req => req.book._id === book?._id)) ? "Already Requested" : (issue.length > 0 && issue.some(iss => iss.book._id === book?._id)) ? "Already Issued" : "Request Book"}
+                </Button>
+                
+                  
                   ) : (
                     <Typography variant="body1" color="error">
                       Not Available
@@ -198,7 +244,7 @@ const Book = () => {
               <Typography gutterBottom variant="h6" component="div">
                 Genres:
               </Typography>
-              {book.genres.map((genre, index) => (
+              {book.genres.length > 0 && book.genres.map((genre, index) => (
                 <Link
                   href={`/dashboard/book/filter?filterType=genre&filterValue=${genre}`}
                   style={{ textDecoration: "none", color: "#002575" }}
@@ -209,8 +255,12 @@ const Book = () => {
               <Typography gutterBottom variant="h6" component="div">
                 <span style={{ fontWeight: "bold" }}>Authors: </span>
               </Typography>
-              {book.authors.map((author) => (
-                <Link href={`/dashboard/book/filter?filterType=genre&filterValue=${author}`} underline="none" color="inherit">
+              {book.authors.length > 0 && book.authors.map((author) => (
+                <Link
+                  href={`/dashboard/book/filter?filterType=genre&filterValue=${author}`}
+                  underline="none"
+                  color="inherit"
+                >
                   <Typography gutterBottom variant="h6" component="div">
                     {author}
                   </Typography>
@@ -219,8 +269,12 @@ const Book = () => {
               <Typography gutterBottom variant="h6" component="div">
                 <span style={{ fontWeight: "bold" }}>Publishers: </span>
               </Typography>
-              {book.publishers.map((publisher) => (
-                <Link href={`/dashboard/book/filter?filterType=genre&filterValue=${publisher}`} underline="none" color="inherit">
+              {book.publishers.length > 0 && book.publishers.map((publisher) => (
+                <Link
+                  href={`/dashboard/book/filter?filterType=genre&filterValue=${publisher}`}
+                  underline="none"
+                  color="inherit"
+                >
                   <Typography gutterBottom variant="h6" component="div">
                     {publisher}
                   </Typography>
@@ -253,7 +307,8 @@ const Book = () => {
         open={deleteDialogOpen}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
-        userId={deletingBookId}
+        id={deletingBookId}
+        message="Are you sure the you want to delete the book?"
       />
       <SnackBar
         open={openSnackbar}

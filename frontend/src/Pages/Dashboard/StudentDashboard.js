@@ -128,9 +128,9 @@ const StudentDashboard = () => {
             )
             .map((book) => (
               <Grid item xs={12} sm={6} md={3} key={book._id}>
-                <Card>
+                <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
                   <Link
-                    href={`/dashboard/book/${book.name}/${book._id}`}
+                    href={`/dashboard/book/${encodeURIComponent(book.name)}/${book._id}`}
                     style={{ textDecoration: "none", color: "black" }}
                   >
                     <CardMedia

@@ -27,9 +27,11 @@ const BookCard = ({ bookDetail, userRole, onDelete }) => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingBookId, setDeletingBookId] = useState(null);
+  const [encodedBookName,setEncodedBookName]=useState('');
 
   useEffect(() => {
     setCurrentBookDetail(bookDetail);
+    setEncodedBookName(encodeURIComponent(bookDetail.name));
   }, [bookDetail]);
 
   const handleEditClick = () => {
@@ -87,7 +89,7 @@ const BookCard = ({ bookDetail, userRole, onDelete }) => {
     <>
       <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
         <Link
-          to={`/dashboard/book/${currentBookDetail.name}/${currentBookDetail._id}`}
+          to={`/dashboard/book/${encodedBookName}/${currentBookDetail._id}`}
           style={{ textDecoration: "none", color: "black" }}
         >
           <CardActionArea>
@@ -134,11 +136,19 @@ const BookCard = ({ bookDetail, userRole, onDelete }) => {
           )}
         </Box>
       </Card>
+      <Dialog open={isEditOpen} onClose={handleEditClose}>
+        <AddEdit
+          data={currentBookDetail}
+          onSuccess={handleSuccessEditClose}
+          successMessage={handleSuccessMessage}
+        />
+      </Dialog>
       <DeleteConfirmationDialog
         open={deleteDialogOpen}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
-        userId={deletingBookId}
+        id={deletingBookId}
+        message="Are you sure the you want to delete the book?"
       />
       <SnackBar
         open={openSnackbar}

@@ -18,6 +18,7 @@ import LostBook from "../../Components/Issue/LostBook.js";
 import SnackBar from "../../Components/SnackBar";
 import DeleteConfirmationDialog from "../../Components/DeleteDialog";
 import TableToolbar from "../../Components/TableToolbar";
+import { useUserRole } from "../../Components/UserContext";
 
 const SeeAll = () => {
   const [issueBooks, setIssuedBooks] = useState([]);
@@ -27,9 +28,12 @@ const SeeAll = () => {
   const [deletingIssueId, setDeletingIssueId] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [lostIssueId, setLostIssueId] = useState(null);
   const [isLostOpen, setIsLostOpen] = useState(false);
+  const [isLostRequestOpen, setIsLostRequestOpen] = useState(false);
   const [currentIssue, setCurrentIssue] = useState(null);
   const [loading, setLoading] = useState(true); // State for loading indicator
+  const { userRole } = useUserRole();
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -38,6 +42,7 @@ const SeeAll = () => {
     setOpenSnackbar(false);
   };
 
+  
   const columns = [
     { field: "book", headerName: "Book", width: 460 },
     { field: "user", headerName: "User", width: 230 },
@@ -51,25 +56,44 @@ const SeeAll = () => {
       width: 150,
       renderCell: (params) => (
         <div>
-          {params.row.status === "Not Returned" && (
-            <IconButton
-              color="primary"
-              onClick={() => handleEditClick(params.row.id)}
-            >
-              <EditIcon />
-            </IconButton>
+          {userRole === "Librarian" && (
+            <>
+              {params.row.status === "Not Returned" && (
+                <IconButton
+                  color="primary"
+                  onClick={() => handleEditClick(params.row.id)}
+                >
+                  <EditIcon />
+                </IconButton>
+              )}
+              {params.row.status === "Not Returned" && (
+                <IconButton
+                  color="warning"
+                  onClick={() => handleLostClick(params.row.id)}
+                >
+                  <LostIcon />
+                </IconButton>
+              )}
+              <IconButton
+                color="error"
+                onClick={() => handleDelete(params.row.id)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </>
           )}
-          {params.row.status === "Not Returned" && (
-            <IconButton
-              color="warning"
-              onClick={() => handleLostClick(params.row.id)}
-            >
-              <LostIcon />
-            </IconButton>
+          {userRole==="Student" && params.row.status === "Not Returned" && (
+            <>
+            {params.row.status === "Not Returned" && (
+                <IconButton
+                  sx={{ color: "warning" }}
+                  onClick={() => handleLostRequestClick(params.row.id)}
+                >
+                  <LostIcon />
+                </IconButton>
+              )}
+            </>
           )}
-          <IconButton color="error" onClick={() => handleDelete(params.row.id)}>
-            <DeleteIcon />
-          </IconButton>
         </div>
       ),
     },
@@ -83,6 +107,7 @@ const SeeAll = () => {
     setOpenDialog(false);
     setIsEditOpen(false);
     setIsLostOpen(false);
+    setIsLostRequestOpen(false);
   };
 
   // Function to format date to "Y-M-D"
@@ -101,11 +126,16 @@ const SeeAll = () => {
     setCurrentIssue(issue);
   };
 
-  const handleLostClick = (id) => {
+  const handleLostClick =  (id) => {
+    setLostIssueId(id);
     setIsLostOpen(true);
-    const issue = issueBooks.find((issue) => issue._id === id);
-    setCurrentIssue(issue);
   };
+
+  const handleLostRequestClick=(id)=>{
+    setLostIssueId(id);
+    setIsLostRequestOpen(true)
+  }
+  
 
   const handleDelete = (issueId) => {
     setDeletingIssueId(issueId);
@@ -136,21 +166,61 @@ const SeeAll = () => {
     setIsEditOpen(false);
   };
 
-  const handleLostIssue = (editedIssue) => {
-    const updatedIssues = issueBooks.map((issue) => {
-      if (issue._id === editedIssue._id) {
-        return {
-          ...issue,
-          status: "Lost",
-        };
-      } else {
-        return issue;
+  const handleLostIssue = async() => {
+    try {
+      const response = await axiosClient.post(
+        "/book-lost",
+        {
+          _id: lostIssueId,
+        },
+        { withCredentials: true }
+      );
+      if (response.data.message === "Book lost data added successfully") {
+        const updatedIssues = issueBooks.map((issue) => {
+          if (issue._id === lostIssueId) {
+            return {
+              ...issue,
+              status: "Lost",
+            };
+          } else {
+            return issue;
+          }
+        });
+        setIssuedBooks(updatedIssues);
       }
-    });
-    setIssuedBooks(updatedIssues);
+      setSnackbarMessage(response.data.message);
+      setOpenSnackbar(true);
+      setLoading(false);
+    } catch (error) {
+      setSnackbarMessage(error.message);
+      setOpenSnackbar(true);
+      setLoading(false);
+    }
+    setLostIssueId(null);
     setIsLostOpen(false);
-  };
-
+  }; 
+  const handleLostRequest=async()=>{
+    try{
+      const response = await axiosClient.post(
+        "/add-request",
+        {issue:lostIssueId,requestType:"lost book"},
+        { withCredentials: true }
+      );
+      if (response.data.message === "Request added successfully") {
+        handleSuccessMessage("Lost request send successfully");
+        setOpenSnackbar(true);
+      } else {
+        setSnackbarMessage(response.data.message);
+        setOpenSnackbar(true);
+      }
+      setLostIssueId(null);
+      setIsLostRequestOpen(false);
+    }
+    catch(error){
+      setSnackbarMessage(error.message);
+      setOpenSnackbar(true);
+    }
+  }
   const handleSuccessMessage = (message) => {
     setSnackbarMessage(message);
     setOpenSnackbar(true);
@@ -172,6 +242,7 @@ const SeeAll = () => {
     axiosClient
       .get("/get-all-issues", { withCredentials: true })
       .then(function (response) {
+        console.log(response)
         const data = response.data.Issues.reverse();
         setIssuedBooks(data);
         setLoading(false); // After data fetching, set loading to false
@@ -220,14 +291,15 @@ const SeeAll = () => {
         overflow: "hidden",
       }}
     >
-      <Button
+      {userRole==="Librarian"&&(
+        <Button
         sx={{ marginTop: "15px", marginLeft: "15px", marginBottom: "15px" }}
         variant="contained"
         color="primary"
         onClick={handleOpenDialog}
       >
         Add Issue
-      </Button>
+      </Button>)}
       <Dialog open={openDialog} onClose={handleCloseDialog}>
         <AddEdit
           onSuccess={handleAddIssue}
@@ -269,25 +341,32 @@ const SeeAll = () => {
           />
         </Dialog>
       )}
-      {isLostOpen && (
-        <Dialog open={isLostOpen} onClose={handleCloseDialog}>
-          <LostBook
-            data={currentIssue}
-            onSuccess={handleLostIssue}
-            successMessage={handleSuccessMessage}
-          />
-        </Dialog>
-      )}
+
       <SnackBar
         open={openSnackbar}
         message={snackbarMessage}
         onClose={handleSnackbarClose}
       />
       <DeleteConfirmationDialog
+        open={isLostRequestOpen}
+        onClose={handleCloseDialog}
+        onConfirm={handleLostRequest}
+        id={lostIssueId}
+        message="Are you sure the book is lost"
+      />
+      <DeleteConfirmationDialog
+        open={isLostOpen}
+        onClose={handleCloseDialog}
+        onConfirm={handleLostIssue}
+        id={lostIssueId}
+        message="Are you sure the book is lost"
+      />
+      <DeleteConfirmationDialog
         open={deleteDialogOpen}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
-        userId={deletingIssueId}
+        id={deletingIssueId}
+        message="Are you sure the you want to delete the issue?"
       />
     </Paper>
   );

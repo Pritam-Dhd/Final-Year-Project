@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 
-const DeleteConfirmationDialog = ({ open, onClose, onConfirm, userId }) => {
+const DeleteConfirmationDialog = ({ open, onClose, onConfirm, id ,message}) => {
   return (
     <Dialog
       open={open}
@@ -17,17 +17,17 @@ const DeleteConfirmationDialog = ({ open, onClose, onConfirm, userId }) => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">{"Confirm Delete"}</DialogTitle>
+      <DialogTitle id="alert-dialog-title">{"Confirm?"}</DialogTitle>
       <DialogContent>
         <Typography variant="body1">
-          Are you sure you want to delete this user?
+          {message}
         </Typography>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={() => onConfirm(userId)} color="primary" autoFocus>
+        <Button onClick={() => onConfirm(id)} color="primary" autoFocus>
           Confirm
         </Button>
       </DialogActions>

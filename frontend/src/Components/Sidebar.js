@@ -155,11 +155,11 @@ const Sidebar = ({userRole, userData}) => {
         <SidebarList open={open} text="Genre" />
         <SidebarList open={open} text="Author" />
         <SidebarList open={open} text="Publisher" />
-        {userRole === "Librarian" ? (
-          <SidebarList open={open} text="Issue"  />
-        ) : null}
+        <SidebarList open={open} text="Issue"  />
         <SidebarList open={open} text="Fine" />
-        <SidebarList open={open} text="Request" />
+        {userRole === "Librarian" ? (
+          <SidebarList open={open} text="Request"  />
+        ) : null}
         {userRole === "Librarian" ? (
           <SidebarList open={open} text="Report"  />
         ) : null}

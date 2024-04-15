@@ -177,55 +177,73 @@ const Report = () => {
         </Grid>
       ) : (
         <Grid container spacing={2} mt={2}>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={12}>
             <Paper elevation={3}>
               <Box padding={2}>
-                <Typography variant="h6">{info.title}</Typography>
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart
-                    data={info.report}
-                    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis
-                      dataKey="name"
-                      angle={-16}
-                      textAnchor="end"
-                      interval={0}
-                      tick={{ fontSize: 12 }}
+                <Typography variant="h6" mb={1}>{info.title}</Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} md={6}>
+                    <Paper elevation={3}>
+                      <Box padding={2}>
+                        <Typography variant="h6">
+                          {"Top 5 most fine paid student"}
+                        </Typography>
+                        <ResponsiveContainer width="100%" height={300}>
+                          <BarChart
+                            data={info.report.slice(0, 5)}
+                            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                          >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis
+                              dataKey="name"
+                              angle={-16}
+                              textAnchor="end"
+                              interval={0}
+                              tick={{ fontSize: 12 }}
+                            />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Bar dataKey="total" fill="#8884d8" />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </Box>
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <DataGrid
+                      rows={info.report.map((row, index) => ({
+                        id: index,
+                        ...row,
+                      }))}
+                      columns={[
+                        { field: "name", headerName: "Name", width: 350 },
+                        {
+                          field: "total",
+                          headerName: "Total Fines Paid",
+                          width: 200,
+                        },
+                      ]}
+                      loading={loading}
+                      pagination={{ pageSize: 5 }}
+                      //   getRowHeight={() => "auto"}
+                      initialState={{
+                        pagination: { paginationModel: { pageSize: 5 } },
+                        sorting: {
+                          sortModel: [{ field: "total", sort: "desc" }],
+                        },
+                      }}
+                      pageSizeOptions={[5, 10, 15]}
+                      disableRowSelectionOnClick
+                      slots={{
+                        toolbar: () => <TableToolbar filename="Fines" />,
+                        loadingOverlay: LinearProgress,
+                      }}
                     />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="total" fill="#8884d8" />
-                  </BarChart>
-                </ResponsiveContainer>
+                  </Grid>
+                </Grid>
               </Box>
             </Paper>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <DataGrid
-              rows={info.report.map((row, index) => ({ id: index, ...row }))}
-              columns={[
-                { field: "name", headerName: "Name", width: 350 },
-                { field: "total", headerName: "Total Fines Paid", width: 200 },
-              ]}
-              loading={loading}
-              pagination={{ pageSize: 5 }}
-              //   getRowHeight={() => "auto"}
-              initialState={{
-                pagination: { paginationModel: { pageSize: 5 } },
-                sorting: {
-                  sortModel: [{ field: "total", sort: "desc" }],
-                },
-              }}
-              pageSizeOptions={[5, 10, 15]}
-              disableRowSelectionOnClick
-              slots={{
-                toolbar: () => <TableToolbar filename="Fines" />,
-                loadingOverlay: LinearProgress,
-              }}
-            />
           </Grid>
         </Grid>
       )}

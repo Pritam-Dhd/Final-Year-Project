@@ -15,6 +15,8 @@ import FineRoute from "./Routes/Fine.js";
 import EsewaRoute from "./Routes/Esewa.js";
 import DashboardRoute from "./Routes/Dashboard.js";
 import ReportRoute from "./Routes/Report.js";
+import RequestRoute from "./Routes/Request.js";
+import { expiredRequest } from "./Controller/RequestController.js";
 import cookieParser from "cookie-parser";
 import { dirname } from "path";
 import path from "path";
@@ -54,7 +56,8 @@ app.use(
   FineRoute,
   EsewaRoute,
   DashboardRoute,
-  ReportRoute
+  ReportRoute,
+  RequestRoute
 );
 
 const __filename = fileURLToPath(import.meta.url);
@@ -64,6 +67,7 @@ app.use("/api/images", express.static(path.join(__dirname, "Pictures")));
 cron.schedule("0 0 * * *", () => {
   addFines();
   reminderEmail();
+   // expiredRequest()
 });
 // Run the server.
 const run = async () => {
@@ -78,6 +82,7 @@ const run = async () => {
   RoleSeeder();
   addFines();
   // reminderEmail();
+  expiredRequest()
   // Start the Express server on port 5000 and log a message once it's listening
   await app.listen(5000, () =>
     console.log(`Example app listening on port 5000`)

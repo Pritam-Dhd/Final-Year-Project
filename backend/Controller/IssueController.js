@@ -2,6 +2,7 @@ import Issue from "../Schema/IssueSchema.js";
 import Book from "../Schema/BookSchema.js";
 import User from "../Schema/UserSchema.js";
 import Fine from "../Schema/FineSchema.js";
+import Request from "../Schema/RequestSchema.js";
 
 export const addIssue = async ({ data, userRole }) => {
   try {
@@ -55,8 +56,21 @@ export const addIssue = async ({ data, userRole }) => {
       returnedDate: null,
       status: "Not Returned",
     });
-
-    await Book.findByIdAndUpdate(data.book, { $inc: { availableBooks: -1 } });
+    const requestIssue = await Request.findOne({
+      book: data.book,
+      user: data.user,
+      requestType: "request issue",
+      status: "pending",
+    });
+    
+    if (requestIssue) {
+      // If request for issue found, set its status as "done"
+      const updateResult = await Request.findByIdAndUpdate(requestIssue._id, { status: "done" });
+      console.log(updateResult)
+    } else {
+      // If no request for issue found, decrement availableBooks by 1
+      await Book.findByIdAndUpdate(data.book, { $inc: { availableBooks: -1 } });
+    }
 
     return {
       message: "Issue added successfully",
@@ -156,8 +170,22 @@ export const deleteIssue = async ({ data, userRole }) => {
   }
 };
 
-export const getAllIssues = async ({ userRole }) => {
+export const getAllIssues = async ({ userRole, userId }) => {
   try {
+    if (userRole === "Student") {
+      const Issues = await Issue.find({user:userId})
+        .populate({
+          path: "user",
+          select: "_id name",
+        })
+        .populate({
+          path: "book",
+          select: "_id name",
+        });
+      return {
+        Issues,
+      };
+    }
     const Issues = await Issue.find()
       .populate({
         path: "user",
@@ -222,32 +250,37 @@ export const lostBook = async ({ data, userRole }) => {
       };
     }
 
-    // Check if the data is empty or if name is missing
-    if (!data || !data._id || !data.amount) {
-      return {
-        message: "Fill the amount",
-      };
-    }
-
     const issue = await Issue.findById(data._id);
     if (!issue) {
       return {
         message: "Issue Not found",
       };
     }
+    const book = await Book.findById(issue.book);
+    const amount = book.price;
 
+    if (issue.status === "Returned") {
+      return {
+        message: "Book already returned",
+      };
+    }
+    const alreadyfine=await Fine.findOne({issue:data._id})
+    if(alreadyfine){
+      return{
+        message:"Fine already added for this issue"
+      }
+    }
     const result = await Issue.findByIdAndUpdate(data._id, {
       status: "Lost",
     });
 
-    if (issue.status === "Not Returned") {
-      await Book.findByIdAndUpdate(issue.book, { $inc: { totalBooks: -1 } });
-    }
+    await Book.findByIdAndUpdate(issue.book, { $inc: { totalBooks: -1 } });
     const fine = await Fine.create({
       issue: data._id,
-      amount: data.amount,
+      amount: amount,
       reason: "Lost",
     });
+    await Request.findOneAndUpdate({ issue: data._id }, { status: "done" });
     return {
       message: "Book lost data added successfully",
     };
@@ -258,3 +291,24 @@ export const lostBook = async ({ data, userRole }) => {
     };
   }
 };
+
+export const getNotReturnedIssues = async ({ userRole,userId }) => {
+try{
+  const Issues = await Issue.find({ user: userId , status:"Not Returned"})
+      .populate({
+        path: "user",
+        select: "_id name",
+      })
+      .populate({
+        path: "book",
+        select: "_id name",
+      });
+    return { Issues };
+}
+catch (error) {
+  console.error(error.message);
+  return {
+    message: "Error editing issue",
+  };
+}
+}

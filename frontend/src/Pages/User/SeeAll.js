@@ -292,7 +292,8 @@ const SeeAll = ({userData}) => {
         open={deleteDialogOpen}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
-        userId={deletingUserId}
+        id={deletingUserId}
+        message="Are you sure the you want to delete the user?"
       />
     </>
   );

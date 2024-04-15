@@ -16,7 +16,8 @@ const bookSchema = new mongoose.Schema({
   description: { type: String },
   totalBooks: { type: Number, required: true },
   availableBooks: { type: Number, required: true },
-  image:{type:String}
+  image:{type:String},
+  price: { type: Number, required: true },
 });
 
 const Book = mongoose.model("books", bookSchema);

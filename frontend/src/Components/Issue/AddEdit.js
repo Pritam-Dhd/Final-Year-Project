@@ -21,7 +21,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import SnackBar from "../../Components/SnackBar";
 import axiosClient from "../AxiosClient";
 
-const AddEdit = ({ onSuccess, data, successMessage }) => {
+const AddEdit = ({ onSuccess, data, successMessage,request }) => {
   const [formData, setFormData] = useState({
     _id: "",
     book: "",
@@ -41,6 +41,9 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
   useEffect(() => {
     if (data) {
       setFormData(data);
+      if(data.returnedDate===null){
+        setFormData({...data,returnedDate:Date.now()})
+      }
     }
   }, [data]);
 
@@ -93,13 +96,22 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url =
-      formData._id === ""
-        ? "/add-issue"
-        : "/edit-issue";
+    const updatedFormData = { ...formData };
+
+    if(!formData._id &&  formData.book ){
+      const selectedBook = books.find((book) => book.name === formData.book);
+      if (selectedBook) {
+        updatedFormData.book = selectedBook._id
+      }
+      const selectedUser = users.find((user) => user.name === formData.user);
+      if (selectedUser) {
+        updatedFormData.user = selectedUser._id;
+      }
+    }
+    const url = formData._id === "" ? "/add-issue" : "/edit-issue";
     const response = await axiosClient.post(
       url,
-      { ...formData },
+      { ...updatedFormData  },
       { withCredentials: true }
     );
 
@@ -109,8 +121,8 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
     ) {
       const successMsg =
         formData._id === ""
-          ? "Book added successfully"
-          : "Book updated successfully";
+          ? "Issue added successfully"
+          : "Issue updated successfully";
       setSnackbarMessage(successMsg);
       const bookName =
         books.find((book) => book._id === formData.book)?.name || "";
@@ -140,30 +152,54 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
           <Grid container spacing={2}>
             {!formData._id && (
               <>
-                <Grid item xs={12}>
-                  <Autocomplete
-                    id="book-autocomplete"
-                    options={books.map((book) => book.name)}
-                    required
-                    onChange={(e, value) => handleChange("book", value)}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Book" />
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Autocomplete
-                    id="user-autocomplete"
-                    options={users
-                      .filter((user) => user.role.name === "Student")
-                      .map((user) => user.name)}
-                    required
-                    onChange={(e, value) => handleChange("user", value)}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Student" />
-                    )}
-                  />
-                </Grid>
+                {formData.book && request? (
+                  <Grid item xs={12}>
+                    <TextField
+                      id="outlined-basic"
+                      label="Book"
+                      variant="outlined"
+                      fullWidth
+                      value={formData.book}
+                    />
+                  </Grid>
+                ) : (
+                  <Grid item xs={12}>
+                    <Autocomplete
+                      id="book-autocomplete"
+                      options={books.map((book) => book.name)}
+                      required
+                      onChange={(e, value) => handleChange("book", value)}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Book" />
+                      )}
+                    />
+                  </Grid>
+                )}
+                {formData.user && request ? (
+                  <Grid item xs={12}>
+                    <TextField
+                      id="outlined-basic"
+                      label="User"
+                      variant="outlined"
+                      fullWidth
+                      value={formData.user}
+                    />
+                  </Grid>
+                ) : (
+                  <Grid item xs={12}>
+                    <Autocomplete
+                      id="user-autocomplete"
+                      options={users
+                        .filter((user) => user.role.name === "Student")
+                        .map((user) => user.name)}
+                      required
+                      onChange={(e, value) => handleChange("user", value)}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Student" />
+                      )}
+                    />
+                  </Grid>
+                )}
               </>
             )}
             <Grid item xs={12}>

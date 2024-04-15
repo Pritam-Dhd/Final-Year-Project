@@ -220,20 +220,21 @@ const SeeAll = ({ userRole }) => {
                   display: "flex",
                   alignItems: "center",
                 }}
-                onClick={() => handleClick(genre)}
               >
-                <Typography sx={{ padding: "5px", color: "black" }}>
+                <Typography sx={{ padding: "5px", color: "black" }}onClick={() => handleClick(genre)}>
                   {genre.name}
                 </Typography>
                 {userRole === "Librarian" && (
                   <>
                     <IconButton
+                      color="primary"
                       onClick={() => handleEdit(genre._id)}
                       aria-label="edit"
                     >
                       <EditIcon />
                     </IconButton>
                     <IconButton
+                      color="error"
                       onClick={() => handleDelete(genre._id)}
                       aria-label="delete"
                     >
@@ -254,7 +255,8 @@ const SeeAll = ({ userRole }) => {
         open={deleteDialogOpen}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
-        userId={deletingGenreId}
+        id={deletingGenreId}
+        message="Are you sure the you want to delete the genre?"
       />
       <Dialog open={editModalOpen} onClose={handleEditModalClose}>
         <AddNameForm

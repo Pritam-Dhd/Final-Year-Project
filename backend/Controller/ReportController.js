@@ -354,6 +354,7 @@ export const getReport = async ({ userRole, reportName, from, to }) => {
           total: 1,
         },
       },
+      { $sort: { total: -1 } } 
     ]);
     const totalSum = totalFinesPaidSum.length > 0 ? totalFinesPaidSum[0].totalSum : 0;
     return { report: totalFinesPaid, title: `Total Fines Paid by Students is ${totalSum}`};

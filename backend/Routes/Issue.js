@@ -6,6 +6,7 @@ import {
   getTotalIssue,
   getIssueByUser,
   lostBook,
+  getNotReturnedIssues,
 } from "../Controller/IssueController.js";
 import { checkAuth } from "../Middleware/CheckAuth.js";
 import express from "express";
@@ -47,7 +48,7 @@ router.post("/delete-issue", checkAuth, async (req, res) => {
 
 router.get("/get-all-issues", checkAuth, async (req, res) => {
   try {
-    const message = await getAllIssues({ userRole: req.userRole });
+    const message = await getAllIssues({ userRole: req.userRole, userId: req.userId});
     res.send(message);
   } catch (error) {
     res.send("Error getting all issues" + error.message);
@@ -57,7 +58,7 @@ router.get("/get-all-issues", checkAuth, async (req, res) => {
 
 router.get("/get-total-issues", checkAuth, async (req, res) => {
   try {
-    const message = await getTotalIssue({ userRole: req.userRole });
+    const message = await getTotalIssue({ userRole: req.userRole, userId: req.userId });
     res.send(message);
   } catch (error) {
     res.send("Error deleting issue" + error.message);
@@ -83,6 +84,16 @@ router.post("/book-lost", checkAuth, async (req, res) => {
     res.send(message);
   } catch (error) {
     res.send("Error editing issue" + error.message);
+    console.log(error);
+  }
+});
+
+router.get("/get-not-returned-issues", checkAuth, async (req, res) => {
+  try {
+    const message = await getNotReturnedIssues({ userRole: req.userRole,userId: req.userId});
+    res.send(message);
+  } catch (error) {
+    res.send("Error getting all issues" + error.message);
     console.log(error);
   }
 });

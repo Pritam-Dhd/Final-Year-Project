@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, Grid, Link, CircularProgress } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Grid,
+  Link,
+  CircularProgress,
+  Paper,
+} from "@mui/material";
 import axiosClient from "../../Components/AxiosClient";
 import { useNavigate } from "react-router-dom";
 import {
@@ -136,13 +143,34 @@ const Dashboard = () => {
         <>
           {info.topStudents.length > 0 && (
             <Grid item xs={12} md={6}>
-              <PieChartComponent
-                data={info.topStudents}
-                title="Top 5 Students with most issues of this month"
-                COLORS={["#003f5c", "#58508d", "#bc5090", "#ff6361", "#ffa600"]}
-              />
+              <Paper elevation={3}>
+                <Box padding={2}>
+                  <Typography variant="h6">
+                    Top 5 Students with most issues of this month
+                  </Typography>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <BarChart
+                      data={info.topStudents}
+                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis
+                        dataKey="name"
+                        angle={-16}
+                        textAnchor="end"
+                        interval={0}
+                        tick={{ fontSize: 12 }}
+                      />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="total" fill="#8884d8" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </Box>
+              </Paper>
             </Grid>
-          )}{" "}
+          )}
           {info.topGenres.length > 0 && (
             <Grid item xs={12} md={6}>
               <PieChartComponent
