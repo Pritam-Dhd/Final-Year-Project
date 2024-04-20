@@ -5,7 +5,9 @@ const fineSchema = new mongoose.Schema({
     amount: { type: Number, required: true },
     reason: { type:String, required: true},
     status: { type: String, enum: ['unpaid', 'paid'], default: 'unpaid' },
-    paid_date:{type:Date}
+    paid_date:{type:Date},
+    paidType:{type:String},
+    transaction_code:{type:String},
 });
 
 const Fine = mongoose.model("fines", fineSchema);

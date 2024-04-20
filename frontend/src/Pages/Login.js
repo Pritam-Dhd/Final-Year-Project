@@ -16,15 +16,23 @@ import axios from "axios";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import SnackBar from "../Components/SnackBar";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const passwordRegex =
     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
   const [errorMessage, setErrorMessage] = useState("");
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const navigate = useNavigate();
   const { updateUserRole } = useUserRole();
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,22 +56,27 @@ const Login = () => {
                 navigate("/dashboard");
               } else if (response.data.message === "Incorrect password") {
                 setErrorMessage("Incorrect password");
+                setOpenSnackbar(true);
               } else {
                 console.log(response.data.message);
                 setErrorMessage("User not Found/ Incorrect email");
+                setOpenSnackbar(true);
               }
             },
             (error) => {
               setErrorMessage(error.response);
+              setOpenSnackbar(true);
             }
           );
       } else {
-        setPasswordErrorMessage(
+        setErrorMessage(
           "Password must contain at least one digit, one lowercase and one uppercase letter, and one special character."
         );
+        setOpenSnackbar(true);
       }
     } else {
       setErrorMessage("All field must be filled");
+      setOpenSnackbar(true);
     }
   };
 
@@ -124,8 +137,8 @@ const Login = () => {
               ),
             }}
           />
-          <Typography color="error">{passwordErrorMessage}</Typography>
-          <Typography color="error">{errorMessage}</Typography>
+          {/* <Typography color="error">{passwordErrorMessage}</Typography>
+          <Typography color="error">{errorMessage}</Typography> */}
           <Button
             type="submit"
             fullWidth
@@ -163,6 +176,11 @@ const Login = () => {
           </Grid>
         </Box>
       </Box>
+      <SnackBar
+        open={openSnackbar}
+        message={errorMessage}
+        onClose={handleSnackbarClose}
+      />
     </Container>
   );
 };

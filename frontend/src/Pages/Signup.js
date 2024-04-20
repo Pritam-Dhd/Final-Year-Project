@@ -16,6 +16,7 @@ import axios from "axios";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import SnackBar from "../Components/SnackBar";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -23,16 +24,21 @@ const Signup = () => {
   const passwordRegex =
     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
   const [errorMessage, setErrorMessage] = useState("");
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
-  const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] =
-    useState("");
   const navigate = useNavigate();
   const { updateUserRole } = useUserRole();
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setConfirmPasswordErrorMessage("");
-    setPasswordErrorMessage("");
+    // setConfirmPasswordErrorMessage("");
+    // setPasswordErrorMessage("");
     setErrorMessage("");
     const isValidPassword = passwordRegex.test(e.target.password.value);
     if (
@@ -57,25 +63,31 @@ const Signup = () => {
                   navigate("/dashboard");
                 } else if (response.data.message === "User already exists") {
                   setErrorMessage("User already exits");
+                  setOpenSnackbar(true);
                 } else {
                   console.log(response.data.message);
                   setErrorMessage("Error during signup");
+                  setOpenSnackbar(true);
                 }
               },
               (error) => {
                 setErrorMessage(error.response.data.message);
+                setOpenSnackbar(true);
               }
             );
         } else {
-          setConfirmPasswordErrorMessage("Passwords do not match");
+          setErrorMessage("Passwords do not match");
+          setOpenSnackbar(true);
         }
       } else {
-        setPasswordErrorMessage(
+        setErrorMessage(
           "Password must contain at least one digit, one lowercase and one uppercase letter, and one special character."
         );
+        setOpenSnackbar(true);
       }
     } else {
       setErrorMessage("All the fields must be filled");
+      setOpenSnackbar(true);
     }
   };
 
@@ -155,7 +167,6 @@ const Signup = () => {
               ),
             }}
           />
-          <Typography color="error">{passwordErrorMessage}</Typography>
           <TextField
             margin="normal"
             required
@@ -183,8 +194,6 @@ const Signup = () => {
               ),
             }}
           />
-          <Typography color="error">{confirmPasswordErrorMessage}</Typography>
-          <Typography color="error">{errorMessage}</Typography>
           <Button
             type="submit"
             fullWidth
@@ -211,6 +220,11 @@ const Signup = () => {
           </Grid>
         </Box>
       </Box>
+      <SnackBar
+        open={openSnackbar}
+        message={errorMessage}
+        onClose={handleSnackbarClose}
+      />
     </Container>
   );
 };

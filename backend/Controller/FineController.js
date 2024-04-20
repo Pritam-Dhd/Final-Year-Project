@@ -1,8 +1,7 @@
 import Issue from "../Schema/IssueSchema.js";
 import Fine from "../Schema/FineSchema.js";
 import CryptoJS from "crypto-js";
-import dotenv from "dotenv";
-import randomstring from "randomstring";
+import nodemailer from "nodemailer";
 
 const calculateFine = (dueDate) => {
   const today = new Date();
@@ -24,14 +23,25 @@ const calculateFine = (dueDate) => {
 
 export const addFines = async () => {
   try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.User,
+        pass: process.env.Pass,
+      },
+    });
+    
     const today = new Date();
     // Set time component of 'today' to start of day
     today.setHours(0, 0, 0, 0);
     const overdueIssues = await Issue.find({
       dueDate: { $lt: today },
       status: "Not Returned",
-    });
-
+    })
+    .populate("user")
+    .populate("book");;
     for (const issue of overdueIssues) {
       const amount = calculateFine(issue.dueDate);
 
@@ -41,6 +51,13 @@ export const addFines = async () => {
       if (existingFine) {
         // Update existing fine
         await Fine.updateOne({ _id: existingFine._id }, { amount });
+        const mailOptions = {
+          from: process.env.User,
+          to: issue.user.email,
+          subject: "Fine Updated Notification",
+          text: `Dear ${issue.user.name},\n\nThis is a reminder that the ${issue.book.name} book you borrowed is overdue and your fine till now is Rs ${amount}. Please return it the book and pay the fine else it will still increase.\n\nRegards,\nYour Library`,
+        };
+        await transporter.sendMail(mailOptions);
       } else {
         // Insert new fine
         await Fine.create({
@@ -49,6 +66,13 @@ export const addFines = async () => {
           paid_date: '',
           reason:'Overdue'
         });
+        const mailOptions = {
+          from: process.env.User,
+          to: issue.user.email,
+          subject: "Fine Added Notification",
+          text: `Dear ${issue.user.name},\n\nThis is a reminder that the ${issue.book.name} book you borrowed is overdue and your fine of Rs ${amount} is added. Please return it the book and pay the fine else Rs 100 will increase everyday.\n\nRegards,\nYour Library`,
+        };
+        await transporter.sendMail(mailOptions);
       }
     }
   } catch (error) {
@@ -58,7 +82,7 @@ export const addFines = async () => {
 
 export const paidFine = async ({ data, userRole }) => {
   try {
-    const fine = await Fine.findByIdAndUpdate(data._id, { status: "paid",paid_date:Date.now() });
+    const fine = await Fine.findByIdAndUpdate(data._id, { status: "paid",paid_date:Date.now(),paidType:'Cash'});
     return {
       message: "Fine paid successfully",
     };
@@ -73,12 +97,8 @@ export const paidFine = async ({ data, userRole }) => {
 export const paidOnline = async (req, res) => {
   try {
     const id = await Fine.findById(req.transaction_uuid);
-    const fine = await Fine.findByIdAndUpdate(id, { status: "paid",paid_date:Date.now() });
+    const fine = await Fine.findByIdAndUpdate(id, { status: "paid",paid_date:Date.now(),paidType:'Online',transaction_code:req.transaction_code});
     res.redirect("http://localhost:3002/dashboard/fine");
-    // const fine = await Fine.findByIdAndUpdate(data._id, { status: "paid" });
-    // return {
-    //   message: "Fine paid successfully",
-    // };
   } catch (error) {
     console.log(error.message);
     return {
