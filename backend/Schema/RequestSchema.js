@@ -6,7 +6,7 @@ const requestSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
     requestDate: { type: Date,required: true },
     requestType: { type: String,enum:['request issue','extend due date','lost book'], required: true },
-    status: { type: String, enum: ['done', 'pending','expired'], default: 'pending' },
+    status: { type: String, default: 'pending' },
 });
 
 const Request = mongoose.model("requests", requestSchema);

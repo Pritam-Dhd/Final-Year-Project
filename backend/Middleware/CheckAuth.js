@@ -6,7 +6,6 @@ import { invalidToken } from "../Controller/UsersController.js";
 export const checkAuth = async (req, res, next) => {
   const SecretKey = "JWT_Secret_Key";
   const token = req.cookies.jwt;
-
   if (!token) {
     res.send({ message: "Please login" });
   } else {
@@ -24,6 +23,7 @@ export const checkAuth = async (req, res, next) => {
       }
     } catch (err) {
       invalidToken({res,req});
+      console.log(err)
     }
   }
 };

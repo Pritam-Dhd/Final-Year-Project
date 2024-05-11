@@ -4,6 +4,7 @@ import {
   Typography,
   Grid,
   Link,
+  Breadcrumbs,
   CircularProgress,
   Paper,
 } from "@mui/material";
@@ -49,6 +50,11 @@ const Dashboard = () => {
 
   return (
     <Grid container spacing={2}>
+      <Grid item xs={12} md={12}>
+        <Breadcrumbs aria-label="breadcrumb">
+          <Typography color="text.primary">Dashboard</Typography>
+        </Breadcrumbs>
+      </Grid>
       {userRole === "Librarian" && (
         <>
           <Grid item xs={6} md={2}>

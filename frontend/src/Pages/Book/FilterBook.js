@@ -8,6 +8,8 @@ import {
   Grid,
   MenuItem,
   Typography,
+  Breadcrumbs,
+  Link,
   TextField,
   Button,
   Dialog,
@@ -81,6 +83,12 @@ const FilterBook = () => {
 
   return (
     <Grid container>
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link color="primary" href="/dashboard/book">
+          Books
+        </Link>
+        <Typography color="text.primary">Filtered Books</Typography>
+      </Breadcrumbs>
       <Grid item xs={12} sm={6} md={6} lg={6} marginBottom={3}>
           <TextField
             label="Search"

@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axiosClient from "../../Components/AxiosClient.js";
 import {
   Box,
   Button,
   Dialog,
+  Grid,
   Paper,
   IconButton,
   DialogTitle,
   DialogContent,
   DialogActions,
   Typography,
+  Breadcrumbs,
+  Link,
+  Divider,
   LinearProgress,
 } from "@mui/material";
 import SnackBar from "../../Components/SnackBar";
@@ -17,6 +21,89 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useUserRole } from "../../Components/UserContext";
 import PaidIcon from "@mui/icons-material/Paid";
 import TableToolbar from "../../Components/TableToolbar";
+import PrintIcon from "@mui/icons-material/Print";
+import * as htmlToImage from "html-to-image";
+
+function ReceiptDialogContent({ receiptDetails }) {
+  return (
+    <Paper elevation={3} style={{ padding: "20px", maxWidth: "400px", margin: "auto" }}>
+      <Grid container alignItems="center" justify="space-between">
+        <Grid item xs={6}>
+          <img src="https://heraldcollege.edu.np/images/footer/footer-logo.svg" alt="Herald College Logo" style={{ maxWidth: "100px", marginBottom: "10px" }} />
+        </Grid>
+        <Grid item xs={6}>
+          <Typography variant="h6" gutterBottom>
+            Receipt
+          </Typography>
+        </Grid>
+      </Grid>
+      <Divider style={{ margin: "10px 0" }} />
+      <Grid container spacing={2} style={{ marginTop: "10px" }}>
+        <Grid item xs={12}>
+          <Typography variant="body1">
+            <strong>Book:</strong> {receiptDetails.book}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Student Name:</strong> {receiptDetails.userName}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Student Email:</strong> {receiptDetails.userEmail}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Amount:</strong> Rs{receiptDetails.amount}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Paid Date:</strong> {receiptDetails.paidDate}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Fine Reason:</strong> {receiptDetails.reason}
+          </Typography>
+          <Typography variant="body1">
+            <strong>Paid Type:</strong> {receiptDetails.paidType}
+          </Typography>
+          {receiptDetails.paidType === "Online" && (
+            <Typography variant="body1">
+              <strong>Transaction Code:</strong>{" "}
+              {receiptDetails.transaction_code}
+            </Typography>
+          )}
+        </Grid>
+      </Grid>
+    </Paper>
+  );
+}
+
+function ReceiptDialog({ open, onClose, receiptDetails }) {
+  const handlePrint = () => {
+    const receiptElement = document.getElementById("receipt-content");
+    if (!receiptElement) return;
+
+    htmlToImage
+      .toPng(receiptElement)
+      .then(function (dataUrl) {
+        const link = document.createElement("a");
+        link.download = "receipt.png";
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch(function (error) {
+        console.error("Error:", error);
+      });
+  };
+
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>Receipt Details</DialogTitle>
+      <DialogContent id="receipt-content">
+        <ReceiptDialogContent receiptDetails={receiptDetails} />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Close</Button>
+        <Button onClick={handlePrint}>Print</Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
 
 const SeeAll = () => {
   const [fines, setFines] = useState([]);
@@ -26,6 +113,8 @@ const SeeAll = () => {
   const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
   const [paidIssueId, setPaidIssueId] = useState();
   const [loading, setLoading] = useState(true);
+  const [receiptDialogOpen, setReceiptDialogOpen] = useState(false);
+  const [receiptDetails, setReceiptDetails] = useState({});
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -55,7 +144,12 @@ const SeeAll = () => {
       setFines((prevFines) => {
         return prevFines.map((fine) => {
           if (fine._id === paidIssueId) {
-            return { ...fine, status: "paid", remark: "no action", paidDate: formatDate(new Date())};
+            return {
+              ...fine,
+              status: "paid",
+              remark: "no action",
+              paidDate: formatDate(new Date()),
+            };
           }
           return fine;
         });
@@ -122,7 +216,9 @@ const SeeAll = () => {
       headerName: "Actions",
       width: 100,
       renderCell: (params) => {
-        const isNotReturned = params.row.issue.status === "Returned"||params.row.issue.status === "Lost";
+        const isNotReturned =
+          params.row.issue.status === "Returned" ||
+          params.row.issue.status === "Lost";
         const isUnpaid = params.row.status === "unpaid";
 
         if (isNotReturned && isUnpaid) {
@@ -140,15 +236,51 @@ const SeeAll = () => {
             </IconButton>
           );
         } else if (params.row.status === "paid") {
-          return "No Action";
+          return (
+            <IconButton
+              color="warning"
+              onClick={() => {
+                const fineData = fines.find(
+                  (fine) => fine._id === params.row.id
+                );
+                setReceiptDetails({
+                  id: fineData._id,
+                  book: fineData.issue.book.name,
+                  userName: fineData.issue.user.name,
+                  userEmail: fineData.issue.user.email,
+                  amount: fineData.amount,
+                  paidDate: fineData.paid_date,
+                  reason: fineData.reason,
+                  paidType: fineData.paidType,
+                  transaction_code: fineData.transaction_code || "",
+                });
+                setReceiptDialogOpen(true);
+              }}
+            >
+              <PrintIcon />
+            </IconButton>
+          );
         } else if (userRole === "Student") {
           return "See Remark";
         } else {
-          return "No Action";
+          return (
+            <IconButton
+              color="primary"
+              onClick={() =>
+                handlePaidClick({
+                  id: params.row.id,
+                  amount: params.row.amount,
+                })
+              }
+            >
+              <PrintIcon />
+            </IconButton>
+          );
         }
       },
     },
   ];
+
   const formatDate = (date) => {
     if (!date) return "";
     const formattedDate = new Date(date);
@@ -162,9 +294,9 @@ const SeeAll = () => {
     id: fine._id,
     issue: fine.issue,
     book: fine.issue.book.name,
-    user: fine.issue.user.name,
+    user: `${fine.issue.user.name} (${fine.issue.user.email})`,
     paidDate: fine.paid_date === "" ? "Not Paid" : formatDate(fine.paid_date),
-    reason:fine.reason,
+    reason: fine.reason,
     amount: fine.amount,
     remark:
       fine.status === "paid"
@@ -198,13 +330,33 @@ const SeeAll = () => {
         overflow: "hidden",
       }}
     >
+      <Grid container justifyContent="space-between" alignItems="center">
+        <Grid item>
+          <Breadcrumbs aria-label="breadcrumb" ml={2} mt={2}>
+            <Typography color="text.primary">Fine</Typography>
+          </Breadcrumbs>
+        </Grid>
+        <Grid item mt={1.6} mr={2}>
+          <IconButton color="primary">
+            <PaidIcon />
+          </IconButton>
+          {userRole === "Librarian" ? (
+            <>{"=> Set the fine as paid, "}</>
+          ) : (
+            <>{"=> Pay fine online"}</>
+          )}
+          <IconButton color="primary">
+            <PrintIcon />
+          </IconButton>
+          {"=> Print the receipt, "}
+        </Grid>
+      </Grid>
       <Box sx={{ overflow: "auto", height: "460px" }}>
         <DataGrid
           rows={rows}
           columns={columns}
           loading={loading}
           pagination={{ pageSize: 10 }}
-          //   getRowHeight={() => "auto"}
           initialState={{
             pagination: { paginationModel: { pageSize: 10 } },
             sorting: {
@@ -223,6 +375,11 @@ const SeeAll = () => {
         open={openSnackbar}
         message={snackbarMessage}
         onClose={handleSnackbarClose}
+      />
+      <ReceiptDialog
+        open={receiptDialogOpen}
+        onClose={() => setReceiptDialogOpen(false)}
+        receiptDetails={receiptDetails}
       />
       <Dialog
         open={confirmationDialogOpen}

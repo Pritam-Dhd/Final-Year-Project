@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   List,
   ListItemIcon,
@@ -29,6 +29,8 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 
 const SidebarList = ({ text, open, dropdown }) => {
+  const { "*": section } = useParams("/dashboard/");
+  const active = section === text.toLowerCase();
   return (
     <List>
       <ListItem key={text} disablePadding sx={{ display: "block" }}>
@@ -41,6 +43,7 @@ const SidebarList = ({ text, open, dropdown }) => {
               minHeight: 48,
               justifyContent: open ? "initial" : "center",
               px: 2.5,
+              backgroundColor: active ? "#333" : "transparent",
             }}
           >
             <ListItemIcon

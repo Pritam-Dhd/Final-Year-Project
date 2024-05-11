@@ -41,11 +41,19 @@ const Book = () => {
   const [issue, setIssue] = useState([]);
   const [requestMade, setRequestMade] = useState(false);
 
+  const formatDate = (date) => {
+    if (!date) return "";
+    const formattedDate = new Date(date);
+    const year = formattedDate.getFullYear();
+    const month = String(formattedDate.getMonth() + 1).padStart(2, "0");
+    const day = String(formattedDate.getDate()).padStart(2, "0");
+    return `${day}/${month}/${year}`;
+  };
 
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-        const [books, requests,issues] = await Promise.all([
+        const [books, requests, issues] = await Promise.all([
           axiosClient.get(`/get-book-by-id/${bookId}`, {
             withCredentials: true,
           }),
@@ -60,7 +68,7 @@ const Book = () => {
         setBook(books.data);
         setRelatedBooks(books.data.relatedBooks);
         setRequest(requests.data.requests);
-        setIssue(issues.data.Issues)
+        setIssue(issues.data.Issues);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -79,7 +87,9 @@ const Book = () => {
 
   const handleSuccessEditClose = (newBook) => {
     setIsEditOpen(false);
-    navigate(`/dashboard/book/${encodeURIComponent(newBook.name)}/${newBook._id}`);
+    navigate(
+      `/dashboard/book/${encodeURIComponent(newBook.name)}/${newBook._id}`
+    );
     setBook(newBook);
   };
 
@@ -126,13 +136,13 @@ const Book = () => {
     try {
       const response = await axiosClient.post(
         "/add-request",
-        {book:book._id,requestType:"request issue"},
+        { book: book._id, requestType: "request issue" },
         { withCredentials: true }
       );
       if (response.data.message === "Request added successfully") {
         handleSuccessMessage("Request added successfully");
         setRequestMade(true);
-        setOpenSnackbar(true); 
+        setOpenSnackbar(true);
       } else {
         setSnackbarMessage(response.data.message);
         setOpenSnackbar(true);
@@ -172,23 +182,40 @@ const Book = () => {
               {userRole === "Student" ? (
                 <Box sx={{ display: "flex", justifyContent: "center" }}>
                   {book.availableBooks > 0 ? (
-                  <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => handleRequest(book)}
-                  disabled={requestMade || 
-                    (request.length > 0 && request.some(req => req.book._id === book?._id)) ||
-                    (issue.length > 0 && issue.some(iss => iss.book._id === book?._id))
-                  }
-                >
-                  {(requestMade || request.length > 0 && request.some(req => req.book._id === book?._id)) ? "Already Requested" : (issue.length > 0 && issue.some(iss => iss.book._id === book?._id)) ? "Already Issued" : "Request Book"}
-                </Button>
-                
-                  
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleRequest(book)}
+                      disabled={
+                        requestMade ||
+                        (request.length > 0 &&
+                          request.some((req) => req.book._id === book?._id)) ||
+                        (issue.length > 0 &&
+                          issue.some((iss) => iss.book._id === book?._id))
+                      }
+                    >
+                      {requestMade ||
+                      (request.length > 0 &&
+                        request.some((req) => req.book._id === book?._id))
+                        ? "Already Requested"
+                        : issue.length > 0 &&
+                          issue.some((iss) => iss.book._id === book?._id)
+                        ? "Already Issued"
+                        : "Request Book"}
+                    </Button>
                   ) : (
-                    <Typography variant="body1" color="error">
-                      Not Available
-                    </Typography>
+                    <Box>
+                      {book.earliestReturn === "Not Avaliable" ? (
+                        <Typography variant="body1" color="red">
+                          Not Available
+                        </Typography>
+                      ) : (
+                        <Typography variant="body1" color="#A35227">
+                          The book may be avaliable after {" "}
+                          {formatDate(book.earliestReturn)}
+                        </Typography>
+                      )}
+                    </Box>
                   )}
                 </Box>
               ) : (
@@ -199,6 +226,20 @@ const Book = () => {
                   <Typography variant="h6">
                     Available Books : {book.availableBooks}
                   </Typography>
+                  {book.availableBooks === 0 && (
+                    <Box>
+                      {book.earliestReturn === "Not Avaliable" ? (
+                        <Typography variant="body1" color="red">
+                          Not Available
+                        </Typography>
+                      ) : (
+                        <Typography variant="h6" color="#A35227">
+                          The book may be available after {" "}
+                          {formatDate(book.earliestReturn)}
+                        </Typography>
+                      )}
+                    </Box>
+                  )}
                 </Box>
               )}
             </Box>
@@ -244,42 +285,45 @@ const Book = () => {
               <Typography gutterBottom variant="h6" component="div">
                 Genres:
               </Typography>
-              {book.genres.length > 0 && book.genres.map((genre, index) => (
-                <Link
-                  href={`/dashboard/book/filter?filterType=genre&filterValue=${genre}`}
-                  style={{ textDecoration: "none", color: "#002575" }}
-                >
-                  <Chip key={index} label={genre} style={{ margin: "4px" }} />
-                </Link>
-              ))}
+              {book.genres.length > 0 &&
+                book.genres.map((genre, index) => (
+                  <Link
+                    href={`/dashboard/book/filter?filterType=genre&filterValue=${genre}`}
+                    style={{ textDecoration: "none", color: "#002575" }}
+                  >
+                    <Chip key={index} label={genre} style={{ margin: "4px" }} />
+                  </Link>
+                ))}
               <Typography gutterBottom variant="h6" component="div">
                 <span style={{ fontWeight: "bold" }}>Authors: </span>
               </Typography>
-              {book.authors.length > 0 && book.authors.map((author) => (
-                <Link
-                  href={`/dashboard/book/filter?filterType=genre&filterValue=${author}`}
-                  underline="none"
-                  color="inherit"
-                >
-                  <Typography gutterBottom variant="h6" component="div">
-                    {author}
-                  </Typography>
-                </Link>
-              ))}
+              {book.authors.length > 0 &&
+                book.authors.map((author) => (
+                  <Link
+                    href={`/dashboard/book/filter?filterType=genre&filterValue=${author}`}
+                    underline="none"
+                    color="inherit"
+                  >
+                    <Typography gutterBottom variant="h6" component="div">
+                      {author}
+                    </Typography>
+                  </Link>
+                ))}
               <Typography gutterBottom variant="h6" component="div">
                 <span style={{ fontWeight: "bold" }}>Publishers: </span>
               </Typography>
-              {book.publishers.length > 0 && book.publishers.map((publisher) => (
-                <Link
-                  href={`/dashboard/book/filter?filterType=genre&filterValue=${publisher}`}
-                  underline="none"
-                  color="inherit"
-                >
-                  <Typography gutterBottom variant="h6" component="div">
-                    {publisher}
-                  </Typography>
-                </Link>
-              ))}
+              {book.publishers.length > 0 &&
+                book.publishers.map((publisher) => (
+                  <Link
+                    href={`/dashboard/book/filter?filterType=genre&filterValue=${publisher}`}
+                    underline="none"
+                    color="inherit"
+                  >
+                    <Typography gutterBottom variant="h6" component="div">
+                      {publisher}
+                    </Typography>
+                  </Link>
+                ))}
             </Box>
           )}
         </Grid>

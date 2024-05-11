@@ -6,6 +6,8 @@ import {
   Box,
   Container,
   Grid,
+  Breadcrumbs,
+  Typography,
   IconButton,
 } from "@mui/material";
 import axiosClient from "../../Components/AxiosClient.js";
@@ -74,13 +76,9 @@ const Profile = ({ userData, updateUserData }) => {
         formData.append("image", Image);
       }
 
-      const response = await axiosClient.post(
-        "/edit-profile",
-        formData,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axiosClient.post("/edit-profile", formData, {
+        withCredentials: true,
+      });
 
       if (response.data.message === "Profile edited successfully!") {
         updateUserData({
@@ -112,6 +110,12 @@ const Profile = ({ userData, updateUserData }) => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    if (!file.type.startsWith("image/")) {
+      // Display an error message or prevent further processing
+      setSnackbarMessage("Please select an image file.");
+      setOpenSnackbar(true);
+      return;
+    }
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -144,7 +148,6 @@ const Profile = ({ userData, updateUserData }) => {
 
   const handleChangePasswordClick = () => {
     setDisplayedForm("password");
-
   };
 
   const handleCancelPasswordClick = () => {
@@ -216,8 +219,13 @@ const Profile = ({ userData, updateUserData }) => {
   };
 
   return (
-    <Container>
+    // <Container>
       <Grid container spacing={3}>
+        <Grid item xs={12} md={12}textAlign="start">
+          <Breadcrumbs aria-label="breadcrumb" ml={2} mt={2}>
+            <Typography color="text.primary">Profile</Typography>
+          </Breadcrumbs>
+        </Grid>
         <Grid item xs={12} md={4} textAlign="center">
           <Avatar
             alt={editMode ? editedData.name : userData.name}
@@ -287,7 +295,7 @@ const Profile = ({ userData, updateUserData }) => {
                 }}
               />
 
-              <TextField
+              {/* <TextField
                 label="Email"
                 name="email"
                 value={editedData.email || ""}
@@ -297,7 +305,7 @@ const Profile = ({ userData, updateUserData }) => {
                 InputLabelProps={{
                   shrink: Boolean(editedData.email),
                 }}
-              />
+              /> */}
               <Button
                 variant="contained"
                 color="primary"
@@ -328,9 +336,7 @@ const Profile = ({ userData, updateUserData }) => {
                 InputProps={{
                   endAdornment: (
                     <IconButton
-                      onClick={() =>
-                        handleTogglePasswordVisibility("password")
-                      }
+                      onClick={() => handleTogglePasswordVisibility("password")}
                       edge="end"
                     >
                       {showCurrentPassword ? (
@@ -432,13 +438,15 @@ const Profile = ({ userData, updateUserData }) => {
             </>
           )}
         </Grid>
-      </Grid>
-      <SnackBar
+        <SnackBar
         open={openSnackbar}
         message={snackbarMessage}
         onClose={handleSnackbarClose}
       />
-    </Container>
+      </Grid>
+
+      
+    // </Container>
   );
 };
 

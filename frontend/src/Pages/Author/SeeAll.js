@@ -4,6 +4,8 @@ import {
   Dialog,
   TextField,
   Typography,
+  Breadcrumbs,
+  Link,
   Grid,
   Box,
   IconButton,
@@ -165,6 +167,9 @@ const SeeAll = ({ userRole }) => {
 
   return (
     <Box>
+      <Breadcrumbs aria-label="breadcrumb">
+        <Typography color="text.primary">Authors</Typography>
+      </Breadcrumbs>
       <SnackBar
         open={openSnackbar}
         message={snackbarMessage}
@@ -223,7 +228,10 @@ const SeeAll = ({ userRole }) => {
                   alignItems: "center",
                 }}
               >
-                <Typography sx={{ padding: "5px", color: "black" }}onClick={() => handleClick(author)}>
+                <Typography
+                  sx={{ padding: "5px", color: "black" }}
+                  onClick={() => handleClick(author)}
+                >
                   {author.name}
                 </Typography>
                 {userRole === "Librarian" && (

@@ -1,4 +1,4 @@
-import { addRequest, getRequest, getPendingReqeust  } from "../Controller/RequestController.js";
+import { addRequest, getRequest, getPendingReqeust,cancelRequest  } from "../Controller/RequestController.js";
 import { checkAuth } from "../Middleware/CheckAuth.js";
 import express from "express";
 
@@ -34,4 +34,16 @@ router.get("/get-pending-request", checkAuth, async (req, res) => {
     console.log(error);
   }
 });
+
+router.post("/cancel-request", checkAuth, async (req, res) => {
+  try {
+    const data = req.body;
+    const message = await cancelRequest({ data, userRole: req.userRole,userId:req.userId });
+    res.send(message);
+  } catch (error) {
+    res.send("Error cancelling request" + error.message);
+    console.log(error);
+  }
+});
+
 export default router;

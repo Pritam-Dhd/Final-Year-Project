@@ -24,7 +24,7 @@ import { fileURLToPath } from "url";
 import cron from "node-cron";
 import { addFines } from "./Controller/FineController.js";
 import { reminderEmail } from "./Controller/NotificationController.js";
-
+import { expireToken } from "./Controller/UsersController.js";
 
 const app = express();
 
@@ -67,7 +67,10 @@ app.use("/api/images", express.static(path.join(__dirname, "Pictures")));
 cron.schedule("0 0 * * *", () => {
   addFines();
   reminderEmail();
-   // expiredRequest()
+  expiredRequest()
+});
+cron.schedule('* * * * * *', () => {
+  expireToken();
 });
 // Run the server.
 const run = async () => {
@@ -82,7 +85,8 @@ const run = async () => {
   RoleSeeder();
   addFines();
   // reminderEmail();
-  expiredRequest()
+  expiredRequest();
+  expireToken();
   // Start the Express server on port 5000 and log a message once it's listening
   await app.listen(5000, () =>
     console.log(`Example app listening on port 5000`)

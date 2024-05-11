@@ -11,12 +11,17 @@ import {
   Typography,
   Container,
   InputAdornment,
+  CssBaseline,
+  Paper,
 } from "@mui/material";
 import axios from "axios";
-import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
+import LockOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import SnackBar from "../Components/SnackBar";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const defaultTheme = createTheme();
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -49,12 +54,16 @@ const Signup = () => {
       if (isValidPassword) {
         if (e.target.password.value === e.target.confirmPassword.value) {
           axios
-            .post("http://localhost:5000/signup", {
-              name: e.target.name.value,
-              phone_no: e.target.phoneNo.value,
-              email: e.target.email.value,
-              password: e.target.password.value,
-            })
+            .post(
+              "http://localhost:5000/signup",
+              {
+                name: e.target.name.value,
+                phone_no: e.target.phoneNo.value,
+                email: e.target.email.value,
+                password: e.target.password.value,
+              },
+              { withCredentials: true }
+            )
             .then(
               (response) => {
                 if (response.data.message === "User registered successfully") {
@@ -66,7 +75,7 @@ const Signup = () => {
                   setOpenSnackbar(true);
                 } else {
                   console.log(response.data.message);
-                  setErrorMessage("Error during signup");
+                  setErrorMessage(response.data.message);
                   setOpenSnackbar(true);
                 }
               },
@@ -92,141 +101,166 @@ const Signup = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Box
-        sx={{
-          marginTop: 2,
-          marginBottom: 2,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          padding: 4,
-          backgroundColor: "#E6EAF4",
-          borderRadius: "8px",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <LockOpenOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Signup
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="name"
-            label="Enter full name"
-            name="name"
-            autoComplete="name"
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="phoneNo"
-            type="number"
-            label="Enter Phone No"
-            name="phoneNo"
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Enter Email"
-            name="email"
-            autoComplete="email"
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Enter Password"
-            type={showPassword ? "text" : "password"}
-            id="password"
-            autoComplete="current-password"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  {showPassword ? (
-                    <VisibilityIcon
-                      onClick={() => setShowPassword(false)}
-                      style={{ cursor: "pointer" }}
-                    />
-                  ) : (
-                    <VisibilityOffIcon
-                      onClick={() => setShowPassword(true)}
-                      style={{ cursor: "pointer" }}
-                    />
-                  )}
-                </InputAdornment>
-              ),
+    <ThemeProvider theme={defaultTheme}>
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage:
+              "url(https://wordsrated.com/wp-content/uploads/2022/02/Number-of-Books-Published-Per-Year.jpg)",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: (t) =>
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="confirmPassword"
-            label="Confirm Password"
-            type={showConfirmPassword ? "text" : "password"}
-            id="confirmPassword"
-            autoComplete="current-password"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  {showConfirmPassword ? (
-                    <VisibilityIcon
-                      onClick={() => setConfirmShowPassword(false)}
-                      style={{ cursor: "pointer" }}
-                    />
-                  ) : (
-                    <VisibilityOffIcon
-                      onClick={() => setConfirmShowPassword(true)}
-                      style={{ cursor: "pointer" }}
-                    />
-                  )}
-                </InputAdornment>
-              ),
-            }}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
           >
-            Sign Up
-          </Button>
-          <Grid container>
-            <Grid item>
-              <Typography variant="span" color="initial">
-                Already have an account?{" "}
-              </Typography>
-              <Link
-                href="/login"
-                variant="body2"
-                color="#002575"
-                sx={{ fontWeight: "bold" }}
-                underline="hover"
+            <Typography component="h1" variant="h4"mb={1}>
+              Library Management System
+            </Typography>
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Signup
+            </Typography>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
+            >
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="name"
+                label="Enter full name"
+                name="name"
+                autoComplete="name"
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="phoneNo"
+                type="number"
+                label="Enter Phone No"
+                name="phoneNo"
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Enter Email"
+                name="email"
+                autoComplete="email"
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Enter Password"
+                type={showPassword ? "text" : "password"}
+                id="password"
+                autoComplete="current-password"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      {showPassword ? (
+                        <VisibilityIcon
+                          onClick={() => setShowPassword(false)}
+                          style={{ cursor: "pointer" }}
+                        />
+                      ) : (
+                        <VisibilityOffIcon
+                          onClick={() => setShowPassword(true)}
+                          style={{ cursor: "pointer" }}
+                        />
+                      )}
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="confirmPassword"
+                label="Confirm Password"
+                type={showConfirmPassword ? "text" : "password"}
+                id="confirmPassword"
+                autoComplete="current-password"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      {showConfirmPassword ? (
+                        <VisibilityIcon
+                          onClick={() => setConfirmShowPassword(false)}
+                          style={{ cursor: "pointer" }}
+                        />
+                      ) : (
+                        <VisibilityOffIcon
+                          onClick={() => setConfirmShowPassword(true)}
+                          style={{ cursor: "pointer" }}
+                        />
+                      )}
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 1 }}
               >
-                Login
-              </Link>
-            </Grid>
-          </Grid>
-        </Box>
-      </Box>
-      <SnackBar
-        open={openSnackbar}
-        message={errorMessage}
-        onClose={handleSnackbarClose}
-      />
-    </Container>
+                Sign Up
+              </Button>
+              <Grid container>
+                <Grid item>
+                  <Typography variant="span" color="initial">
+                    Already have an account?{" "}
+                  </Typography>
+                  <Link
+                    href="/login"
+                    variant="body2"
+                    color="#002575"
+                    sx={{ fontWeight: "bold" }}
+                    underline="hover"
+                  >
+                    Login
+                  </Link>
+                </Grid>
+              </Grid>
+            </Box>
+            <SnackBar
+              open={openSnackbar}
+              message={errorMessage}
+              onClose={handleSnackbarClose}
+            />
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
 };
-
 export default Signup;

@@ -1,5 +1,6 @@
 import User from "../Schema/UserSchema.js";
 import Role from "../Schema/RoleSchema.js";
+import Token from "../Schema/TokenSchema.js";
 import { generate } from "generate-password";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -12,12 +13,19 @@ const maxAge = 3 * 24 * 60 * 60;
 
 export const Signup = async ({ data }) => {
   try {
+    const whitespaceRegex = /^\s*$/;
     if (
-      data.name != null &&
-      data.email != null &&
-      data.password != null &&
-      data.phone_no != null
+      !whitespaceRegex.test(data.name) &&
+      !whitespaceRegex.test(data.email) &&
+      !whitespaceRegex.test(data.password) &&
+      !whitespaceRegex.test(data.phone_no)
     ) {
+      const emailRegex = /^[^\s@]+@heraldcollege\.edu\.np$/;
+      if (!emailRegex.test(data.email)) {
+        return {
+          message: "Email must be of heraldcollege.edu.np domain",
+        };
+      }
       let role = await Role.findOne({ name: "Student" });
       const existingUser = await User.findOne({ email: data.email });
       const hashedPassword = await bcrypt.hash(data.password, 10);
@@ -148,7 +156,7 @@ export const editProfile = async ({ token, data, file }) => {
       const userId = decodedUser.userId;
       const updateData = {
         name: data.name,
-        email: data.email,
+        // email: data.email,
         phone_no: data.phone_no,
       };
       // Check if an image was uploaded
@@ -235,7 +243,20 @@ export const addUser = async ({ data, userRole }) => {
     if (!requiredFields.every((field) => data[field])) {
       return { message: "All fields must be filled" };
     }
-
+    const whitespaceRegex = /^\s*$/;
+    if (
+      whitespaceRegex.test(data.name) ||
+      whitespaceRegex.test(data.email) ||
+      whitespaceRegex.test(data.phone_no)
+    ) {
+      return { message: "All fields must be filled" };
+    }
+    const emailRegex = /^[^\s@]+@heraldcollege\.edu\.np$/;
+    if (!emailRegex.test(data.email)) {
+      return {
+        message: "Email must be of heraldcollege.edu.np domain",
+      };
+    }
     const password = generate({
       length: 8,
       numbers: true,
@@ -395,7 +416,139 @@ export const getTotalUser = async ({ userRole }) => {
   }
 };
 
-export const invalidToken = ({res,req}) => {
+export const invalidToken = ({ res, req }) => {
   res.clearCookie("jwt");
   res.send({ message: "Invalid token" });
+};
+
+export const passwordToken = async ({ data }) => {
+  try {
+    console.log(data)
+    const emailRegex = /^[^\s@]+@heraldcollege\.edu\.np$/;
+    if (!emailRegex.test(data.email)) {
+      return {
+        message: "Email must be of heraldcollege.edu.np domain",
+      };
+    }
+    const existingUser = await User.findOne({ email: data.email });
+    if (!existingUser) {
+      return { message: "User does not exist" };
+    }
+    const code = generate({
+      length: 8,
+      numbers: true,
+      lowercase: true,
+      strict: true,
+    });
+    const expirationTime = Date.now() + 5 * 60 * 1000;
+
+    await Token.create({
+      token: code,
+      expiryDate: expirationTime,
+      email: existingUser.email,
+      status: "active",
+    });
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.User,
+        pass: process.env.Pass,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.User,
+      to: existingUser.email,
+      subject: "Your Reset Passoword Code",
+      text: `Hello ${existingUser.name},\n\nYour account reset code is: ${code}\n\nPlease use the code within 5 mins or it will expire.\n\nBest regards,\nYour Library Team`,
+    };
+
+    await transporter.sendMail(mailOptions);
+    return {
+      message: "Code sent successfully in the mail",
+    };
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const verifyToken = async ({ data }) => {
+  try {
+    const token = data.code;
+    console.log(data)
+    const currentTime = Date.now();
+    const existingToken = await Token.findOne({ token: token, email:data.email });
+    if (!existingToken || existingToken.status === "used"|| !token) {
+      return { message: "Invalid token" };
+    }
+    if (
+      existingToken.status === "expired" ||
+      currentTime > existingToken.expiryDate
+    ) {
+      return { message: "Token expired" };
+    }
+    const updatedToken=await Token.updateOne({token:token, status:"used"})
+    return { message: "Token verified successfully" };
+  } catch (err) {
+    console.log(error);
+  }
+};
+
+export const resetPassword = async ({ data }) => {
+  try {
+    const passwordRegex =
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
+    if (!passwordRegex.test(data.password)) {
+      return {
+        message:
+          "Password must contain uppercase, lowecase, number and special character",
+      };
+    }
+    if(data.password!==data.confirmPassword){
+      return{
+        message:"The password dont match"
+      }
+    }
+    const existingUser = await User.findOne({ email: data.email });
+    const hashedPassword = await bcrypt.hash(data.password, 10);
+    await User.findByIdAndUpdate(
+      existingUser._id,
+      {
+        $set: {
+          password: hashedPassword,
+        },
+      },
+      { new: true }
+    );
+    await Token.findByIdAndUpdate(
+      data.token_id,
+      {
+        $set: {
+          status: "used",
+        },
+      },
+      { new: true }
+    );
+    return { message: "Password updated successfully" };
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const expireToken = async () => {
+  try {
+    const currentTime = Date.now();
+    const tokens = await Token.find({ status: "active" });
+    for (let token of tokens) {
+      if (currentTime > token.expiryDate) {
+        await Token.updateMany(
+          { _id: token._id },
+          { $set: { status: "expired" } }
+        );
+      }
+    }
+  } catch (err) {}
 };

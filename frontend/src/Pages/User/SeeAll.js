@@ -16,12 +16,20 @@ import {
   MenuItem,
   Typography,
   TextField,
+  Breadcrumbs,
+  Link,
+  Dialog,
   Button,
+  LinearProgress,
 } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
 import SnackBar from "../../Components/SnackBar";
-import DeleteConfirmationDialog  from "../../Components/DeleteDialog";
+import DeleteConfirmationDialog from "../../Components/DeleteDialog";
+import AddUser from "./AddUser.js";
+import TableToolbar from "../../Components/TableToolbar";
+import { useUserRole } from "../../Components/UserContext";
 
-const SeeAll = ({userData}) => {
+const SeeAll = ({ userData }) => {
   const [users, setUsers] = useState([]);
   const [editingUserId, setEditingUserId] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -30,42 +38,83 @@ const SeeAll = ({userData}) => {
   const [editingUserDetails, setEditingUserDetails] = useState({});
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingUserId, setDeletingUserId] = useState(null);
+  const { userRole } = useUserRole();
+  const [openDialog, setOpenDialog] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handleAddUser = (newUser) => {
+    newUser.imageLink = "Windows_10_Default_Profile_Picture.png";
     setUsers((prevUsers) => [...prevUsers, newUser]);
+    setOpenDialog(false);
+  };
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleOpenEditDialog = (id) => {
+    setEditDialogOpen(true);
+    handleEditClick(id)
+  };
+
+  const handleCloseEditDialog = () => {
+    setEditDialogOpen(false);
   };
 
   const columns = [
-    { id: "image", label: "Image", minWidth: 40 },
-    { id: "name", label: "Name", minWidth: 90 },
-    { id: "email", label: "Email", minWidth: 170 },
-    { id: "phone_no", label: "Phone Number", minWidth: 100 },
-    { id: "role", label: "Role", minWidth: 50 },
-    { id: "action", label: "Action", minWidth: 50 },
+    {
+      field: "image",
+      headerName: "Image",
+      width: 120,
+      renderCell: (params) => (
+        <Avatar
+          alt={params.row.name}
+          src={`http://localhost:5000/api/images/${params.row.imageLink}`}
+        />
+      ),
+    },
+    { field: "name", headerName: "Name", width: 300 },
+    { field: "email", headerName: "Email", width: 400 },
+    { field: "phone_no", headerName: "Phone Number", width: 200 },
+    { field: "role", headerName: "Role", width: 120 },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 120,
+      renderCell: (params) => (
+        <div>
+          <IconButton
+            color="primary"
+            onClick={() => handleOpenEditDialog(params.row.id)}
+          >
+            <EditIcon />
+          </IconButton>
+          {params.row.email !== "admin@admin.com" &&
+            params.row.email !== userData.email && (
+              <IconButton
+                sx={{ color: "red" }}
+                onClick={() => handleDelete(params.row.id)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            )}
+        </div>
+      ),
+    },
   ];
 
   const rows = users.map((user) => ({
     id: user._id,
     email: user.email,
-    image: <Avatar alt={user.name} src={`http://localhost:5000/api/images/${user.image}`} />,
+    imageLink: user.image,
     name: user.name,
     phone_no: user.phone_no || "No Number",
     role: user.role.name,
-    action: (
-      <div>
-        <IconButton color="primary" onClick={() => handleEditClick(user._id)}>
-          <EditIcon />
-        </IconButton>
-        {user.email !== "admin@admin.com" && user.email!==userData.email && (
-          <IconButton
-            sx={{ color: "red" }}
-            onClick={() => handleDelete(user._id)}
-          >
-            <DeleteIcon />
-          </IconButton>
-        )}
-      </div>
-    ),
   }));
 
   const handleDelete = (userId) => {
@@ -113,6 +162,7 @@ const SeeAll = ({userData}) => {
 
   const handleCancelEdit = () => {
     setEditingUserId(null);
+    setEditDialogOpen(false);
   };
 
   const handleChange = (e) => {
@@ -149,6 +199,7 @@ const SeeAll = ({userData}) => {
         )
       );
       setEditingUserId(null);
+      setEditDialogOpen(false);
     } else {
       setSnackbarMessage(response.data.message);
       setOpenSnackbar(true);
@@ -165,7 +216,7 @@ const SeeAll = ({userData}) => {
       .then(function (response) {
         const data = response.data.users;
         setUsers(data);
-        console.log(data);
+        setLoading(false);
       })
       .catch(function (error) {
         alert(error);
@@ -173,8 +224,58 @@ const SeeAll = ({userData}) => {
   }, []);
 
   return (
-    <>
-      <MuiTable rows={rows} columns={columns} onAddUser={handleAddUser}/>
+    <Paper
+      elevation={3}
+      sx={{
+        width: "100%",
+        overflow: "hidden",
+      }}
+    >
+      <Breadcrumbs aria-label="breadcrumb" ml={2} mt={2}>
+        <Typography color="text.primary">User</Typography>
+      </Breadcrumbs>
+      {userRole === "Librarian" && (
+        <Button
+          sx={{ marginTop: "15px", marginLeft: "15px", marginBottom: "15px" }}
+          variant="contained"
+          color="primary"
+          onClick={handleOpenDialog}
+        >
+          Add User
+        </Button>
+      )}
+
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <AddUser onSuccess={handleAddUser}  />
+      </Dialog>
+      <Box
+        sx={{
+          overflow: "auto",
+          height: "460px",
+        }}
+      >
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pagination={{ pageSize: 10 }}
+          loading={loading} // Use the loading state
+          // getRowHeight={() => "auto"}
+          initialState={{
+            pagination: { paginationModel: { pageSize: 10 } },
+            // sorting: {
+            //   sortModel: [{ field: "dueDate", sort: "desc" }],
+            // },
+          }}
+          pageSizeOptions={[10, 25, 50]}
+          disableRowSelectionOnClick
+          slots={{
+            toolbar: () => <TableToolbar filename="Issued Books" />,
+            loadingOverlay: LinearProgress,
+          }}
+        />
+      </Box>
+
+      {/* <MuiTable rows={rows} columns={columns} onAddUser={handleAddUser}/> */}
 
       {/* Show Messages */}
       <SnackBar
@@ -183,13 +284,12 @@ const SeeAll = ({userData}) => {
         onClose={handleSnackbarClose}
       />
 
-      {/* Form to edit user */}
-      {editingUserId && (
+      <Dialog open={editDialogOpen} onClose={handleCloseEditDialog}>
         <Container maxWidth="xs">
-          <Paper elevation={3} style={{ padding: 16, textAlign: "center" }}>
+          <Paper elevation={3} style={{ padding: 16, textAlign: "center",margin:"20px" }}>
             <Typography variant="h5">Edit User</Typography>
-            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-              <Grid container spacing={2}>
+            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }} >
+            <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
                     margin="normal"
@@ -245,7 +345,7 @@ const SeeAll = ({userData}) => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <FormControl sx={{ width: "100%"}}>
+                  <FormControl sx={{ width: "100%" }}>
                     <InputLabel id="demo-simple-select-autowidth-label">
                       Role
                     </InputLabel>
@@ -286,7 +386,7 @@ const SeeAll = ({userData}) => {
             </Box>
           </Paper>
         </Container>
-      )}
+      </Dialog>
       {/* Delete Confirmation Dialog */}
       <DeleteConfirmationDialog
         open={deleteDialogOpen}
@@ -295,7 +395,7 @@ const SeeAll = ({userData}) => {
         id={deletingUserId}
         message="Are you sure the you want to delete the user?"
       />
-    </>
+    </Paper>
   );
 };
 

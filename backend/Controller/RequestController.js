@@ -136,7 +136,7 @@ export const getRequest = async ({ userRole, userId }) => {
         .sort({ requestDate: -1 })
         .populate({
           path: "user",
-          select: "_id name",
+          select: "_id name email",
         })
         .populate({
           path: "book",
@@ -151,7 +151,7 @@ export const getRequest = async ({ userRole, userId }) => {
             },
             {
               path: "user",
-              select: "_id name",
+              select: "_id name email",
             },
           ],
         });
@@ -166,7 +166,7 @@ export const getRequest = async ({ userRole, userId }) => {
       .sort({ requestDate: -1 })
       .populate({
         path: "user",
-        select: "_id name",
+        select: "_id name email",
       })
       .populate({
         path: "book",
@@ -181,7 +181,7 @@ export const getRequest = async ({ userRole, userId }) => {
           },
           {
             path: "user",
-            select: "_id name",
+            select: "_id name email",
           },
         ],
       });;
@@ -209,6 +209,28 @@ export const getPendingReqeust = async ({ userRole, userId }) => {
       .sort({ requestDate: -1 });
     return {
       requests,
+    };
+  } catch (error) {
+    console.error(error.message);
+    return { message: "Error getting the requests" };
+  }
+};
+
+export const cancelRequest = async ({data, userRole, userId }) => {
+  try {
+    if(userRole!=="Librarian"){
+      return{
+        message:"Only librarian has access"
+      }
+    }
+    if(!data._id||!data.status){
+      return{
+        message:"The data is incomplete"
+      }
+    }
+    const requests = await Request.findByIdAndUpdate(data._id, {status:data.status});
+    return {
+      message:"Cancelled the request successfully"
     };
   } catch (error) {
     console.error(error.message);

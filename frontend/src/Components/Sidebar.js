@@ -16,7 +16,7 @@ import {
 } from "@mui/icons-material";
 import Avatar1 from "./Avatar";
 import SidebarList from "./SidebarList";
-const drawerWidth = 200;
+const drawerWidth = 180;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -98,10 +98,10 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-const Sidebar = ({userRole, userData}) => {
+const Sidebar = ({ userRole, userData }) => {
   const [sideBarContent, setSideBarContent] = React.useState("");
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -132,7 +132,7 @@ const Sidebar = ({userRole, userData}) => {
             Library Management System
           </Typography>
           <div style={{ marginLeft: "auto" }}>
-            <Avatar1 userData={userData}/>
+            <Avatar1 userData={userData} />
           </div>
         </Toolbar>
       </AppBar>
@@ -149,19 +149,17 @@ const Sidebar = ({userRole, userData}) => {
         <Divider />
         <SidebarList open={open} text="Home" />
         {userRole === "Librarian" ? (
-          <SidebarList open={open} text="User"  />
+          <SidebarList open={open} text="User" />
         ) : null}
         <SidebarList open={open} text="Book" />
         <SidebarList open={open} text="Genre" />
         <SidebarList open={open} text="Author" />
         <SidebarList open={open} text="Publisher" />
-        <SidebarList open={open} text="Issue"  />
+        <SidebarList open={open} text="Issue" />
         <SidebarList open={open} text="Fine" />
+        <SidebarList open={open} text="Request" />
         {userRole === "Librarian" ? (
-          <SidebarList open={open} text="Request"  />
-        ) : null}
-        {userRole === "Librarian" ? (
-          <SidebarList open={open} text="Report"  />
+          <SidebarList open={open} text="Report" />
         ) : null}
         <Divider />
       </Drawer>

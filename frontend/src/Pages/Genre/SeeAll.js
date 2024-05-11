@@ -8,6 +8,8 @@ import {
   Grid,
   Box,
   IconButton,
+  Breadcrumbs,
+  Link,
   CircularProgress,
 } from "@mui/material";
 import AddNameForm from "../../Components/AddNameForm";
@@ -163,6 +165,9 @@ const SeeAll = ({ userRole }) => {
 
   return (
     <Box>
+      <Breadcrumbs aria-label="breadcrumb" >
+        <Typography color="text.primary">Genre</Typography>
+      </Breadcrumbs>
       <SnackBar
         open={openSnackbar}
         message={snackbarMessage}

@@ -118,7 +118,7 @@ export const getAllFines = async ({ userRole, userId }) => {
         },
         {
           path: "user",
-          select: "_id name",
+          select: "_id name email",
         },
       ],
     });

@@ -12,9 +12,9 @@ export const addBook = async ({ data, userRole }) => {
       };
     }
     // Check if genres, authors, or publishers are provided
-    const { genres, authors, publishers,_id, ...bookData } = data;
+    const { genres, authors, publishers, _id, ...bookData } = data;
 
-    const availableBook=bookData.totalBooks;
+    const availableBook = bookData.totalBooks;
     // If genres are provided, create them
     const createdGenres = await Promise.all(
       genres.map(async (genreName) => {
@@ -54,7 +54,7 @@ export const addBook = async ({ data, userRole }) => {
       genres: createdGenres,
       authors: createdAuthors,
       publishers: createdPublishers,
-      availableBooks:availableBook,
+      availableBooks: availableBook,
     });
 
     const result = await book.save();
@@ -93,16 +93,23 @@ export const editBook = async ({ data, userRole }) => {
     }
 
     // Check if the total books as it can't be less than the number of books with status "Not Returned"
-    const issuedBooksCount = await Issue.countDocuments({ bookId: existingBook._id, status: "Not Returned" });
+    const issuedBooksCount = await Issue.countDocuments({
+      bookId: existingBook._id,
+      status: "Not Returned",
+    });
     if (data.totalBooks < issuedBooksCount) {
       return {
-        message: "Total books can't be less than the number of books currently issued",
+        message:
+          "Total books can't be less than the number of books currently issued",
       };
     }
 
     const prevTotalBooks = existingBook.totalBooks;
 
-    let availableBooks = existingBook.availableBooks + (data.totalBooks - prevTotalBooks) - issuedBooksCount;
+    let availableBooks =
+      existingBook.availableBooks +
+      (data.totalBooks - prevTotalBooks) -
+      issuedBooksCount;
     availableBooks = availableBooks < 0 ? 0 : availableBooks;
 
     // Update genres if provided
@@ -149,7 +156,7 @@ export const editBook = async ({ data, userRole }) => {
     const { _id, ...bookData } = data;
     const result = await Book.findByIdAndUpdate(
       data._id,
-      { $set: { ...bookData, availableBooks: availableBooks } }, 
+      { $set: { ...bookData, availableBooks: availableBooks } },
       { new: true }
     );
 
@@ -191,16 +198,16 @@ export const deleteBook = async ({ data, userRole }) => {
 export const getAllBooks = async ({ userRole }) => {
   try {
     let Books = await Book.find()
-      .populate('authors', 'name')
-      .populate('genres', 'name')
-      .populate('publishers', 'name');
+      .populate("authors", "name")
+      .populate("genres", "name")
+      .populate("publishers", "name");
 
-    Books = Books.map(book => {
+    Books = Books.map((book) => {
       return {
         ...book.toObject(),
-        authors: book.authors.map(author => author.name),
-        genres: book.genres.map(genre => genre.name),
-        publishers: book.publishers.map(publisher => publisher.name)
+        authors: book.authors.map((author) => author.name),
+        genres: book.genres.map((genre) => genre.name),
+        publishers: book.publishers.map((publisher) => publisher.name),
       };
     });
     return {
@@ -232,73 +239,111 @@ export const getTotalBooks = async ({ userRole }) => {
 export const getBookById = async ({ userRole, bookId }) => {
   try {
     const book = await Book.findById(bookId)
-      .populate('authors', '_id name')
-      .populate('genres', '_id name')
-      .populate('publishers', '_id name');
+      .populate("authors", "_id name")
+      .populate("genres", "_id name")
+      .populate("publishers", "_id name");
 
     if (!book) {
       return { message: "Book not found" };
     }
-    const authors = book.authors.map(author => author._id);
-    const genres = book.genres.map(genre => genre._id);
-    const publishers = book.publishers.map(publisher => publisher._id);
+
+    const authors = book.authors.map((author) => author._id);
+    const genres = book.genres.map((genre) => genre._id);
+    const publishers = book.publishers.map((publisher) => publisher._id);
+
     // Find related books based on genre, author, or publisher
     const relatedBooks = await Book.find({
       $or: [
         { genres: { $in: genres } },
         { authors: { $in: authors } },
-        { publishers: { $in: publishers } }
+        { publishers: { $in: publishers } },
       ],
-      _id: { $ne: bookId } // Exclude the current book
+      _id: { $ne: bookId }, // Exclude the current book
     }).limit(10);
 
+    if (book.availableBooks === 0) {
+      const today = new Date();
+      const issues = await Issue.find({
+        book: book._id,
+        status: "Not Returned",
+        dueDate: { $gte: today },
+      })
+        .sort({ dueDate: 1 })
+        .limit(1);
+      console.log(issues)
+      if (issues.length > 0) {
+        const earliestReturn = issues[0].dueDate;
+        // Create a new object with the updated earliestReturn field
+        const updatedBook = { ...book.toObject(), earliestReturn };
+        return {
+          ...updatedBook,
+          authors: updatedBook.authors.map((author) => author.name),
+          genres: updatedBook.genres.map((genre) => genre.name),
+          publishers: updatedBook.publishers.map((publisher) => publisher.name),
+          relatedBooks: relatedBooks,
+        };
+      } else {
+        // If no issues found, set earliestReturn to "Not Available"
+        const updatedBook = { ...book.toObject(), earliestReturn: "Not Available" };
+        return {
+          ...updatedBook,
+          authors: updatedBook.authors.map((author) => author.name),
+          genres: updatedBook.genres.map((genre) => genre.name),
+          publishers: updatedBook.publishers.map((publisher) => publisher.name),
+          relatedBooks: relatedBooks,
+        };
+      }
+    }
+
+    // If the book is available, return as usual
     return {
       ...book.toObject(),
-      authors: book.authors.map(author => author.name),
-      genres: book.genres.map(genre => genre.name),
-      publishers: book.publishers.map(publisher => publisher.name),
-      relatedBooks:relatedBooks
+      authors: book.authors.map((author) => author.name),
+      genres: book.genres.map((genre) => genre.name),
+      publishers: book.publishers.map((publisher) => publisher.name),
+      relatedBooks: relatedBooks,
     };
   } catch (error) {
     console.log(error.message);
     return {
-      message: "Error getting book"
+      message: "Error getting book",
     };
   }
 };
 
+
 export const filterBooks = async ({ userRole, filterType, filterValue }) => {
   try {
     let Books = await Book.find()
-      .populate('authors', 'name')
-      .populate('genres', 'name')
-      .populate('publishers', 'name');
+      .populate("authors", "name")
+      .populate("genres", "name")
+      .populate("publishers", "name");
 
-    Books = Books.map(book => {
+    Books = Books.map((book) => {
       return {
         ...book.toObject(),
-        authors: book.authors.map(author => author.name),
-        genres: book.genres.map(genre => genre.name),
-        publishers: book.publishers.map(publisher => publisher.name)
+        authors: book.authors.map((author) => author.name),
+        genres: book.genres.map((genre) => genre.name),
+        publishers: book.publishers.map((publisher) => publisher.name),
       };
     });
     if (filterType && filterValue) {
-      Books = Books.filter(book => {
+      Books = Books.filter((book) => {
         switch (filterType) {
-          case 'author':
+          case "author":
             return book.authors.includes(filterValue);
-          case 'genre':
+          case "genre":
             return book.genres.includes(filterValue);
-          case 'publisher':
+          case "publisher":
             return book.publishers.includes(filterValue);
           default:
             return false;
         }
       });
     }
-    return{
-      Books
-    }
+    return {
+      Books,
+    };
   } catch (error) {
     console.log(error.message);
     return {

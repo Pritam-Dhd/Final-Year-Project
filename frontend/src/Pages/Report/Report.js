@@ -9,6 +9,7 @@ import {
   MenuItem,
   Button,
   Paper,
+  Breadcrumbs,
   LinearProgress,
 } from "@mui/material";
 import {
@@ -62,9 +63,9 @@ const Report = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="h4">Reports</Typography>
-      </Grid>
+      <Breadcrumbs aria-label="breadcrumb" ml={2} mt={2}>
+        <Typography color="text.primary">Report</Typography>
+      </Breadcrumbs>
       <Grid item xs={12}>
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={12} sm={6} md={2}>

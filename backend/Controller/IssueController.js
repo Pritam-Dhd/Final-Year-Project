@@ -176,7 +176,7 @@ export const getAllIssues = async ({ userRole, userId }) => {
       const Issues = await Issue.find({user:userId})
         .populate({
           path: "user",
-          select: "_id name",
+          select: "_id name email",
         })
         .populate({
           path: "book",
@@ -189,7 +189,7 @@ export const getAllIssues = async ({ userRole, userId }) => {
     const Issues = await Issue.find()
       .populate({
         path: "user",
-        select: "_id name",
+        select: "_id name email",
       })
       .populate({
         path: "book",
@@ -211,7 +211,7 @@ export const getIssueByUser = async ({ userRole, userId }) => {
     const Issues = await Issue.find({ user: userId })
       .populate({
         path: "user",
-        select: "_id name",
+        select: "_id name email",
       })
       .populate({
         path: "book",
@@ -297,7 +297,7 @@ try{
   const Issues = await Issue.find({ user: userId , status:"Not Returned"})
       .populate({
         path: "user",
-        select: "_id name",
+        select: "_id name email",
       })
       .populate({
         path: "book",

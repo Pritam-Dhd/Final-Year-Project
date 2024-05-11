@@ -7,11 +7,12 @@ import {
   Button,
   Card,
   Link,
+  Breadcrumbs,
   Skeleton,
   CardContent,
   CardMedia,
   IconButton,
-  CircularProgress
+  CircularProgress,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -78,6 +79,11 @@ const StudentDashboard = () => {
 
   return (
     <Grid container spacing={2}>
+      <Grid item xs={12} md={12}>
+        <Breadcrumbs aria-label="breadcrumb">
+          <Typography color="text.primary">Dashboard</Typography>
+        </Breadcrumbs>
+      </Grid>
       <Grid item xs={6} md={2}>
         <Link href="/dashboard/book" underline="none" color="inherit">
           <Box p={2} marginRight={2} sx={{ backgroundColor: "#CCCCCD" }}>
@@ -128,9 +134,17 @@ const StudentDashboard = () => {
             )
             .map((book) => (
               <Grid item xs={12} sm={6} md={3} key={book._id}>
-                <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+                <Card
+                  sx={{
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
                   <Link
-                    href={`/dashboard/book/${encodeURIComponent(book.name)}/${book._id}`}
+                    href={`/dashboard/book/${encodeURIComponent(book.name)}/${
+                      book._id
+                    }`}
                     style={{ textDecoration: "none", color: "black" }}
                   >
                     <CardMedia

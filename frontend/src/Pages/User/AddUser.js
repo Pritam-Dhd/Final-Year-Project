@@ -75,7 +75,7 @@ const AddUser = ({ onSuccess }) => {
 
   return (
     <Container maxWidth="xs">
-      <Paper elevation={3} style={{ padding: 16, textAlign: "center" }}>
+      <Paper elevation={3} style={{ padding: 16, textAlign: "center",margin:"20px" }}>
         <Typography variant="h5">Add User</Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <Grid container spacing={2}>

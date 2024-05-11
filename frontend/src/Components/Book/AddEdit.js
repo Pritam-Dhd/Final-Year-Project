@@ -266,6 +266,10 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
                 value={formData.totalBooks}
                 onChange={(e) => handleChange("totalBooks", e.target.value)}
                 fullWidth
+                
+                onInput={(e) => {
+                  e.target.value = Math.max(1, parseInt(e.target.value) || 1); 
+                }}
                 required
               />
             </Grid>
@@ -278,6 +282,10 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
                 onChange={(e) => handleChange("price", e.target.value)}
                 fullWidth
                 required
+                inputProps={{ min: 1 }}
+                onInput={(e) => {
+                  e.target.value = Math.max(1, parseInt(e.target.value) || 1); 
+                }}
               />
             </Grid>
             <Grid item xs={12}>

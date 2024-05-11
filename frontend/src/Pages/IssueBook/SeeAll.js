@@ -6,8 +6,11 @@ import {
   Dialog,
   Paper,
   Grid,
+  Breadcrumbs,
+  Link,
   IconButton,
   LinearProgress,
+  Typography,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -19,6 +22,8 @@ import SnackBar from "../../Components/SnackBar";
 import DeleteConfirmationDialog from "../../Components/DeleteDialog";
 import TableToolbar from "../../Components/TableToolbar";
 import { useUserRole } from "../../Components/UserContext";
+import Tooltip from "@mui/material/Tooltip";
+
 
 const SeeAll = () => {
   const [issueBooks, setIssuedBooks] = useState([]);
@@ -42,7 +47,6 @@ const SeeAll = () => {
     setOpenSnackbar(false);
   };
 
-  
   const columns = [
     { field: "book", headerName: "Book", width: 460 },
     { field: "user", headerName: "User", width: 230 },
@@ -74,17 +78,21 @@ const SeeAll = () => {
                   <LostIcon />
                 </IconButton>
               )}
-              <IconButton
-                color="error"
-                onClick={() => handleDelete(params.row.id)}
-              >
-                <DeleteIcon />
-              </IconButton>
+              {params.row.status === "Not Returned" ? (
+                <IconButton
+                  color="error"
+                  onClick={() => handleDelete(params.row.id)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              ) : (
+                "No Action"
+              )}
             </>
           )}
-          {userRole==="Student" && params.row.status === "Not Returned" && (
+          {userRole === "Student" && params.row.status === "Not Returned" && (
             <>
-            {params.row.status === "Not Returned" && (
+              {params.row.status === "Not Returned" && (
                 <IconButton
                   sx={{ color: "warning" }}
                   onClick={() => handleLostRequestClick(params.row.id)}
@@ -126,16 +134,15 @@ const SeeAll = () => {
     setCurrentIssue(issue);
   };
 
-  const handleLostClick =  (id) => {
+  const handleLostClick = (id) => {
     setLostIssueId(id);
     setIsLostOpen(true);
   };
 
-  const handleLostRequestClick=(id)=>{
+  const handleLostRequestClick = (id) => {
     setLostIssueId(id);
-    setIsLostRequestOpen(true)
-  }
-  
+    setIsLostRequestOpen(true);
+  };
 
   const handleDelete = (issueId) => {
     setDeletingIssueId(issueId);
@@ -166,7 +173,7 @@ const SeeAll = () => {
     setIsEditOpen(false);
   };
 
-  const handleLostIssue = async() => {
+  const handleLostIssue = async () => {
     try {
       const response = await axiosClient.post(
         "/book-lost",
@@ -198,12 +205,12 @@ const SeeAll = () => {
     }
     setLostIssueId(null);
     setIsLostOpen(false);
-  }; 
-  const handleLostRequest=async()=>{
-    try{
+  };
+  const handleLostRequest = async () => {
+    try {
       const response = await axiosClient.post(
         "/add-request",
-        {issue:lostIssueId,requestType:"lost book"},
+        { issue: lostIssueId, requestType: "lost book" },
         { withCredentials: true }
       );
       if (response.data.message === "Request added successfully") {
@@ -215,12 +222,11 @@ const SeeAll = () => {
       }
       setLostIssueId(null);
       setIsLostRequestOpen(false);
-    }
-    catch(error){
+    } catch (error) {
       setSnackbarMessage(error.message);
       setOpenSnackbar(true);
     }
-  }
+  };
   const handleSuccessMessage = (message) => {
     setSnackbarMessage(message);
     setOpenSnackbar(true);
@@ -229,7 +235,7 @@ const SeeAll = () => {
   const rows = issueBooks.map((issue) => ({
     id: issue._id,
     book: issue.book.name,
-    user: issue.user.name,
+    user: `${issue.user.name} (${issue.user.email})`,
     issueDate: formatDate(issue.issueDate),
     dueDate: formatDate(issue.dueDate),
     returnedDate: issue.returnedDate
@@ -242,7 +248,7 @@ const SeeAll = () => {
     axiosClient
       .get("/get-all-issues", { withCredentials: true })
       .then(function (response) {
-        console.log(response)
+        console.log(response);
         const data = response.data.Issues.reverse();
         setIssuedBooks(data);
         setLoading(false); // After data fetching, set loading to false
@@ -291,15 +297,48 @@ const SeeAll = () => {
         overflow: "hidden",
       }}
     >
-      {userRole==="Librarian"&&(
+      <Grid container justifyContent="space-between" alignItems="center">
+        <Grid item>
+          <Breadcrumbs aria-label="breadcrumb" ml={2} mt={1.3}>
+            <Typography color="text.primary">Issue</Typography>
+          </Breadcrumbs>
+        </Grid>
+        <Grid item mt={1.3} mr={2}>
+          {userRole === "Librarian" && (
+            <>
+              <IconButton color="primary">
+                <EditIcon />
+              </IconButton>
+              {"=> To edit, "}
+            </>
+          )}
+
+          <IconButton color="warning">
+            <LostIcon />
+          </IconButton>
+          {"=> For lost case, "}
+          {userRole === "Librarian" && (
+            <>
+              <IconButton color="error">
+                <DeleteIcon />
+              </IconButton>
+              {"=> To delete "}
+            </>
+          )}
+        </Grid>
+      </Grid>
+
+      {userRole === "Librarian" && (
         <Button
-        sx={{ marginTop: "15px", marginLeft: "15px", marginBottom: "15px" }}
-        variant="contained"
-        color="primary"
-        onClick={handleOpenDialog}
-      >
-        Add Issue
-      </Button>)}
+          sx={{ marginTop: "15px", marginLeft: "15px", marginBottom: "12px" }}
+          variant="contained"
+          color="primary"
+          onClick={handleOpenDialog}
+        >
+          Add Issue
+        </Button>
+      )}
+
       <Dialog open={openDialog} onClose={handleCloseDialog}>
         <AddEdit
           onSuccess={handleAddIssue}
@@ -330,6 +369,7 @@ const SeeAll = () => {
             toolbar: () => <TableToolbar filename="Issued Books" />,
             loadingOverlay: LinearProgress,
           }}
+          
         />
       </Box>
       {isEditOpen && (

@@ -5,16 +5,22 @@ import {
   Dialog,
   Paper,
   Grid,
+  Breadcrumbs,
+  Link,
   IconButton,
   LinearProgress,
+  Typography,
 } from "@mui/material";
 import axiosClient from "../../Components/AxiosClient.js";
 import SnackBar from "../../Components/SnackBar";
 import DoneIcon from "@mui/icons-material/Done";
+import CancelIcon from "@mui/icons-material/Cancel";
 import { DataGrid } from "@mui/x-data-grid";
 import TableToolbar from "../../Components/TableToolbar";
 import DeleteConfirmationDialog from "../../Components/DeleteDialog";
 import AddEdit from "../../Components/Issue/AddEdit.js";
+import AddNameForm from "../../Components/AddNameForm.js";
+import { useNavigate } from "react-router-dom";
 
 const LibrarianRequest = () => {
   const [requests, setRequests] = useState([]);
@@ -25,12 +31,21 @@ const LibrarianRequest = () => {
   const [isLostOpen, setIsLostOpen] = useState(false);
   const [request, setRequest] = useState("");
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
+  const [openAddNameForm, setOpenAddNameForm] = useState(false);
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
     setOpenSnackbar(false);
+  };
+
+  const handleCancelClick = (request) => {
+    if (request.status === "pending") {
+      setRequest(request);
+      setOpenAddNameForm(true);
+    }
   };
 
   const handleDoneClick = (request) => {
@@ -66,12 +81,12 @@ const LibrarianRequest = () => {
         if (response.data.message === "Book lost data added successfully") {
           setIsLostOpen(false);
           setOpenSnackbar(true);
-          setSnackbarMessage("Book lost data added successfully")
+          setSnackbarMessage("Book lost data added successfully");
           const updatedRequests = requests.map((req) =>
             req._id === request.id ? { ...req, status: "done" } : req
           );
           setRequests(updatedRequests);
-          setRequest("")
+          setRequest("");
         }
       } else {
         setOpenDialog(false);
@@ -79,8 +94,9 @@ const LibrarianRequest = () => {
         const updatedRequests = requests.map((req) =>
           req._id === request.id ? { ...req, status: "done" } : req
         );
+        navigate("/dashboard/issue")
         setRequests(updatedRequests);
-        setRequest("")
+        setRequest("");
       }
     } catch (error) {
       setSnackbarMessage(error.message);
@@ -88,9 +104,37 @@ const LibrarianRequest = () => {
     }
   };
 
+  const handleCancelRequest = async (reason) => {
+    try {
+        const response = await axiosClient.post(
+          "/cancel-request",
+          {
+            _id: request.id,
+            status:`rejected ${reason})`
+          },
+          { withCredentials: true }
+        );
+        if (response.data.message === "Cancelled the request successfully") {
+          setOpenAddNameForm(false);
+          setOpenSnackbar(true);
+          setSnackbarMessage("Cancelled the request successfully");
+          const updatedRequests = requests.map((req) =>
+            req._id === request.id ? { ...req, status: `lost(${reason})` } : req
+          );
+          setRequests(updatedRequests);
+          setRequest("");
+        }
+      console.log(reason)
+    } catch (error) {
+      setSnackbarMessage(error.message);
+      setOpenSnackbar(true);
+    }
+  };
+  
   const handleCloseDialog = () => {
     setIsLostOpen(false);
     setOpenDialog(false);
+    setOpenAddNameForm(false);
     setRequest("");
   };
 
@@ -136,13 +180,23 @@ const LibrarianRequest = () => {
       width: 150,
       renderCell: (params) => (
         <div>
-          {params.row.status === "pending" && (
-            <IconButton
-              color="primary"
-              onClick={() => handleDoneClick(params.row)}
-            >
-              <DoneIcon />
-            </IconButton>
+          {params.row.status === "pending" ? (
+            <>
+              <IconButton
+                color="primary"
+                onClick={() => handleDoneClick(params.row)}
+              >
+                <DoneIcon />
+              </IconButton>
+              <IconButton
+                color="error"
+                onClick={() => handleCancelClick(params.row)}
+              >
+                <CancelIcon />
+              </IconButton>
+            </>
+          ) : (
+            <>No Action</>
           )}
         </div>
       ),
@@ -155,7 +209,7 @@ const LibrarianRequest = () => {
         book: request.issue ? request.issue.book.name : request.book.name,
         bookId: request.issue ? request.issue.book._id : null,
         issueId: request.issue ? request.issue._id : null,
-        user: request.user.name,
+        user: `${request.user.name} (${request.user.email})`,
         userId: request.user._id,
         requestDate: formatDate(request.requestDate),
         requestType: request.requestType,
@@ -171,6 +225,23 @@ const LibrarianRequest = () => {
         overflow: "hidden",
       }}
     >
+      <Grid container justifyContent="space-between" alignItems="center">
+        <Grid item>
+          <Breadcrumbs aria-label="breadcrumb" ml={2} mt={2}>
+            <Typography color="text.primary">Request</Typography>
+          </Breadcrumbs>
+        </Grid>
+        <Grid item mt={1.6} mr={2}>
+          <IconButton color="primary">
+            <DoneIcon />
+          </IconButton>
+          {"=> Approve, "}
+          <IconButton color="error">
+            <CancelIcon />
+          </IconButton>
+          {"=> Cancel, "}
+        </Grid>
+      </Grid>
       <Box
         sx={{
           overflow: "auto",
@@ -197,15 +268,14 @@ const LibrarianRequest = () => {
           }}
         />
       </Box>
-      {/* {isEditOpen && (
-        <Dialog open={isEditOpen} onClose={handleCloseDialog}>
-          <AddEdit
-            data={currentIssue}
-            onSuccess={handleEditIssue}
-            successMessage={handleSuccessMessage}
+      {openAddNameForm && (
+        <Dialog open={openAddNameForm} onClose={handleCloseDialog}>
+          <AddNameForm
+            name="Enter Reason"
+            onAdd={handleCancelRequest}
           />
         </Dialog>
-      )} */}
+      )}
 
       <SnackBar
         open={openSnackbar}

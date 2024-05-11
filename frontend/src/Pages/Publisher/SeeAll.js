@@ -6,6 +6,8 @@ import {
   Typography,
   Grid,
   Box,
+  Breadcrumbs,
+  Link,
   IconButton,
   CircularProgress,
 } from "@mui/material";
@@ -171,6 +173,9 @@ const SeeAll = ({ userRole }) => {
 
   return (
     <Box>
+      <Breadcrumbs aria-label="breadcrumb">
+        <Typography color="text.primary">Publisher</Typography>
+      </Breadcrumbs>
       <SnackBar
         open={openSnackbar}
         message={snackbarMessage}

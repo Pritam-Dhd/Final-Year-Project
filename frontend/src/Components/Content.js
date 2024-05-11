@@ -12,6 +12,7 @@ import SeeAllPublisher from "../Pages/Publisher/SeeAll";
 import SeeAllFine from "../Pages/Fine/SeeAll";
 import Profile from "../Pages/User/Profile";
 import LibrarianRequest from "../Pages/Request/LibrarianRequest";
+import StudentRequest from "../Pages/Request/StudentRequest";
 import Report from "../Pages/Report/Report";
 import PageNotFound from "../Pages/PageNotFound";
 import { useParams } from "react-router-dom";
@@ -68,7 +69,7 @@ const Content = ({ userRole, userData, updateUserData }) => {
             {userRole === "Librarian" ? (
               <LibrarianRequest userRole={userRole} />
             ) : (
-              "Only Librarian has access"
+              <StudentRequest userRole={userRole} />
             )}
           </>
         );
