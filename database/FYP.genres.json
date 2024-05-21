@@ -116,4 +116,11 @@
   },
   "name": "Software",
   "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f04b077b980bba6ae5c574"
+  },
+  "name": "Horror",
+  "__v": 0
 }]

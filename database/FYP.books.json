@@ -27,10 +27,11 @@
   "ISBN": "9780747532743",
   "publishedYear": 1998,
   "description": "Harry Potter has no idea how famous he is. That's because he's being raised by his miserable aunt and uncle who are terrified Harry will learn that he's really a wizard, just as his parents were. But everything changes when Harry is summoned to attend an infamous school for wizards, and he begins to discover some clues about his illustrious birthright. From the surprising way he is greeted by a lovable giant, to the unique curriculum and colorful faculty at his unusual school, Harry finds himself drawn deep inside a mystical world he never knew existed and closer to his own noble destiny.",
-  "totalBooks": 5,
+  "totalBooks": 7,
   "image": "https://upload.wikimedia.org/wikipedia/en/6/6b/Harry_Potter_and_the_Philosopher%27s_Stone_Book_Cover.jpg",
   "__v": 0,
-  "availableBooks": 2
+  "availableBooks": 5,
+  "price": 500
 },
 {
   "_id": {
@@ -58,10 +59,11 @@
   "ISBN": "133887893",
   "publishedYear": 1998,
   "description": "The Dursleys were so mean and hideous that summer that all Harry Potter wanted was to get back to the Hogwarts School for Witchcraft and Wizardry. But just as he's packing his bags, Harry receives a warning from a strange, impish creature named Dobby who says that if Harry Potter returns to Hogwarts, disaster will strike.\n\nAnd strike it does. For in Harry's second year at Hogwarts, fresh torments and horrors arise, including an outrageously stuck-up new professor, Gilderoy Lockhart, a spirit named Moaning Myrtle who haunts the girls' bathroom, and the unwanted attentions of Ron Weasley's younger sister, Ginny.",
-  "totalBooks": 4,
+  "totalBooks": 3,
   "availableBooks": 3,
   "image": "https://m.media-amazon.com/images/I/91WqeCn-PxL._SL1500_.jpg",
-  "__v": 0
+  "__v": 0,
+  "price": 550
 },
 {
   "_id": {
@@ -89,10 +91,11 @@
   "ISBN": "1338299166",
   "publishedYear": 1999,
   "description": "For twelve long years, the dread fortress of Azkaban held an infamous prisoner named Sirius Black. Convicted of killing thirteen people with a single curse, he was said to be the heir apparent to the Dark Lord, Voldemort.Now he has escaped, leaving only two clues as to where he might be headed: Harry Potter's defeat of You-Know-Who was Black's downfall as well. And the Azkaban guards heard Black muttering in his sleep, \"He's at Hogwarts... he's at Hogwarts.\"Harry Potter isn't safe, not even within the walls of his magical school, surrounded by his friends. Because on top of it all, there may be a traitor in their midst.",
-  "totalBooks": 4,
-  "availableBooks": 4,
+  "totalBooks": 8,
+  "availableBooks": 7,
   "image": "https://m.media-amazon.com/images/I/A1pqyPSIu6L._SY466_.jpg",
-  "__v": 0
+  "__v": 0,
+  "price": 520
 },
 {
   "_id": {
@@ -123,7 +126,8 @@
   "totalBooks": 5,
   "availableBooks": 5,
   "image": "https://upload.wikimedia.org/wikipedia/en/b/b6/Harry_Potter_and_the_Goblet_of_Fire_cover.png",
-  "__v": 0
+  "__v": 0,
+  "price": 530
 },
 {
   "_id": {
@@ -152,9 +156,10 @@
   "publishedYear": 2008,
   "description": "Even bad code can function. But if code isn’t clean, it can bring a development organization to its knees. Every year, countless hours and significant resources are lost because of poorly written code. But it doesn’t have to be that way.\n\nNoted software expert Robert C. Martin, presents a revolutionary paradigm with Clean Code: A Handbook of Agile Software Craftsmanship. Martin, who has helped bring agile principles from a practitioner’s point of view to tens of thousands of programmers, has teamed up with his colleagues from Object Mentor to distill their best agile practice of cleaning code “on the fly” into a book that will instill within you the values of software craftsman, and make you a better programmer―but only if you work at it.\n\nWhat kind of work will you be doing? You’ll be reading code―lots of code. And you will be challenged to think about what’s right about that code, and what’s wrong with it. More importantly you will be challenged to reassess your professional values and your commitment to your craft.\n\nClean Codeis divided into three parts. The first describes the principles, patterns, and practices of writing clean code. The second part consists of several case studies of increasing complexity. Each case study is an exercise in cleaning up code―of transforming a code base that has some problems into one that is sound and efficient. The third part is the payoff: a single chapter containing a list of heuristics and “smells” gathered while creating the case studies. The result is a knowledge base that describes the way we think when we write, read, and clean code.\n\nReaders will come away from this book understanding\nHow to tell the difference between good and bad code\nHow to write good code and how to transform bad code into good code\nHow to create good names, good functions, good objects, and good classes\nHow to format code for maximum readability\nHow to implement complete error handling without obscuring code logic\nHow to unit test and practice test-driven development\nWhat “smells” and heuristics can help you identify bad code\nThis book is a must for any developer, software engineer, project manager, team lead, or systems analyst with an interest in producing better code.",
   "totalBooks": 5,
-  "availableBooks": 5,
+  "availableBooks": 4,
   "image": "https://m.media-amazon.com/images/I/51E2055ZGUL._SL1000_.jpg",
-  "__v": 0
+  "__v": 0,
+  "price": 600
 },
 {
   "_id": {
@@ -185,7 +190,8 @@
   "totalBooks": 5,
   "availableBooks": 5,
   "image": "https://m.media-amazon.com/images/I/A1hhGzpHssL._SL1500_.jpg",
-  "__v": 0
+  "__v": 0,
+  "price": 500
 },
 {
   "_id": {
@@ -214,9 +220,10 @@
   "publishedYear": 2005,
   "description": "The war against Voldemort is not going well; even Muggle governments are noticing. Ron scans the obituary pages of the Daily Prophet, looking for familiar names. Dumbledore is absent from Hogwarts for long stretches of time, and the Order of the Phoenix has already suffered losses. And yet...\n\nAs in all wars, life goes on. Sixth-year students learn to Apparate - and lose a few eyebrows in the process. The Weasley twins expand their business. Teenagers flirt and fight and fall in love. Classes are never straightforward, though Harry receives some extraordinary help from the mysterious Half-Blood Prince.",
   "totalBooks": 5,
-  "availableBooks": 4,
+  "availableBooks": 5,
   "image": "https://upload.wikimedia.org/wikipedia/en/b/b5/Harry_Potter_and_the_Half-Blood_Prince_cover.png",
-  "__v": 0
+  "__v": 0,
+  "price": 510
 },
 {
   "_id": {
@@ -247,7 +254,8 @@
   "totalBooks": 5,
   "availableBooks": 4,
   "image": "https://m.media-amazon.com/images/I/91VsRHjTY-L._SL1500_.jpg",
-  "__v": 0
+  "__v": 0,
+  "price": 560
 },
 {
   "_id": {
@@ -275,10 +283,11 @@
   "ISBN": "9780131857254",
   "publishedYear": 2006,
   "description": "With the award-winning book Agile Software Development: Principles, Patterns, and Practices, Robert C. Martin helped bring Agile principles to tens of thousands of Java and C++ programmers. Now .NET programmers have a definitive guide to agile methods with this completely updated volume from Robert C. Martin and Micah Martin, Agile Principles, Patterns, and Practices in C#. This book presents a series of case studies illustrating the fundamentals of Agile development and Agile design, and moves quickly from UML models to real C# code. The introductory chapters lay out the basics of the agile movement, while the later chapters show proven techniques in action. The book includes many source code examples that are also available for download from the authors’ Web site. Readers will come away from this book understanding Whether you are a C# programmer or a Visual Basic or Java programmer learning C#, a software development manager, or a business analyst, Agile Principles, Patterns, and Practices in C# is the first book you should read to understand agile software and how it applies to programming in the .NET Framework.",
-  "totalBooks": 10,
-  "availableBooks": 9,
+  "totalBooks": 8,
+  "availableBooks": 7,
   "image": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1348657323i/84983.jpg",
-  "__v": 0
+  "__v": 0,
+  "price": 650
 },
 {
   "_id": {
@@ -309,5 +318,157 @@
   "totalBooks": 5,
   "availableBooks": 4,
   "image": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1348858361i/873375.jpg",
-  "__v": 0
+  "__v": 0,
+  "price": 500
+},
+{
+  "_id": {
+    "$oid": "65f043727b980bba6ae5c43d"
+  },
+  "name": "Introduction to Algorithms, fourth edition",
+  "authors": [
+    {
+      "$oid": "65f043727b980bba6ae5c435"
+    },
+    {
+      "$oid": "65f043727b980bba6ae5c437"
+    },
+    {
+      "$oid": "65f043727b980bba6ae5c439"
+    },
+    {
+      "$oid": "65f043727b980bba6ae5c43b"
+    }
+  ],
+  "genres": [
+    {
+      "$oid": "65bef6f96e0b0f702800b6d9"
+    },
+    {
+      "$oid": "65bef6f96e0b0f702800b6db"
+    }
+  ],
+  "publishers": [],
+  "ISBN": "978-0-262-04630-5",
+  "publishedYear": 2022,
+  "description": "A comprehensive update of the leading algorithms text, with new material on matchings in bipartite graphs, online algorithms, machine learning, and other topics. Some books on algorithms are rigorous but incomplete; others cover masses of material but lack rigor. Introduction to Algorithms uniquely combines rigor and comprehensiveness. It covers a broad range of algorithms in depth, yet makes their design and analysis accessible to all levels of readers, with self-contained chapters and algorithms in pseudocode. Since the publication of the first edition, Introduction to Algorithms has become the leading algorithms text in universities worldwide as well as the standard reference for professionals. This fourth edition has been updated throughout.\n\nNew for the fourth edition\n    - New chapters on matchings in bipartite graphs, online algorithms, and machine learning\n    - New material on topics including solving recurrence equations, hash tables, potential functions, and suffix arrays\n    - 140 new exercises and 22 new problems\n    - Reader feedback–informed improvements to old problems\n    - Clearer, more personal, and gender-neutral writing style\n    - Color added to improve visual presentation\n    - Notes, bibliography, and index updated to reflect developments in the field\n    - Website with new supplementary material",
+  "totalBooks": 10,
+  "availableBooks": 10,
+  "image": "https://upload.wikimedia.org/wikipedia/en/f/ff/Clrs4.jpeg",
+  "__v": 0,
+  "price": 500
+},
+{
+  "_id": {
+    "$oid": "65f045a87b980bba6ae5c4b1"
+  },
+  "name": "Code Complete: A Practical Handbook of Software Construction",
+  "authors": [
+    {
+      "$oid": "65f045a87b980bba6ae5c4ac"
+    }
+  ],
+  "genres": [
+    {
+      "$oid": "65bef6f96e0b0f702800b6d9"
+    },
+    {
+      "$oid": "65bef6f96e0b0f702800b6db"
+    }
+  ],
+  "publishers": [
+    {
+      "$oid": "65f045a87b980bba6ae5c4af"
+    }
+  ],
+  "ISBN": "978-0735619678",
+  "publishedYear": 2004,
+  "description": "Widely considered one of the best practical guides to programming, Steve McConnell’s original CODE COMPLETE has been helping developers write better software for more than a decade. Now this classic book has been fully updated and revised with leading-edge practices—and hundreds of new code samples—illustrating the art and science of software construction. Capturing the body of knowledge available from research, academia, and everyday commercial practice, McConnell synthesizes the most effective techniques and must-know principles into clear, pragmatic guidance. No matter what your experience level, development environment, or project size, this book will inform and stimulate your thinking—and help you build the highest quality code. Discover the timeless techniques and strategies that help you: Design for minimum complexity and maximum creativity Reap the benefits of collaborative development Apply defensive programming techniques to reduce and flush out errors Exploit opportunities to refactor—or evolve—code, and do it safely Use construction practices that are right-weight for your project Debug problems quickly and effectively Resolve critical construction issues early and correctly Build quality into the beginning, middle, and end of your project",
+  "totalBooks": 8,
+  "availableBooks": 8,
+  "image": "https://m.media-amazon.com/images/I/61GzazUmKyL._SL1462_.jpg",
+  "__v": 0,
+  "price": 550
+},
+{
+  "_id": {
+    "$oid": "65f049fb7b980bba6ae5c542"
+  },
+  "name": "Frankenstein",
+  "authors": [
+    {
+      "$oid": "65f049fb7b980bba6ae5c53d"
+    }
+  ],
+  "genres": [
+    {
+      "$oid": "65b3be2e505d71e558e4e7b9"
+    }
+  ],
+  "publishers": [
+    {
+      "$oid": "65f049fb7b980bba6ae5c540"
+    }
+  ],
+  "ISBN": "978-1512308051",
+  "publishedYear": 2020,
+  "description": "Frankenstein; or, The Modern Prometheus, is a novel written by English author Mary Shelley about the young student of science Victor Frankenstein, who creates a grotesque but sentient creature in an unorthodox scientific experiment. Shelley started writing the story when she was eighteen, and the novel was published when she was twenty. The first edition was published anonymously in London in 1818. Shelley's name appears on the second edition, published in France in 1823.Shelley had travelled through Europe in 1814, journeying along the river Rhine in Germany with a stop in Gernsheim which is just 17 km (10 mi) away from Frankenstein Castle, where two centuries before an alchemist was engaged in experiments. Later, she travelled in the region of Geneva (Switzerland)—where much of the story takes place—and the topics of galvanism and other similar occult ideas were themes of conversation among her companions, particularly her lover and future husband, Percy Shelley. Mary, Percy, Lord Byron, and John Polidori decided to have a competition to see who could write the best horror story. After thinking for days, Shelley dreamt about a scientist who created life and was horrified by what he had made; her dream later evolved into the story within the novel.",
+  "totalBooks": 7,
+  "availableBooks": 7,
+  "image": "https://m.media-amazon.com/images/I/81z7E0uWdtL._SL1500_.jpg",
+  "__v": 0,
+  "price": 450
+},
+{
+  "_id": {
+    "$oid": "65f04a5f7b980bba6ae5c55d"
+  },
+  "name": "Mind Map Mastery: The Complete Guide to Learning and Using the Most Powerful Thinking Tool in the Universe",
+  "authors": [],
+  "genres": [
+    {
+      "$oid": "65bef6f96e0b0f702800b6db"
+    },
+    {
+      "$oid": "65dc626293ec81b87f24d049"
+    }
+  ],
+  "publishers": [
+    {
+      "$oid": "65f04a5f7b980bba6ae5c55b"
+    }
+  ],
+  "ISBN": "978-1786781413",
+  "publishedYear": 2018,
+  "description": "For the past five decades, Tony Buzan has been at the leading edge of learning and educational research with his revolutionary Mind Map technique. With Mind Map Mastery, he has distilled these years of global research into the clearest and most powerful instructional work available on the Mind Map technique.\n\nTony Buzan’s Mind Map technique has gathered amazing praise and an enormous worldwide following over the last few decades—but as with any very successful idea, there have been many sub-standard imitators. With Mind Map Mastery, Tony Buzan re-establishes the essential concepts that are the core of the Mind Map with a clarity and practicality unrivalled by other books.\n\nIf you are looking to improve your memory, plan your business strategy, become more organized, study for an exam or plan out your future, this is the book for you. With a clarity and depth that far exceeds any other book on the subject, it includes:\n \n• The history of the development of the Mind Map\n• An explanation of what makes a Mind Map (and what isn't a Mind Map)\n• Why the Mind Map technique is such a powerful tool\n• Illustrated step-by-step techniques for Mind Map development\n• How to deal with Mind Maps that have “gone wrong”\n \nDeveloped both for those new to the Mind Map concept as well as more experienced users who would like to revise and expand their expertise, Mind Map Mastery is the one Mind Mapping book needed on the shelf of every student and businessperson across the world.",
+  "totalBooks": 7,
+  "availableBooks": 7,
+  "image": "https://m.media-amazon.com/images/I/71C2gPVEq+L._SL1500_.jpg",
+  "__v": 0,
+  "price": 580
+},
+{
+  "_id": {
+    "$oid": "65f04b077b980bba6ae5c579"
+  },
+  "name": "Dracula (Penguin Classics)",
+  "authors": [
+    {
+      "$oid": "65f04b077b980bba6ae5c577"
+    }
+  ],
+  "genres": [
+    {
+      "$oid": "65f04b077b980bba6ae5c574"
+    }
+  ],
+  "publishers": [],
+  "ISBN": "978-0141439846",
+  "publishedYear": 2003,
+  "description": "When Jonathan Harker visits Transylvania to help Count Dracula purchase a London house, he makes horrifying discoveries in his client's castle. Soon afterwards, disturbing incidents unfold in England: a ship runs aground on the shores of Whitby, its crew vanished; beautiful Lucy Westenra slowly succumbs to a mysterious, wasting illness, her blood drained away; and the lunatic Renfield raves about the imminent arrival of his 'master'. In the ensuing battle of wills between the sinister Count and a determined group of adversaries - led by the intrepid vampire hunter Abraham van Helsing - Bram Stoker created a masterpiece of the horror genre, probing into questions of identity, sanity and the dark corners of Victorian sexuality and desire.",
+  "totalBooks": 4,
+  "availableBooks": 4,
+  "image": "https://m.media-amazon.com/images/I/71lhU-dnJeL._SL1500_.jpg",
+  "__v": 0,
+  "price": 500
 }]

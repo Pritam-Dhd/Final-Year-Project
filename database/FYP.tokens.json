@@ -1,0 +1,12 @@
+[{
+  "_id": {
+    "$oid": "663f98c5bc7a99b2df1e6afa"
+  },
+  "token": "DapbgrH6",
+  "expiryDate": {
+    "$date": "2024-05-11T16:16:49.499Z"
+  },
+  "email": "np03cs4s220160@heraldcollege.edu.np",
+  "status": "used",
+  "__v": 0
+}]

@@ -46,4 +46,53 @@
   },
   "name": "Robert C. Martin",
   "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f043727b980bba6ae5c435"
+  },
+  "name": " Thomas H. Cormen",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f043727b980bba6ae5c437"
+  },
+  "name": " Charles E. Leiserson",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f043727b980bba6ae5c439"
+  },
+  "name": "Ronald L. Rivest",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f043727b980bba6ae5c43b"
+  },
+  "name": "Clifford Stein",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f045a87b980bba6ae5c4ac"
+  },
+  "name": " Steve Mcconnell",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f049fb7b980bba6ae5c53d"
+  },
+  "name": "Mary Shelley",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f04b077b980bba6ae5c577"
+  },
+  "name": " Bram Stoker",
+  "__v": 0
 }]

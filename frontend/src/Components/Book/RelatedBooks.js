@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
-import {useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import {
   Grid,
   Typography,
   Box,
-  Button,
   Card,
   Link,
   CardContent,
@@ -16,9 +14,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const RelatedBooks = ({ relatedBooks }) => {
   const [currentPage, setCurrentPage] = useState(0);
-  const navigate = useNavigate();
 
-  
   const booksPerPage = () => {
     if (window.innerWidth <= 600) return 2;
     if (window.innerWidth <= 960) return 3;
@@ -44,7 +40,9 @@ const RelatedBooks = ({ relatedBooks }) => {
         .slice(currentPage * booksPerPage(), (currentPage + 1) * booksPerPage())
         .map((relatedBook) => (
           <Grid item xs={12} sm={6} md={3} key={relatedBook._id}>
-            <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+            <Card
+              sx={{ height: "100%", display: "flex", flexDirection: "column" }}
+            >
               <Link
                 href={`/dashboard/book/${relatedBook.name}/${relatedBook._id}`}
                 style={{ textDecoration: "none", color: "black" }}

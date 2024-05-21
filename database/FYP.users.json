@@ -37,7 +37,7 @@
     "$oid": "657c5a15a986dafb5efc47fe"
   },
   "image": "1705678850507-pokemon.png",
-  "password": "$2b$10$/cR4g/etfQUczxFfsWPGgOZueqZ4xsB2saGrgwT/wBCPqGJKUkadS",
+  "password": "$2b$10$BsUcWLkz9SeB5LqMC1D2MeNjyym48GjenolDCGKn2tSajX23i3Bfy",
   "__v": 0
 },
 {
@@ -220,5 +220,131 @@
   },
   "image": "Windows_10_Default_Profile_Picture.png",
   "password": "$2b$10$5yr1a7/ptgwbxgfG/QZjV.3y/vrIagq22RUlTtq.WTX3QIvzvQbAC",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6624a58d6ec971e6c734b2e5"
+  },
+  "name": " ",
+  "email": "np03cs4s220140@heraldcollege.edu.np",
+  "phone_no": "9876542637",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$0YQnD0RzWg.EE4uYQOFhlOk49k1rT92tObpZa56KGF3KLhHVLfUc.",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662668e94102cc58349b3d5a"
+  },
+  "name": "Kishan Singh",
+  "email": "np00cs0010293@heraldcollege.edu.np",
+  "phone_no": "9826372612",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$GLntX6tyEZjbtZZKGd7d7u9vDxw/tHVXIdvWQPlbVdJqW9eJskEJW",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662669924102cc58349b3d5e"
+  },
+  "name": "Saurav Joshi",
+  "email": "np00cs12715253@heraldcollege.edu.np",
+  "phone_no": "9826153647",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$umheEhZDxqYR62YPzQZvKuMKEBIUcccOs8g0sgx9IEKaEpTll0fmS",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66266a094102cc58349b3d62"
+  },
+  "name": "Krish Maharjan",
+  "email": "np00s00000@heraldcollege.edu.np",
+  "phone_no": "9867352415",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$.7obPCuiqkkbtrJ/SNetDOJw31PeswYMi1rFcxdhExXShpJiAKs2m",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66266b3485ab3c4467c84207"
+  },
+  "name": "Kritika Khadka",
+  "email": "np00s00001@heraldcollege.edu.np",
+  "phone_no": "9864526126",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$lrqwbd1xkeEHq1pViN86/uQPdenL5qy21sHHOHd127hV4u5NLDPUK",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66266d98c698864ae7dcc8f3"
+  },
+  "name": "Rachana Sharma",
+  "email": "np00s00002@heraldcollege.edu.np",
+  "phone_no": "9715263621",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$lh7npZpsxDIpzjPq3k8X6OsdSfsmkXI4sA1YOHgZu49BYfZQUPbga",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66266ddbc698864ae7dcc8f7"
+  },
+  "name": "Aditya Chaudhary",
+  "email": "np00s00003@heraldcollege.edu.np",
+  "phone_no": "986162731",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$B92yDD44H9mcNapROPTqtuLA17daKMx/77MlNK1a5gAuxf8Ya/AhW",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66266ef4b0c0e07302b453cf"
+  },
+  "name": "Vijaya Singh",
+  "email": "np00s00004@heraldcollege.edu.np",
+  "phone_no": "9862716216",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "Windows_10_Default_Profile_Picture.png",
+  "password": "$2b$10$GblA2B23AkaYrbcCNLN5ZeUrUZEfLjGA47O0kSO5u11JzbCP0dbxa",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66266ff1b0c0e07302b453d3"
+  },
+  "name": "Ananta Chaudhary",
+  "email": "np00s00005@heraldcollege.edu.np",
+  "phone_no": "9172838192",
+  "role": {
+    "$oid": "657c5b8fbcfddd631c2bcf33"
+  },
+  "image": "1713795763427-download (1).jpg",
+  "password": "$2b$10$HvMtgdvZ5XaES2EcrCcx6.lBEC9CRRkn3Klt7vHHUlcTcwK05HMaq",
   "__v": 0
 }]

@@ -39,4 +39,25 @@
   },
   "name": "Prentice Hall",
   "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f045a87b980bba6ae5c4af"
+  },
+  "name": "Microsoft Press US",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f049fb7b980bba6ae5c540"
+  },
+  "name": "CreateSpace Independent Publishing Platform ",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f04a5f7b980bba6ae5c55b"
+  },
+  "name": "Watkins Publishing",
+  "__v": 0
 }]

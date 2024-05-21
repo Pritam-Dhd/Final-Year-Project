@@ -1,0 +1,136 @@
+[{
+  "_id": {
+    "$oid": "6618a3578e62a8158e8b9697"
+  },
+  "issue": {
+    "$oid": "66120733eb2aedf754fb3063"
+  },
+  "user": {
+    "$oid": "6581b8362264772d7de00052"
+  },
+  "requestDate": {
+    "$date": "2024-04-12T00:00:00.000Z"
+  },
+  "requestType": "lost book",
+  "status": "done",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6618aa7c12a2bfdc454e05eb"
+  },
+  "book": {
+    "$oid": "65dc5cc393ec81b87f24cf10"
+  },
+  "user": {
+    "$oid": "6581b8362264772d7de00052"
+  },
+  "requestDate": {
+    "$date": "2024-04-12T00:00:00.000Z"
+  },
+  "requestType": "request issue",
+  "status": "done",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "661b9a96c6ad2fbcb7de6e3d"
+  },
+  "book": {
+    "$oid": "65bb90b890644ae47cd5afc7"
+  },
+  "user": {
+    "$oid": "65dc647c93ec81b87f24d08f"
+  },
+  "requestDate": {
+    "$date": "2024-04-14T00:00:00.000Z"
+  },
+  "requestType": "request issue",
+  "status": "done",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "661b9af4c6ad2fbcb7de6eb1"
+  },
+  "issue": {
+    "$oid": "661b9adac6ad2fbcb7de6e93"
+  },
+  "user": {
+    "$oid": "65dc647c93ec81b87f24d08f"
+  },
+  "requestDate": {
+    "$date": "2024-04-14T00:00:00.000Z"
+  },
+  "requestType": "lost book",
+  "status": "done",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6624a6066ec971e6c734b33c"
+  },
+  "book": {
+    "$oid": "65bb0fc8d95b292c4c97c9c1"
+  },
+  "user": {
+    "$oid": "6624a58d6ec971e6c734b2e5"
+  },
+  "requestDate": {
+    "$date": "2024-04-21T00:00:00.000Z"
+  },
+  "requestType": "request issue",
+  "status": "done",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6626704bcd2c847c8b4784f1"
+  },
+  "book": {
+    "$oid": "65bb0fc8d95b292c4c97c9c1"
+  },
+  "user": {
+    "$oid": "66266ff1b0c0e07302b453d3"
+  },
+  "requestDate": {
+    "$date": "2024-04-22T00:00:00.000Z"
+  },
+  "requestType": "request issue",
+  "status": "done",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "663cdb7cde1419a584361de8"
+  },
+  "book": {
+    "$oid": "65dc626293ec81b87f24d04d"
+  },
+  "user": {
+    "$oid": "6581b8362264772d7de00052"
+  },
+  "requestDate": {
+    "$date": "2024-05-09T00:00:00.000Z"
+  },
+  "requestType": "request issue",
+  "status": "rejected (Not returned previous books and fine pendin)",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "663cdb90de1419a584361e20"
+  },
+  "book": {
+    "$oid": "65f043727b980bba6ae5c43d"
+  },
+  "user": {
+    "$oid": "6581b8362264772d7de00052"
+  },
+  "requestDate": {
+    "$date": "2024-05-09T00:00:00.000Z"
+  },
+  "requestType": "request issue",
+  "status": "done",
+  "__v": 0
+}]

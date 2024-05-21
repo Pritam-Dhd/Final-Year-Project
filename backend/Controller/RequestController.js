@@ -229,6 +229,7 @@ export const cancelRequest = async ({data, userRole, userId }) => {
       }
     }
     const requests = await Request.findByIdAndUpdate(data._id, {status:data.status});
+    await Book.findByIdAndUpdate(requests.book, { $inc: { availableBooks: 1 } });
     return {
       message:"Cancelled the request successfully"
     };

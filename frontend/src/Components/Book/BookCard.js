@@ -5,8 +5,6 @@ import {
   CardContent,
   CardMedia,
   Typography,
-  Button,
-  Chip,
   CardActionArea,
   CardActions,
   IconButton,
@@ -27,7 +25,7 @@ const BookCard = ({ bookDetail, userRole, onDelete }) => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deletingBookId, setDeletingBookId] = useState(null);
-  const [encodedBookName,setEncodedBookName]=useState('');
+  const [encodedBookName, setEncodedBookName] = useState("");
 
   useEffect(() => {
     setCurrentBookDetail(bookDetail);

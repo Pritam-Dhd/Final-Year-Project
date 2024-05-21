@@ -10,7 +10,8 @@
   "__v": 0,
   "paid_date": {
     "$date": "2024-02-20T18:15:00.000Z"
-  }
+  },
+  "reason": "Overdue"
 },
 {
   "_id": {
@@ -22,7 +23,8 @@
   "amount": 100,
   "status": "paid",
   "__v": 0,
-  "paid_date": "2024-02-21T18:15:00.000+00:00"
+  "paid_date": "2024-02-21T18:15:00.000+00:00",
+  "reason": "Overdue"
 },
 {
   "_id": {
@@ -36,7 +38,8 @@
   "__v": 0,
   "paid_date": {
     "$date": "2024-03-04T11:53:28.078Z"
-  }
+  },
+  "reason": "Overdue"
 },
 {
   "_id": {
@@ -50,7 +53,8 @@
   "paid_date": {
     "$date": "2024-03-04T11:51:35.680Z"
   },
-  "__v": 0
+  "__v": 0,
+  "reason": "Overdue"
 },
 {
   "_id": {
@@ -60,9 +64,12 @@
     "$oid": "65e5b8e717122970696579e7"
   },
   "amount": 300,
-  "status": "unpaid",
-  "paid_date": null,
-  "__v": 0
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-03-12T05:29:21.114Z"
+  },
+  "__v": 0,
+  "reason": "Overdue"
 },
 {
   "_id": {
@@ -72,9 +79,12 @@
     "$oid": "65e5b8f31712297069657a03"
   },
   "amount": 200,
-  "status": "unpaid",
-  "paid_date": null,
-  "__v": 0
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-03-15T03:25:21.826Z"
+  },
+  "__v": 0,
+  "reason": "Overdue"
 },
 {
   "_id": {
@@ -84,9 +94,12 @@
     "$oid": "65e5b91b1712297069657a1f"
   },
   "amount": 100,
-  "status": "unpaid",
-  "paid_date": null,
-  "__v": 0
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-03-15T03:25:30.549Z"
+  },
+  "__v": 0,
+  "reason": "Overdue"
 },
 {
   "_id": {
@@ -96,9 +109,12 @@
     "$oid": "65e5b9291712297069657a3b"
   },
   "amount": 300,
-  "status": "unpaid",
-  "paid_date": null,
-  "__v": 0
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-03-15T03:25:28.341Z"
+  },
+  "__v": 0,
+  "reason": "Overdue"
 },
 {
   "_id": {
@@ -108,6 +124,410 @@
     "$oid": "65e5b9311712297069657a57"
   },
   "amount": 100,
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-03-26T09:57:04.205Z"
+  },
+  "__v": 0,
+  "reason": "Overdue"
+},
+{
+  "_id": {
+    "$oid": "65f3bb536da83e2157d1e6af"
+  },
+  "issue": {
+    "$oid": "65e86ddb233195f4045a3f60"
+  },
+  "amount": 100,
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-03-26T09:57:07.821Z"
+  },
+  "__v": 0,
+  "reason": "Overdue"
+},
+{
+  "_id": {
+    "$oid": "65f3bb536da83e2157d1e6b2"
+  },
+  "issue": {
+    "$oid": "65e86de9233195f4045a3f7c"
+  },
+  "amount": 100,
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-03-15T03:25:25.945Z"
+  },
+  "__v": 0,
+  "reason": "Overdue"
+},
+{
+  "_id": {
+    "$oid": "65f97b5878043e46ee4780df"
+  },
+  "issue": {
+    "$oid": "65f3bf3eca2a55575795bfe0"
+  },
+  "amount": 500,
+  "reason": "Lost",
+  "status": "paid",
+  "__v": 0,
+  "paid_date": {
+    "$date": "2024-03-19T11:50:34.583Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66029934cfc73be0cf38a00a"
+  },
+  "issue": {
+    "$oid": "65f80b5cf718f5aebb2c10ad"
+  },
+  "amount": 100,
+  "reason": "Overdue",
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-03-26T09:56:59.057Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "660d675d2f88402c1b04f7b5"
+  },
+  "issue": {
+    "$oid": "6607d71ef12570134f7a9fae"
+  },
+  "amount": 500,
+  "reason": "Lost",
+  "status": "paid",
+  "__v": 0,
+  "paid_date": {
+    "$date": "2024-04-03T14:35:39.559Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "660d692c2f88402c1b04f816"
+  },
+  "issue": {
+    "$oid": "6609245f1dfc75f1827d23aa"
+  },
+  "amount": 650,
+  "reason": "Lost",
+  "status": "paid",
+  "__v": 0,
+  "paid_date": {
+    "$date": "2024-04-03T14:35:41.841Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "660f6f4bb576210bdb83ed7a"
+  },
+  "issue": {
+    "$oid": "66029abd950ba0d607077865"
+  },
+  "amount": 200,
+  "reason": "Overdue",
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-04-19T03:48:54.517Z"
+  },
+  "__v": 0,
+  "paidType": "Cash"
+},
+{
+  "_id": {
+    "$oid": "660f6f4bb576210bdb83ed7d"
+  },
+  "issue": {
+    "$oid": "6604f53e8c4227e770412d5e"
+  },
+  "amount": 100,
+  "reason": "Overdue",
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-04-19T03:49:00.523Z"
+  },
+  "__v": 0,
+  "paidType": "Cash"
+},
+{
+  "_id": {
+    "$oid": "6618d8c1094d54985e3930be"
+  },
+  "issue": {
+    "$oid": "66120733eb2aedf754fb3063"
+  },
+  "amount": 500,
+  "reason": "Lost",
+  "status": "paid",
+  "__v": 0,
+  "paidType": "Online",
+  "paid_date": {
+    "$date": "2024-04-16T12:54:20.858Z"
+  },
+  "transaction_code": "0007AD3"
+},
+{
+  "_id": {
+    "$oid": "661b91d4c6ad2fbcb7de6b3d"
+  },
+  "issue": {
+    "$oid": "6610b592eb2aedf754fb2abb"
+  },
+  "amount": 100,
+  "reason": "Overdue",
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-04-19T03:49:25.010Z"
+  },
+  "__v": 0,
+  "paidType": "Cash"
+},
+{
+  "_id": {
+    "$oid": "661b91d5c6ad2fbcb7de6b40"
+  },
+  "issue": {
+    "$oid": "6610b5a1eb2aedf754fb2ad7"
+  },
+  "amount": 100,
+  "reason": "Overdue",
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-05-15T03:23:54.609Z"
+  },
+  "__v": 0,
+  "paidType": "Cash"
+},
+{
+  "_id": {
+    "$oid": "661b91d5c6ad2fbcb7de6b43"
+  },
+  "issue": {
+    "$oid": "6610b5b3eb2aedf754fb2af3"
+  },
+  "amount": 100,
+  "reason": "Overdue",
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-05-06T09:57:33.636Z"
+  },
+  "__v": 0,
+  "paidType": "Cash"
+},
+{
+  "_id": {
+    "$oid": "661b9b09c6ad2fbcb7de6ed6"
+  },
+  "issue": {
+    "$oid": "661b9adac6ad2fbcb7de6e93"
+  },
+  "amount": 550,
+  "reason": "Lost",
+  "status": "paid",
+  "__v": 0,
+  "paid_date": {
+    "$date": "2024-04-14T09:02:18.125Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6621e8864f7ed998fa38c260"
+  },
+  "issue": {
+    "$oid": "6617e9e154f4dca2af72e5af"
+  },
+  "amount": 100,
+  "reason": "Overdue",
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-05-06T09:57:20.670Z"
+  },
+  "__v": 0,
+  "paidType": "Cash"
+},
+{
+  "_id": {
+    "$oid": "6621e8894f7ed998fa38c263"
+  },
+  "issue": {
+    "$oid": "6617e9e954f4dca2af72e5cc"
+  },
+  "amount": 100,
+  "reason": "Overdue",
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-05-06T09:57:35.725Z"
+  },
+  "__v": 0,
+  "paidType": "Cash"
+},
+{
+  "_id": {
+    "$oid": "6621e88d4f7ed998fa38c266"
+  },
+  "issue": {
+    "$oid": "6617e9f454f4dca2af72e5e9"
+  },
+  "amount": 100,
+  "reason": "Overdue",
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-04-19T03:49:21.257Z"
+  },
+  "__v": 0,
+  "paidType": "Cash"
+},
+{
+  "_id": {
+    "$oid": "6638a87b828e8963cb483873"
+  },
+  "issue": {
+    "$oid": "662a5d46b7db4aed43f45bff"
+  },
+  "amount": 400,
+  "reason": "Overdue",
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-05-06T09:57:22.700Z"
+  },
+  "__v": 0,
+  "paidType": "Cash"
+},
+{
+  "_id": {
+    "$oid": "6638a87f828e8963cb483876"
+  },
+  "issue": {
+    "$oid": "662a5d52b7db4aed43f45c1c"
+  },
+  "amount": 400,
+  "reason": "Overdue",
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-05-06T09:57:24.333Z"
+  },
+  "__v": 0,
+  "paidType": "Cash"
+},
+{
+  "_id": {
+    "$oid": "6638a884828e8963cb483879"
+  },
+  "issue": {
+    "$oid": "662a5d60b7db4aed43f45c39"
+  },
+  "amount": 400,
+  "reason": "Overdue",
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-05-06T09:57:29.494Z"
+  },
+  "__v": 0,
+  "paidType": "Cash"
+},
+{
+  "_id": {
+    "$oid": "6638a888828e8963cb48387c"
+  },
+  "issue": {
+    "$oid": "662a5d6eb7db4aed43f45c56"
+  },
+  "amount": 400,
+  "reason": "Overdue",
+  "status": "unpaid",
+  "paid_date": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6638a893828e8963cb48387f"
+  },
+  "issue": {
+    "$oid": "662ce8b6a152767e7e9e172a"
+  },
+  "amount": 200,
+  "reason": "Overdue",
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-05-06T09:57:26.645Z"
+  },
+  "__v": 0,
+  "paidType": "Cash"
+},
+{
+  "_id": {
+    "$oid": "664420285c551bfef8adcc8a"
+  },
+  "issue": {
+    "$oid": "6638a963828e8963cb483a57"
+  },
+  "amount": 200,
+  "reason": "Overdue",
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-05-15T03:23:58.463Z"
+  },
+  "__v": 0,
+  "paidType": "Cash"
+},
+{
+  "_id": {
+    "$oid": "6644202d5c551bfef8adcc91"
+  },
+  "issue": {
+    "$oid": "6638a96c828e8963cb483a74"
+  },
+  "amount": 200,
+  "reason": "Overdue",
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-05-15T03:24:00.215Z"
+  },
+  "__v": 0,
+  "paidType": "Cash"
+},
+{
+  "_id": {
+    "$oid": "664420305c551bfef8adcc98"
+  },
+  "issue": {
+    "$oid": "6638a979828e8963cb483a91"
+  },
+  "amount": 200,
+  "reason": "Overdue",
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-05-15T03:24:04.652Z"
+  },
+  "__v": 0,
+  "paidType": "Cash"
+},
+{
+  "_id": {
+    "$oid": "664420345c551bfef8adcc9f"
+  },
+  "issue": {
+    "$oid": "6638a9bf828e8963cb483b21"
+  },
+  "amount": 200,
+  "reason": "Overdue",
+  "status": "unpaid",
+  "paid_date": null,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "664420385c551bfef8adcca5"
+  },
+  "issue": {
+    "$oid": "6638a9c5828e8963cb483b3e"
+  },
+  "amount": 200,
+  "reason": "Overdue",
   "status": "unpaid",
   "paid_date": null,
   "__v": 0

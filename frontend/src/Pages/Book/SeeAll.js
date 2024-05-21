@@ -40,6 +40,10 @@ const SeeAll = ({ userRole }) => {
   const [types, setTypes] = useState([]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const [book, author, genre, publisher] = await Promise.all([
