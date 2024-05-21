@@ -15,7 +15,7 @@ const calculateFine = (dueDate) => {
     const daysOverdue = Math.ceil(
       (today - dueDateStartOfDay) / (1000 * 60 * 60 * 24)
     );
-    return daysOverdue * 100;
+    return daysOverdue * 5;
   } else {
     return 0;
   }

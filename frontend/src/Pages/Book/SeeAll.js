@@ -157,7 +157,7 @@ const SeeAll = ({ userRole }) => {
       </Breadcrumbs>
       <Grid container alignItems="center" spacing={2} marginBottom={3}>
         {userRole === "Librarian" && (
-          <Grid item xs={12} sm={6} md={2} lg={2} sx={{ marginBottom: "8px" }}>
+          <Grid item container xs={12} sm={6} md={2} lg={2} sx={{ marginBottom: "8px" }}>
             <Button
               variant="contained"
               color="primary"
@@ -202,7 +202,7 @@ const SeeAll = ({ userRole }) => {
             />
           </FormControl>
         </Grid>
-        <Grid container xs={12} sm={3} md={2} lg={2} spacing={2} ml={2} justifyContent={"center"} alignItems={"center"}>
+        <Grid item container xs={12} sm={3} md={2} lg={2} spacing={2} ml={1} >
         <Grid item >
           <Button variant="contained" color="primary" onClick={handleFilter}>
             Filter

@@ -83,7 +83,10 @@ const AddEdit = ({ onSuccess, data, successMessage,request }) => {
         value = selectedBook._id;
       }
     } else if (fieldName === "user") {
-      const selectedUser = users.find((user) => user.name === value);
+      const [selectedUserName, selectedUserEmail] = value.split(" (");
+      const selectedUser = users.find(
+        (user) => user.name === selectedUserName && user.email === selectedUserEmail.slice(0, -1) 
+      );
       if (selectedUser) {
         value = selectedUser._id;
       }
@@ -103,7 +106,8 @@ const AddEdit = ({ onSuccess, data, successMessage,request }) => {
       if (selectedBook) {
         updatedFormData.book = selectedBook._id
       }
-      const selectedUser = users.find((user) => user.name === formData.user);
+      const selectedUserName = formData.user.split(' (')[0].trim();
+      const selectedUser = users.find((user) => user.name === selectedUserName);
       if (selectedUser) {
         updatedFormData.user = selectedUser._id;
       }
@@ -128,10 +132,12 @@ const AddEdit = ({ onSuccess, data, successMessage,request }) => {
         books.find((book) => book._id === formData.book)?.name || "";
       const userName =
         users.find((user) => user._id === formData.user)?.name || "";
+      const userEmail =
+        users.find((user) => user._id === formData.user)?.email || "";
       onSuccess({
         _id: formData._id || response.data.id,
         book: { name: bookName },
-        user: { name: userName },
+        user: { name: userName, email:userEmail },
         issueDate: formData.issueDate,
         dueDate: formData.dueDate,
         returnedDate: formData.returnedDate,
@@ -191,7 +197,7 @@ const AddEdit = ({ onSuccess, data, successMessage,request }) => {
                       id="user-autocomplete"
                       options={users
                         .filter((user) => user.role.name === "Student")
-                        .map((user) => user.name)}
+                        .map((user) => `${user.name} (${user.email})`)}
                       required
                       onChange={(e, value) => handleChange("user", value)}
                       renderInput={(params) => (

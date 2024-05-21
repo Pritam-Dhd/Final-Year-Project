@@ -151,6 +151,7 @@ const SeeAll = () => {
 
   // Function to handle adding a new issue
   const handleAddIssue = (newIssue) => {
+    console.log(newIssue);
     setIssuedBooks([newIssue, ...issueBooks]);
     setOpenDialog(false);
   };
