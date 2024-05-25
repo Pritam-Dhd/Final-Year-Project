@@ -180,6 +180,16 @@ export const deleteBook = async ({ data, userRole }) => {
         message: "Only admin can access this",
       };
     }
+    // Check if the book has any ongoing issues
+    const issuedBooksCount = await Issue.countDocuments({
+      book: data._id,
+    });
+
+    if (issuedBooksCount > 0) {
+      return {
+        message: "Cannot delete the book as it students have already issued the book",
+      };
+    }
     const result = await Book.findByIdAndDelete(data._id);
 
     if (result) {

@@ -78,7 +78,7 @@ const BookCard = ({ bookDetail, userRole, onDelete }) => {
         handleSuccessMessage("Book deleted successfully");
       } else {
         setSnackbarMessage(response.data.message);
-        openSnackbar(true);
+        setOpenSnackbar(true);
       }
     } catch (err) {}
   };
