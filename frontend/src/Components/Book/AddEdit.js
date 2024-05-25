@@ -116,9 +116,9 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
         totalBooks: formData.totalBooks,
         image: formData.image,
         price: formData.price,
+        availableBooks:response.data.availableBooks
       });
       successMessage(response.data.message);
-      onSuccess(formData);
     } else {
       setSnackbarMessage(response.data.message);
     }

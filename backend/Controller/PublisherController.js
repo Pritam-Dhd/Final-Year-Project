@@ -1,4 +1,5 @@
 import Publisher from "../Schema/PublisherSchema.js";
+import Book from "../Schema/BookSchema.js";
 
 export const addPublisher = async ({ data, userRole }) => {
   try {
@@ -102,6 +103,12 @@ export const deletePublisher = async ({ data, userRole }) => {
     if (userRole != "Librarian") {
       return {
         message: "Only admin can access this",
+      };
+    }
+    const booksWithPublisher = await Book.findOne({ publishers: data._id });
+    if (booksWithPublisher) {
+      return {
+        message: "Cannot delete publisher with associated books",
       };
     }
     const result = await Publisher.findByIdAndDelete(data._id);

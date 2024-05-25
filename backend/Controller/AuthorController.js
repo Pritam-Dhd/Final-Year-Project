@@ -1,4 +1,5 @@
 import Author from "../Schema/AuthorSchema.js";
+import Book from "../Schema/BookSchema.js";
 
 export const addAuthor = async ({ data, userRole }) => {
   try {
@@ -102,6 +103,12 @@ export const deleteAuthor = async ({ data, userRole }) => {
     if (userRole != "Librarian") {
       return {
         message: "Only admin can access this",
+      };
+    }
+    const booksWithAuthor = await Book.findOne({ authors: data._id });
+    if (booksWithAuthor) {
+      return {
+        message: "Cannot delete author with associated books",
       };
     }
     const result = await Author.findByIdAndDelete(data._id);

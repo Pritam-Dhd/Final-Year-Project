@@ -1,4 +1,5 @@
 import Genre from "../Schema/GenreSchema.js";
+import Book from "../Schema/BookSchema.js";
 
 export const addGenre = async ({ data, userRole }) => {
   try {
@@ -103,6 +104,12 @@ export const deleteGenre = async ({ data, userRole }) => {
     if (userRole != "Librarian") {
       return {
         message: "Only admin can access this",
+      };
+    }
+    const booksWithGenre = await Book.findOne({ genres: data._id });
+    if (booksWithGenre) {
+      return {
+        message: "Cannot delete genre with associated books",
       };
     }
     const result = await Genre.findByIdAndDelete(data._id);

@@ -94,7 +94,7 @@ export const editBook = async ({ data, userRole }) => {
 
     // Check if the total books as it can't be less than the number of books with status "Not Returned"
     const issuedBooksCount = await Issue.countDocuments({
-      bookId: existingBook._id,
+      book: existingBook._id,
       status: "Not Returned",
     });
     if (data.totalBooks < issuedBooksCount) {
@@ -103,15 +103,14 @@ export const editBook = async ({ data, userRole }) => {
           "Total books can't be less than the number of books currently issued",
       };
     }
+    
+    const changeInTotalBooks = data.totalBooks - existingBook.totalBooks;
 
-    const prevTotalBooks = existingBook.totalBooks;
-
-    let availableBooks =
-      existingBook.availableBooks +
-      (data.totalBooks - prevTotalBooks) -
-      issuedBooksCount;
-    availableBooks = availableBooks < 0 ? 0 : availableBooks;
-
+    // Adjust the available books count
+    let availableBooks = existingBook.availableBooks + changeInTotalBooks;
+    if (availableBooks < 0) {
+      availableBooks = 0;
+    }
     // Update genres if provided
     if (data.genres) {
       const createdGenres = await Promise.all(
@@ -161,7 +160,7 @@ export const editBook = async ({ data, userRole }) => {
     );
 
     if (result) {
-      return { message: "Book data is updated successfully" };
+      return { message: "Book data is updated successfully", availableBooks: result.availableBooks};
     } else {
       return { message: "No data to update" };
     }
