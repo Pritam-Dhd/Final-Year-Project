@@ -133,4 +133,38 @@
   "requestType": "request issue",
   "status": "done",
   "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6652eb2928cbc6a5996a0a24"
+  },
+  "book": {
+    "$oid": "65bb0fc8d95b292c4c97c9c1"
+  },
+  "user": {
+    "$oid": "6652eaf628cbc6a5996a0985"
+  },
+  "requestDate": {
+    "$date": "2024-05-26T00:00:00.000Z"
+  },
+  "requestType": "request issue",
+  "status": "done",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6652ed0776d9f1d03eb1b828"
+  },
+  "issue": {
+    "$oid": "6652ec5d76d9f1d03eb1b699"
+  },
+  "user": {
+    "$oid": "6652eaf628cbc6a5996a0985"
+  },
+  "requestDate": {
+    "$date": "2024-05-26T00:00:00.000Z"
+  },
+  "requestType": "lost book",
+  "status": "done",
+  "__v": 0
 }]

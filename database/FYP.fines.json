@@ -438,9 +438,12 @@
   },
   "amount": 400,
   "reason": "Overdue",
-  "status": "unpaid",
-  "paid_date": null,
-  "__v": 0
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-05-26T11:25:57.769Z"
+  },
+  "__v": 0,
+  "paidType": "Cash"
 },
 {
   "_id": {
@@ -515,9 +518,12 @@
   },
   "amount": 200,
   "reason": "Overdue",
-  "status": "unpaid",
-  "paid_date": null,
-  "__v": 0
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-05-26T11:25:54.051Z"
+  },
+  "__v": 0,
+  "paidType": "Cash"
 },
 {
   "_id": {
@@ -528,7 +534,43 @@
   },
   "amount": 200,
   "reason": "Overdue",
-  "status": "unpaid",
-  "paid_date": null,
-  "__v": 0
+  "status": "paid",
+  "paid_date": {
+    "$date": "2024-05-26T11:25:55.756Z"
+  },
+  "__v": 0,
+  "paidType": "Cash"
+},
+{
+  "_id": {
+    "$oid": "6652ed1876d9f1d03eb1b86d"
+  },
+  "issue": {
+    "$oid": "6652ec5d76d9f1d03eb1b699"
+  },
+  "amount": 500,
+  "reason": "Lost",
+  "status": "paid",
+  "__v": 0,
+  "paidType": "Cash",
+  "paid_date": {
+    "$date": "2024-05-26T11:25:52.316Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6652edb276d9f1d03eb1b9d3"
+  },
+  "issue": {
+    "$oid": "6652edac76d9f1d03eb1b9c2"
+  },
+  "amount": 550,
+  "reason": "Lost",
+  "status": "paid",
+  "__v": 0,
+  "paidType": "Online",
+  "paid_date": {
+    "$date": "2024-05-26T08:08:02.080Z"
+  },
+  "transaction_code": "0007MTO"
 }]
