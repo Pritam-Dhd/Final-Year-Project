@@ -68,9 +68,9 @@ app.use(
   RequestRoute
 );
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-app.use("/api/images", express.static(path.join(__dirname, "Pictures")));
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
+app.use("/api/images", express.static(path.join(path.dirname(import.meta.url), "Pictures")));
 
 cron.schedule("0 0 * * *", () => {
   addFines();
