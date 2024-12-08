@@ -36,6 +36,7 @@ const allowedOrigins = process.env.CORS_ORIGINS
   : [];
 
 app.use(cookieParser());
+app.set('trust proxy', true)
 app.use(
   cors({
     origin: allowedOrigins,
