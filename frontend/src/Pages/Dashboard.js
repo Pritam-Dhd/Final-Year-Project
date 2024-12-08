@@ -27,8 +27,8 @@ const Dashboard = () => {
           response.data.message === "Please login" ||
           response.data.message === "Invalid token"
         ) {
-          localStorage.removeItem("userRole");
-          navigate("/login");
+          // localStorage.removeItem("userRole");
+          // navigate("/login");
         }
         setUserData(data);
         console.log(data);
@@ -36,7 +36,7 @@ const Dashboard = () => {
       .catch(function (error) {
         alert(error);
       });
-  }, [userRole]);
+  }, [navigate]);
 
   const updateUserData = (newUserData) => {
     setUserData((prevUserData) => ({

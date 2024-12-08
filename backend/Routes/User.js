@@ -45,6 +45,7 @@ router.post("/signup", async (req, res) => {
     res.cookie("jwt", message.token, {
       httpOnly: true,
       maxAge: 3 * 24 * 60 * 60 * 1000,
+      sameSite: none,
     });
     res.send(message);
   } catch (error) {
@@ -60,6 +61,7 @@ router.post("/login", async (req, res) => {
     res.cookie("jwt", message.token, {
       httpOnly: true,
       maxAge: 3 * 24 * 60 * 60 * 1000,
+      sameSite: none,
     });
     res.send(message);
   } catch (error) {
@@ -87,6 +89,7 @@ router.get("/get-profile", checkAuth, async (req, res) => {
     res.cookie("jwt", message.token, {
       httpOnly: true,
       maxAge: 3 * 24 * 60 * 60 * 1000,
+      sameSite: none,
     });
     res.send(message);
   } catch (error) {

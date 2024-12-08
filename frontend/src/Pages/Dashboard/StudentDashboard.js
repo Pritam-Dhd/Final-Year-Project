@@ -46,32 +46,31 @@ const StudentDashboard = () => {
     setCurrentPage((prevPage) => Math.max(0, prevPage - 1));
   };
 
-  const fetchData = async () => {
-    try {
-      const response = await axiosClient.get("/dashboard-data", {
-        withCredentials: true,
-      });
-      const formattedData = {
-        ...response.data,
-        issuedBooks: response.data.issuedBooks.map((book) => ({
-          ...book,
-          issueDate: formatDate(book.issueDate),
-          dueDate: formatDate(book.dueDate),
-        })),
-      };
-      setInfo(formattedData);
-      setLoading(false);
-    } catch (error) {
-      alert(error);
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosClient.get("/dashboard-data", {
+          withCredentials: true,
+        });
+        const formattedData = {
+          ...response.data,
+          issuedBooks: response.data.issuedBooks.map((book) => ({
+            ...book,
+            issueDate: formatDate(book.issueDate),
+            dueDate: formatDate(book.dueDate),
+          })),
+        };
+        setInfo(formattedData);
+        setLoading(false);
+      } catch (error) {
+        alert(error);
+        setLoading(false);
+      }
+    };
     if (userRole === "Student") {
       fetchData();
     }
-  });
+  }, [userRole]);
 
   return (
     <Grid container spacing={2}>

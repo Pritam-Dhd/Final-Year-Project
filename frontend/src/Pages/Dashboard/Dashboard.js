@@ -46,7 +46,7 @@ const Dashboard = () => {
     };
 
     fetchData();
-  }, [ userRole]);
+  }, [userRole,navigate]);
 
   return (
     <Grid container spacing={2}>
