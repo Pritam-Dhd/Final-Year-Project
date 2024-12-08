@@ -79,6 +79,8 @@ cron.schedule("0 0 * * *", () => {
 cron.schedule("* * * * * *", () => {
   expireToken();
 });
+
+const port = process.env.PORT || 4000;
 // Run the server.
 const run = async () => {
   // Connect to MongoDB
@@ -95,9 +97,7 @@ const run = async () => {
   expiredRequest();
   expireToken();
   // Start the Express server on port 5000 and log a message once it's listening
-  await app.listen(7000, () =>
-    console.log(`Example app listening on port 5000`)
-  );
+  app.listen(port, () => console.log(`Example app listening on port${port}`));
 };
 
 run();
