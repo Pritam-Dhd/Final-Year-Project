@@ -36,7 +36,7 @@ const Dashboard = () => {
       .catch(function (error) {
         alert(error);
       });
-  }, [navigate, userRole]);
+  }, [userRole]);
 
   const updateUserData = (newUserData) => {
     setUserData((prevUserData) => ({

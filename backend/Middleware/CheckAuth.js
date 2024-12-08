@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import { invalidToken } from "../Controller/UsersController.js";
 // Middleware function to check the token
 export const checkAuth = async (req, res, next) => {
-  const SecretKey = "JWT_Secret_Key";
+  const SecretKey = process.env.SecretKey;
   const token = req.cookies.jwt;
   if (!token) {
     res.send({ message: "Please login" });
