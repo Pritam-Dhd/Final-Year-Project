@@ -38,7 +38,7 @@ const Profile = ({ userData, updateUserData }) => {
   }, [editMode, userData]);
 
   useEffect(() => {
-    setEditedImage(`http://localhost:5000/api/images/${userData.image}`);
+    setEditedImage(`${process.env.REACT_APP_API}/api/images/${userData.image}`);
   }, [userData.image]);
 
   const handleEditClick = () => {
@@ -57,7 +57,7 @@ const Profile = ({ userData, updateUserData }) => {
     setDisplayedForm(null);
     setEditMode(false);
     setEditedData(userData);
-    setEditedImage(`http://localhost:5000/api/images/${userData.image}`);
+    setEditedImage(`${process.env.REACT_APP_API}/api/images/${userData.image}`);
     setImage(null);
   };
 
@@ -88,7 +88,7 @@ const Profile = ({ userData, updateUserData }) => {
         setSnackbarMessage("Profile edited successfully!");
         setDisplayedForm(null);
         setEditMode(false);
-        setEditedImage(`http://localhost:5000/api/images/${editedData.image}`);
+        setEditedImage(`${process.env.REACT_APP_API}/api/images/${editedData.image}`);
         setImage(null);
       } else {
         setSnackbarMessage(response.data.message);
@@ -231,7 +231,7 @@ const Profile = ({ userData, updateUserData }) => {
             src={
               editMode
                 ? editedImage
-                : `http://localhost:5000/api/images/${userData.image}`
+                : `${process.env.REACT_APP_API}api/images/${userData.image}`
             }
             sx={{
               width: { xs: 180, md: 300, lg: 320 },

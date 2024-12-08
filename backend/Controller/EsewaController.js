@@ -34,7 +34,7 @@ export const handleEsewaSuccess = async (req, res, next) => {
 
 export const handleEsewaFailure = async (req, res, next) => {
   try {
-    res.redirect("http://localhost:3002/dashboard/fine");
+    res.redirect(`${process.env.FrontendAPI}/dashboard/fine`);
   } catch (err) {
     console.log(err);
     return { error: err?.message || "No Fine found" };

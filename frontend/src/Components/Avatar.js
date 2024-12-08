@@ -17,7 +17,7 @@ const Avatar1 = ({ userData }) => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
-  
+
   const handleSnackbarClose = () => {
     setOpenSnackbar(false);
   };
@@ -49,7 +49,7 @@ const Avatar1 = ({ userData }) => {
       />
       <Avatar
         alt={userData.name}
-        src={`http://localhost:5000/api/images/${userData.image}`}
+        src={`${process.env.REACT_APP_API}/api/images/${userData.image}`}
         onClick={handleAvatarClick}
         sx={{
           cursor: "pointer",

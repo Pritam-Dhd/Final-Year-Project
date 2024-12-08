@@ -44,7 +44,7 @@ const Login = () => {
       if (isValidPassword) {
         axios
           .post(
-            "http://localhost:5000/login",
+            `${process.env.REACT_APP_FRONTEND_API}/login`,
             {
               email: e.target.email.value,
               password: e.target.password.value,

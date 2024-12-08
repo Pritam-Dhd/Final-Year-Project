@@ -54,7 +54,7 @@ const Signup = () => {
         if (e.target.password.value === e.target.confirmPassword.value) {
           axios
             .post(
-              "http://localhost:5000/signup",
+              `${process.env.REACT_APP_FRONTEND_API}/signup`,
               {
                 name: e.target.name.value,
                 phone_no: e.target.phoneNo.value,

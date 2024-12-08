@@ -73,7 +73,7 @@ const SeeAll = ({ userData }) => {
       renderCell: (params) => (
         <Avatar
           alt={params.row.name}
-          src={`http://localhost:5000/api/images/${params.row.imageLink}`}
+          src={`${process.env.REACT_APP_API}/api/images/${params.row.imageLink}`}
         />
       ),
     },

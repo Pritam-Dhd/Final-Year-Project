@@ -55,7 +55,7 @@ const ForgetPassword = () => {
           setOpenSnackbar(true);
         }
         const response = await axios.post(
-          "http://localhost:5000/password-token",
+          `${process.env.REACT_APP_API}/password-token`,
           { email: email },
           { withCredentials: true }
         );
@@ -79,7 +79,7 @@ const ForgetPassword = () => {
           setLoading(false);
         }
         const response1 = await axios.post(
-          "http://localhost:5000/verify-token",
+          `${process.env.REACT_APP_API}/verify-token`,
           { email: email, code: code },
           { withCredentials: true }
         );
@@ -116,7 +116,7 @@ const ForgetPassword = () => {
           setOpenSnackbar(true);
         }
         const response2 = await axios.post(
-          "http://localhost:5000/reset-password",
+          `${process.env.REACT_APP_API}/reset-password`,
           { email: email, code: code, password: newPassword, confirmPassword:confirmPassword },
           { withCredentials: true }
         );

@@ -98,7 +98,7 @@ export const paidOnline = async (req, res) => {
   try {
     const id = await Fine.findById(req.transaction_uuid);
     const fine = await Fine.findByIdAndUpdate(id, { status: "paid",paid_date:Date.now(),paidType:'Online',transaction_code:req.transaction_code});
-    res.redirect("http://localhost:3002/dashboard/fine");
+    res.redirect(`${process.env.FrontendAPI}/dashboard/fine`);
   } catch (error) {
     console.log(error.message);
     return {
@@ -160,8 +160,8 @@ export const payFine = async ({ data, userRole }) => {
       product_code: "EPAYTEST",
       signature: signature,
       signed_field_names: "total_amount,transaction_uuid,product_code",
-      success_url: "http://localhost:5000/esewa-success",
-      failure_url: "http://localhost:5000/esewa-failure",
+      success_url: `${process.env.BackendAPI}/esewa-success`,
+      failure_url: `${process.env.BackendAPI}/esewa-failure`,
     };
 
     // Return the eSewa response
