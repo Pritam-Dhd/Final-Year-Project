@@ -46,6 +46,7 @@ router.post("/signup", async (req, res) => {
       httpOnly: true,
       maxAge: 3 * 24 * 60 * 60 * 1000,
       sameSite: none,
+      secure:true
     });
     res.send(message);
   } catch (error) {
@@ -62,6 +63,7 @@ router.post("/login", async (req, res) => {
       httpOnly: true,
       maxAge: 3 * 24 * 60 * 60 * 1000,
       sameSite: none,
+      secure:true
     });
     res.send(message);
   } catch (error) {
@@ -90,6 +92,7 @@ router.get("/get-profile", checkAuth, async (req, res) => {
       httpOnly: true,
       maxAge: 3 * 24 * 60 * 60 * 1000,
       sameSite: none,
+      secure:true
     });
     res.send(message);
   } catch (error) {
