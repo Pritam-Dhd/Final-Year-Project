@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axiosClient from "../../Components/AxiosClient.js";
 import {
-  IconButton,
-  Container,
-  Paper,
   Autocomplete,
   Box,
   Grid,
   MenuItem,
   Typography,
   Breadcrumbs,
-  Link,
   TextField,
   Button,
   Dialog,
@@ -44,6 +40,7 @@ const SeeAll = ({ userRole }) => {
   }, [currentPage]);
 
   useEffect(() => {
+    setItemsPerPage(10);
     const fetchData = async () => {
       try {
         const [book, author, genre, publisher] = await Promise.all([
@@ -161,7 +158,15 @@ const SeeAll = ({ userRole }) => {
       </Breadcrumbs>
       <Grid container alignItems="center" spacing={2} marginBottom={3}>
         {userRole === "Librarian" && (
-          <Grid item container xs={12} sm={6} md={2} lg={2} sx={{ marginBottom: "8px" }}>
+          <Grid
+            item
+            container
+            xs={12}
+            sm={6}
+            md={2}
+            lg={2}
+            sx={{ marginBottom: "8px" }}
+          >
             <Button
               variant="contained"
               color="primary"
@@ -206,17 +211,17 @@ const SeeAll = ({ userRole }) => {
             />
           </FormControl>
         </Grid>
-        <Grid item container xs={12} sm={3} md={2} lg={2} spacing={2} ml={1} >
-        <Grid item >
-          <Button variant="contained" color="primary" onClick={handleFilter}>
-            Filter
-          </Button>
-        </Grid>
-        <Grid item >
-          <Button variant="contained" color="secondary" onClick={handleReset}>
-            Reset
-          </Button>
-        </Grid>
+        <Grid item container xs={12} sm={3} md={2} lg={2} spacing={2} ml={1}>
+          <Grid item>
+            <Button variant="contained" color="primary" onClick={handleFilter}>
+              Filter
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button variant="contained" color="secondary" onClick={handleReset}>
+              Reset
+            </Button>
+          </Grid>
         </Grid>
         <Grid item xs={12} sm={3} md={2} lg={2}>
           <TextField

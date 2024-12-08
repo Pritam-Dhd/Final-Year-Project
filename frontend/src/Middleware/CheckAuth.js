@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const isAuthenticated = () => {
@@ -14,7 +14,7 @@ export const PrivateRoute = ({ element }) => {
       // Redirect to the login page if the user is not authenticated
       navigate("/login");
     }
-  }, []);
+  }, [navigate]);
 
   return isAuthenticated() ? element : null;
 };
@@ -26,7 +26,7 @@ export const AuthRoute = ({ element }) => {
       // Redirect to the dashboard if the user is already authenticated
       navigate("/dashboard");
     }
-  }, []);
+  }, [navigate]);
 
   return !isAuthenticated() ? element : null;
 };

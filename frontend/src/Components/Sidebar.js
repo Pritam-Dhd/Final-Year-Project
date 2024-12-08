@@ -99,7 +99,6 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const Sidebar = ({ userRole, userData }) => {
-  const [sideBarContent, setSideBarContent] = React.useState("");
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
 

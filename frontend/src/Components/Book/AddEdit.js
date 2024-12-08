@@ -27,7 +27,7 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
     publishedYear: [],
     totalBooks: [],
     image: "",
-    price:"",
+    price: "",
   });
 
   useEffect(() => {
@@ -46,6 +46,7 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
   useEffect(() => {
     const fetchAllData = async () => {
       try {
+        setLoading(true);
         const [genresRes, authorsRes, publishersRes] = await Promise.all([
           axiosClient.get("/get-all-genres", {
             withCredentials: true,
@@ -61,6 +62,7 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
         setGenres(genresRes.data.Genres);
         setAuthors(authorsRes.data.Authors);
         setPublishers(publishersRes.data.Publishers);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -85,10 +87,7 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url =
-      formData._id === ""
-        ? "/add-book"
-        : "/edit-book";
+    const url = formData._id === "" ? "/add-book" : "/edit-book";
     const response = await axiosClient.post(
       url,
       { ...formData },
@@ -116,7 +115,7 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
         totalBooks: formData.totalBooks,
         image: formData.image,
         price: formData.price,
-        availableBooks:response.data.availableBooks
+        availableBooks: response.data.availableBooks,
       });
       successMessage(response.data.message);
     } else {
@@ -127,7 +126,10 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
 
   return (
     <Container maxWidth="md">
-      <Paper elevation={3} style={{ padding: 16, textAlign: "center", margin:16  }}>
+      <Paper
+        elevation={3}
+        style={{ padding: 16, textAlign: "center", margin: 16 }}
+      >
         <Typography variant="h5">Add/Edit Book</Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <Grid container spacing={2}>
@@ -266,9 +268,8 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
                 value={formData.totalBooks}
                 onChange={(e) => handleChange("totalBooks", e.target.value)}
                 fullWidth
-                
                 onInput={(e) => {
-                  e.target.value = Math.max(1, parseInt(e.target.value) || 1); 
+                  e.target.value = Math.max(1, parseInt(e.target.value) || 1);
                 }}
                 required
               />
@@ -284,7 +285,7 @@ const AddEdit = ({ onSuccess, data, successMessage }) => {
                 required
                 inputProps={{ min: 1 }}
                 onInput={(e) => {
-                  e.target.value = Math.max(1, parseInt(e.target.value) || 1); 
+                  e.target.value = Math.max(1, parseInt(e.target.value) || 1);
                 }}
               />
             </Grid>

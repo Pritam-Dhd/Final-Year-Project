@@ -12,11 +12,10 @@ import {
   Button,
   Dialog,
   DialogContent,
-  DialogTitle,
 } from "@mui/material";
 import AddUser from "../Pages/User/AddUser";
 
-export default function MuiTable({ rows, columns,onAddUser  }) {
+export default function MuiTable({ rows, columns, onAddUser }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchTerm, setSearchTerm] = React.useState("");
@@ -24,7 +23,7 @@ export default function MuiTable({ rows, columns,onAddUser  }) {
   const [closeDialog, setCloseDialog] = useState(false);
   const [newUser, setNewUser] = useState(null);
   const [tableRows, setTableRows] = useState(rows);
-
+  console.log(tableRows);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -72,7 +71,10 @@ export default function MuiTable({ rows, columns,onAddUser  }) {
   };
 
   return (
-    <Paper elevation={3} sx={{ width: {xs:"100%",md:"100%",ls:"100%"}, overflow: "hidden" }}>
+    <Paper
+      elevation={3}
+      sx={{ width: { xs: "100%", md: "100%", ls: "100%" }, overflow: "hidden" }}
+    >
       <Button
         sx={{ marginTop: "15px", marginLeft: "15px" }}
         variant="contained"

@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
   Grid,
-  Link,
   CircularProgress,
   Select,
   MenuItem,
@@ -24,9 +23,6 @@ import {
 } from "recharts";
 import axiosClient from "../../Components/AxiosClient";
 import PieChartComponent from "../../Components/PieChartComponent";
-import { useUserRole } from "../../Components/UserContext";
-import { useNavigate } from "react-router-dom";
-import dayjs from "dayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import DTable from "../../Components/DTable";
@@ -36,8 +32,6 @@ import TableToolbar from "../../Components/TableToolbar";
 const Report = () => {
   const [info, setInfo] = useState({});
   const [loading, setLoading] = useState(true);
-  const { userRole } = useUserRole();
-  const navigate = useNavigate();
   const [notSearch, setNotSearch] = useState(true);
   const [reportName, setReportName] = useState("book");
   const [from, setFrom] = useState(null);
@@ -181,7 +175,9 @@ const Report = () => {
           <Grid item xs={12} md={12}>
             <Paper elevation={3}>
               <Box padding={2}>
-                <Typography variant="h6" mb={1}>{info.title}</Typography>
+                <Typography variant="h6" mb={1}>
+                  {info.title}
+                </Typography>
                 <Grid container spacing={2}>
                   <Grid item xs={12} md={6}>
                     <Paper elevation={3}>

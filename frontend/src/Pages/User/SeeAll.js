@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import MuiTable from "../../Components/Table";
 import axiosClient from "../../Components/AxiosClient.js";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -17,7 +16,6 @@ import {
   Typography,
   TextField,
   Breadcrumbs,
-  Link,
   Dialog,
   Button,
   LinearProgress,
@@ -42,6 +40,7 @@ const SeeAll = ({ userData }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  console.log(editingUserId);
 
   const handleAddUser = (newUser) => {
     newUser.imageLink = "Windows_10_Default_Profile_Picture.png";
@@ -59,7 +58,7 @@ const SeeAll = ({ userData }) => {
 
   const handleOpenEditDialog = (id) => {
     setEditDialogOpen(true);
-    handleEditClick(id)
+    handleEditClick(id);
   };
 
   const handleCloseEditDialog = () => {
@@ -246,7 +245,7 @@ const SeeAll = ({ userData }) => {
       )}
 
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <AddUser onSuccess={handleAddUser}  />
+        <AddUser onSuccess={handleAddUser} />
       </Dialog>
       <Box
         sx={{
@@ -286,10 +285,13 @@ const SeeAll = ({ userData }) => {
 
       <Dialog open={editDialogOpen} onClose={handleCloseEditDialog}>
         <Container maxWidth="xs">
-          <Paper elevation={3} style={{ padding: 16, textAlign: "center",margin:"20px" }}>
+          <Paper
+            elevation={3}
+            style={{ padding: 16, textAlign: "center", margin: "20px" }}
+          >
             <Typography variant="h5">Edit User</Typography>
-            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }} >
-            <Grid container spacing={2}>
+            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+              <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
                     margin="normal"

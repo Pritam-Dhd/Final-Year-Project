@@ -2,13 +2,10 @@ import React, { useState, useEffect } from "react";
 import {
   Container,
   Paper,
-  FormControl,
   Box,
   Grid,
-  Chip,
   Select,
   Autocomplete,
-  InputLabel,
   MenuItem,
   Typography,
   TextField,
@@ -21,7 +18,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import SnackBar from "../../Components/SnackBar";
 import axiosClient from "../AxiosClient";
 
-const AddEdit = ({ onSuccess, data, successMessage,request }) => {
+const AddEdit = ({ onSuccess, data, successMessage, request }) => {
   const [formData, setFormData] = useState({
     _id: "",
     book: "",
@@ -41,8 +38,8 @@ const AddEdit = ({ onSuccess, data, successMessage,request }) => {
   useEffect(() => {
     if (data) {
       setFormData(data);
-      if(data.returnedDate===null){
-        setFormData({...data,returnedDate:Date.now()})
+      if (data.returnedDate === null) {
+        setFormData({ ...data, returnedDate: Date.now() });
       }
     }
   }, [data]);
@@ -50,6 +47,7 @@ const AddEdit = ({ onSuccess, data, successMessage,request }) => {
   useEffect(() => {
     const fetchAllData = async () => {
       try {
+        setLoading(true);
         const [booksRes, usersRes] = await Promise.all([
           axiosClient.get("/get-all-books", {
             withCredentials: true,
@@ -61,6 +59,7 @@ const AddEdit = ({ onSuccess, data, successMessage,request }) => {
 
         setBooks(booksRes.data.Books);
         setUsers(usersRes.data.users);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -85,7 +84,9 @@ const AddEdit = ({ onSuccess, data, successMessage,request }) => {
     } else if (fieldName === "user") {
       const [selectedUserName, selectedUserEmail] = value.split(" (");
       const selectedUser = users.find(
-        (user) => user.name === selectedUserName && user.email === selectedUserEmail.slice(0, -1) 
+        (user) =>
+          user.name === selectedUserName &&
+          user.email === selectedUserEmail.slice(0, -1)
       );
       if (selectedUser) {
         value = selectedUser._id;
@@ -101,12 +102,12 @@ const AddEdit = ({ onSuccess, data, successMessage,request }) => {
     e.preventDefault();
     const updatedFormData = { ...formData };
 
-    if(!formData._id &&  formData.book ){
+    if (!formData._id && formData.book) {
       const selectedBook = books.find((book) => book.name === formData.book);
       if (selectedBook) {
-        updatedFormData.book = selectedBook._id
+        updatedFormData.book = selectedBook._id;
       }
-      const selectedUserName = formData.user.split(' (')[0].trim();
+      const selectedUserName = formData.user.split(" (")[0].trim();
       const selectedUser = users.find((user) => user.name === selectedUserName);
       if (selectedUser) {
         updatedFormData.user = selectedUser._id;
@@ -115,7 +116,7 @@ const AddEdit = ({ onSuccess, data, successMessage,request }) => {
     const url = formData._id === "" ? "/add-issue" : "/edit-issue";
     const response = await axiosClient.post(
       url,
-      { ...updatedFormData  },
+      { ...updatedFormData },
       { withCredentials: true }
     );
 
@@ -137,7 +138,7 @@ const AddEdit = ({ onSuccess, data, successMessage,request }) => {
       onSuccess({
         _id: formData._id || response.data.id,
         book: { name: bookName },
-        user: { name: userName, email:userEmail },
+        user: { name: userName, email: userEmail },
         issueDate: formData.issueDate,
         dueDate: formData.dueDate,
         returnedDate: formData.returnedDate,
@@ -158,7 +159,7 @@ const AddEdit = ({ onSuccess, data, successMessage,request }) => {
           <Grid container spacing={2}>
             {!formData._id && (
               <>
-                {formData.book && request? (
+                {formData.book && request ? (
                   <Grid item xs={12}>
                     <TextField
                       id="outlined-basic"

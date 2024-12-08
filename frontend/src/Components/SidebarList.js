@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   List,
@@ -6,17 +6,11 @@ import {
   ListItemText,
   ListItem,
   ListItemButton,
-  IconButton,
-  Collapse,
 } from "@mui/material";
 import {
   Home as HomeIcon,
   Book as BookIcon,
-  ExpandMore as ExpandMoreIcon,
-  ExpandLess as ExpandLessIcon,
   Person as PersonIcon,
-  AddBox as AddBoxIcon,
-  ListAlt as ListAltIcon,
   Sell as GenreIcon,
   People as AuthorIcon,
   Business as PublisherIcon,
@@ -25,7 +19,6 @@ import {
   LocalLibrary as RequestIcon,
   Assessment as ReportIcon,
 } from "@mui/icons-material";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 
 const SidebarList = ({ text, open, dropdown }) => {

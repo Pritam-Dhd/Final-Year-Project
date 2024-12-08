@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   Grid,
   Typography,
   Box,
-  Button,
   Card,
   Link,
   Breadcrumbs,
@@ -12,7 +10,6 @@ import {
   CardContent,
   CardMedia,
   IconButton,
-  CircularProgress,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -25,7 +22,6 @@ const StudentDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
   const { userRole } = useUserRole();
-  const navigate = useNavigate();
 
   const formatDate = (date) => {
     if (!date) return "";
@@ -75,7 +71,7 @@ const StudentDashboard = () => {
     if (userRole === "Student") {
       fetchData();
     }
-  }, [userRole]);
+  });
 
   return (
     <Grid container spacing={2}>

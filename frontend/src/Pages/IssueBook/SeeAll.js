@@ -7,7 +7,6 @@ import {
   Paper,
   Grid,
   Breadcrumbs,
-  Link,
   IconButton,
   LinearProgress,
   Typography,
@@ -17,13 +16,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import LostIcon from "@mui/icons-material/NoBackpack";
 import { DataGrid } from "@mui/x-data-grid";
 import AddEdit from "../../Components/Issue/AddEdit";
-import LostBook from "../../Components/Issue/LostBook.js";
 import SnackBar from "../../Components/SnackBar";
 import DeleteConfirmationDialog from "../../Components/DeleteDialog";
 import TableToolbar from "../../Components/TableToolbar";
 import { useUserRole } from "../../Components/UserContext";
-import Tooltip from "@mui/material/Tooltip";
-
 
 const SeeAll = () => {
   const [issueBooks, setIssuedBooks] = useState([]);
@@ -370,7 +366,6 @@ const SeeAll = () => {
             toolbar: () => <TableToolbar filename="Issued Books" />,
             loadingOverlay: LinearProgress,
           }}
-          
         />
       </Box>
       {isEditOpen && (

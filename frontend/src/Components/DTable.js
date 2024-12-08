@@ -1,8 +1,6 @@
 import React from "react";
 import {
-  Box,
   Typography,
-  Container,
   Paper,
   Table,
   TableContainer,
@@ -25,7 +23,9 @@ const DTable = ({ columns, rows, title }) => {
             <TableRow>
               {/* Render table header with provided columns */}
               {columns.map((col, index) => (
-                <TableCell key={index} sx={{textTransform: "capitalize"}}>{col}</TableCell>
+                <TableCell key={index} sx={{ textTransform: "capitalize" }}>
+                  {col}
+                </TableCell>
               ))}
             </TableRow>
           </TableHead>

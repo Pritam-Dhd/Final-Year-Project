@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axiosClient from "../../Components/AxiosClient.js";
 import {
-  Container,
   Grid,
   Typography,
   Skeleton,
@@ -75,7 +74,7 @@ const Book = () => {
     };
 
     fetchAllData();
-  }, []);
+  }, [bookId]);
 
   const handleEditClick = () => {
     setIsEditOpen(true);
@@ -211,7 +210,7 @@ const Book = () => {
                         </Typography>
                       ) : (
                         <Typography variant="body1" color="#A35227">
-                          The book may be avaliable after {" "}
+                          The book may be avaliable after{" "}
                           {formatDate(book.earliestReturn)}
                         </Typography>
                       )}
@@ -234,7 +233,7 @@ const Book = () => {
                         </Typography>
                       ) : (
                         <Typography variant="h6" color="#A35227">
-                          The book may be available after {" "}
+                          The book may be available after{" "}
                           {formatDate(book.earliestReturn)}
                         </Typography>
                       )}

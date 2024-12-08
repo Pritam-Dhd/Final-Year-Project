@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Button from "@mui/material/Button";
 import Sidebar from "../Components/Sidebar.js";
 import Content from "../Components/Content.js";
 import axiosClient from "../Components/AxiosClient.js";
@@ -9,8 +8,8 @@ import axiosClient from "../Components/AxiosClient.js";
 const Dashboard = () => {
   const navigate = useNavigate();
   const [userRole, setUserRole] = useState("");
-  const [userData, setUserData] = useState([])
-  
+  const [userData, setUserData] = useState([]);
+
   useEffect(() => {
     const role = localStorage.getItem("userRole");
     console.log(role);
@@ -24,7 +23,10 @@ const Dashboard = () => {
         console.log(response);
         const data = response.data;
         console.log(data);
-        if(response.data.message === "Please login"||response.data.message==="Invalid token") {
+        if (
+          response.data.message === "Please login" ||
+          response.data.message === "Invalid token"
+        ) {
           localStorage.removeItem("userRole");
           navigate("/login");
         }
@@ -34,7 +36,7 @@ const Dashboard = () => {
       .catch(function (error) {
         alert(error);
       });
-  }, []);
+  }, [navigate, userRole]);
 
   const updateUserData = (newUserData) => {
     setUserData((prevUserData) => ({
@@ -48,7 +50,11 @@ const Dashboard = () => {
       <Sidebar userRole={userRole} userData={userData} />
       <Box component="main" sx={{ flexGrow: 1, p: 3, marginTop: 9 }}>
         <Box sx={{ display: "flex" }}>
-          <Content userRole={userRole} userData={userData} updateUserData={updateUserData}/>
+          <Content
+            userRole={userRole}
+            userData={userData}
+            updateUserData={updateUserData}
+          />
         </Box>
       </Box>
     </Box>

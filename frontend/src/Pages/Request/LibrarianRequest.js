@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {
   Box,
-  Button,
   Dialog,
   Paper,
   Grid,
   Breadcrumbs,
-  Link,
   IconButton,
   LinearProgress,
   Typography,
@@ -94,7 +92,7 @@ const LibrarianRequest = () => {
         const updatedRequests = requests.map((req) =>
           req._id === request.id ? { ...req, status: "done" } : req
         );
-        navigate("/dashboard/issue")
+        navigate("/dashboard/issue");
         setRequests(updatedRequests);
         setRequest("");
       }
@@ -106,31 +104,31 @@ const LibrarianRequest = () => {
 
   const handleCancelRequest = async (reason) => {
     try {
-        const response = await axiosClient.post(
-          "/cancel-request",
-          {
-            _id: request.id,
-            status:`rejected ${reason})`
-          },
-          { withCredentials: true }
+      const response = await axiosClient.post(
+        "/cancel-request",
+        {
+          _id: request.id,
+          status: `rejected ${reason})`,
+        },
+        { withCredentials: true }
+      );
+      if (response.data.message === "Cancelled the request successfully") {
+        setOpenAddNameForm(false);
+        setOpenSnackbar(true);
+        setSnackbarMessage("Cancelled the request successfully");
+        const updatedRequests = requests.map((req) =>
+          req._id === request.id ? { ...req, status: `lost(${reason})` } : req
         );
-        if (response.data.message === "Cancelled the request successfully") {
-          setOpenAddNameForm(false);
-          setOpenSnackbar(true);
-          setSnackbarMessage("Cancelled the request successfully");
-          const updatedRequests = requests.map((req) =>
-            req._id === request.id ? { ...req, status: `lost(${reason})` } : req
-          );
-          setRequests(updatedRequests);
-          setRequest("");
-        }
-      console.log(reason)
+        setRequests(updatedRequests);
+        setRequest("");
+      }
+      console.log(reason);
     } catch (error) {
       setSnackbarMessage(error.message);
       setOpenSnackbar(true);
     }
   };
-  
+
   const handleCloseDialog = () => {
     setIsLostOpen(false);
     setOpenDialog(false);
@@ -270,10 +268,7 @@ const LibrarianRequest = () => {
       </Box>
       {openAddNameForm && (
         <Dialog open={openAddNameForm} onClose={handleCloseDialog}>
-          <AddNameForm
-            name="Enter Reason"
-            onAdd={handleCancelRequest}
-          />
+          <AddNameForm name="Enter Reason" onAdd={handleCancelRequest} />
         </Dialog>
       )}
 
