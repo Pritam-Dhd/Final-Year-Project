@@ -22,13 +22,13 @@ import { dirname } from "path";
 
 const router = express.Router();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
 
 // Multer storage configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const destinationPath = path.resolve(__dirname, "..", "Pictures");
+    const destinationPath = path.resolve(import.meta.url, "..", "Pictures");
     console.log(destinationPath);
     cb(null, destinationPath);
   },
